@@ -4,12 +4,15 @@ WORKDIR /src
 COPY *.sln .
 COPY Colors.UnitTests/*.csproj Colors.UnitTests/
 COPY Colors.API/*.csproj Colors.API/
+COPY WebSite/*.csproj WebSite/
 RUN dotnet restore
 COPY . .
 
 # testing
 FROM build AS testing
 WORKDIR /src/Colors.API
+RUN dotnet build
+WORKDIR /src/WebSite
 RUN dotnet build
 WORKDIR /src/Colors.UnitTests
 RUN dotnet test
@@ -18,10 +21,12 @@ RUN dotnet test
 FROM build AS publish
 WORKDIR /src/Colors.API
 RUN dotnet publish -c Release -o /src/publish
+WORKDIR /src/WebSite
+RUN dotnet publish -c Release -o /src/publish
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
 COPY --from=publish /src/publish .
-# ENTRYPOINT ["dotnet", "Colors.API.dll"]
+# ENTRYPOINT ["dotnet", "WebSite.dll"]
 # heroku uses the following
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet Colors.API.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet WebSite.dll
