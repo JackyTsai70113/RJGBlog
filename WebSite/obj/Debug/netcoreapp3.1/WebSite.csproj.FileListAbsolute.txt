@@ -33,3 +33,40 @@ D:\ASP.NET Core Web App\RJGBlog\WebSite\obj\Debug\netcoreapp3.1\WebSite.Views.pd
 D:\ASP.NET Core Web App\RJGBlog\WebSite\obj\Debug\netcoreapp3.1\WebSite.dll
 D:\ASP.NET Core Web App\RJGBlog\WebSite\obj\Debug\netcoreapp3.1\WebSite.pdb
 D:\ASP.NET Core Web App\RJGBlog\WebSite\obj\Debug\netcoreapp3.1\WebSite.csproj.CopyComplete
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.exe
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.deps.json
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.runtimeconfig.json
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.runtimeconfig.dev.json
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.dll
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.pdb
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.Views.dll
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\bin\Debug\netcoreapp3.1\WebSite.Views.pdb
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.csprojAssemblyReference.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.AssemblyInfoInputs.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.AssemblyInfo.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.csproj.CoreCompileInputs.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.RazorAssemblyInfo.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.RazorAssemblyInfo.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\staticwebassets\WebSite.StaticWebAssets.Manifest.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\staticwebassets\WebSite.StaticWebAssets.xml
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\scopedcss\bundle\WebSite.styles.css
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.TagHelpers.input.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.TagHelpers.output.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.RazorCoreGenerate.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\Error.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\Index.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\Privacy.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_Layout.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.RazorTargetAssemblyInfo.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.RazorTargetAssemblyInfo.cs
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.Views.pdb
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.dll
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.pdb
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.genruntimeconfig.cache
+C:\Users\Gino\Desktop\程式\RJGB\WebSite\obj\Debug\netcoreapp3.1\WebSite.csproj.CopyComplete

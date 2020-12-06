@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ASP.NET Core Web App\\RJGBlog\\Colors.API\\Colors.API.csproj": {}
+    "C:\\Users\\Gino\\Desktop\\程式\\RJGB\\Colors.API\\Colors.API.csproj": {}
   },
   "projects": {
-    "D:\\ASP.NET Core Web App\\RJGBlog\\Colors.API\\Colors.API.csproj": {
+    "C:\\Users\\Gino\\Desktop\\程式\\RJGB\\Colors.API\\Colors.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ASP.NET Core Web App\\RJGBlog\\Colors.API\\Colors.API.csproj",
+        "projectUniqueName": "C:\\Users\\Gino\\Desktop\\程式\\RJGB\\Colors.API\\Colors.API.csproj",
         "projectName": "Colors.API",
-        "projectPath": "D:\\ASP.NET Core Web App\\RJGBlog\\Colors.API\\Colors.API.csproj",
-        "packagesPath": "C:\\Users\\JackyTsai\\.nuget\\packages\\",
-        "outputPath": "D:\\ASP.NET Core Web App\\RJGBlog\\Colors.API\\obj\\",
+        "projectPath": "C:\\Users\\Gino\\Desktop\\程式\\RJGB\\Colors.API\\Colors.API.csproj",
+        "packagesPath": "C:\\Users\\Gino\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Gino\\Desktop\\程式\\RJGB\\Colors.API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\JackyTsai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Gino\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -29,6 +26,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -40,6 +38,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "imports": [
             "net461",
             "net462",
@@ -58,7 +57,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
