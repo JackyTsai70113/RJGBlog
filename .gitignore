@@ -1,8 +1,38 @@
+  
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Visual Studio Code
+.vscode
+
+# Rider
+.idea
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015
 .vs/
-/Colors.API/obj/Debug/netcoreapp3.1/.NETCoreApp,Version=v3.1.AssemblyAttributes.cs
-/Colors.API/obj/Release/netcoreapp3.1
-/Colors.API/obj/project.nuget.cache
-/WebSite/obj/Release/netcoreapp3.1
-/WebSite/obj/Debug/netcoreapp3.1/.NETCoreApp,Version=v3.1.AssemblyAttributes.cs
-/WebSite/obj/Debug/netcoreapp3.1/apphost.exe
-/WebSite/obj/project.nuget.cache
