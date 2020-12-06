@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "gxANL9pL2zc/BOylp0UxaU74eDrsq3AHIzYB0pElTmFrBudcC3a3q2Vs+xySVF2a5e3onVAVncWzu3T4fFIobQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Gino\\Desktop\\程式\\RJGB\\Colors.UnitTests\\Colors.UnitTests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Gino\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Gino\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
