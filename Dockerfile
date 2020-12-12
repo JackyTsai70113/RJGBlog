@@ -2,25 +2,12 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY *.sln .
-COPY Colors.UnitTests/*.csproj Colors.UnitTests/
-COPY Colors.API/*.csproj Colors.API/
 COPY WebSite/*.csproj WebSite/
 RUN dotnet restore
 COPY . .
 
-# testing
-FROM build AS testing
-WORKDIR /src/Colors.API
-RUN dotnet build
-WORKDIR /src/WebSite
-RUN dotnet build
-WORKDIR /src/Colors.UnitTests
-RUN dotnet test
-
 # publish
 FROM build AS publish
-WORKDIR /src/Colors.API
-RUN dotnet publish -c Release -o /src/publish
 WORKDIR /src/WebSite
 RUN dotnet publish -c Release -o /src/publish
 
