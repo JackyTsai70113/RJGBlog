@@ -106,7 +106,7 @@
         "gulp-sass": "4.0.1",
         "gulp-sourcemaps": "2.6.4",
         "gulp-uglify": "3.0.0",
-        "marked": "0.4.0",
+        "marked": "0.7.0",
         "napa": "3.0.0",
         "pify": "3.0.0",
         "uglify-save-license": "0.4.1",
