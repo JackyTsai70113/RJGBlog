@@ -1,0 +1,12 @@
+{
+    "sidebar": [{
+        "text": "Menu Navigation",
+        "heading": "true",
+        "translate": "sidebar.heading.HEADER"
+    }, {
+        "text": "Single View",
+        "href": "singleview.html",
+        "icon": "far fa-file",
+        "translate": "sidebar.nav.SINGLEVIEW"
+    }]
+}
