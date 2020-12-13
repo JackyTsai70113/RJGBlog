@@ -4,16 +4,4 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Remove="Pages\homepage.cshtml" />
-    <Content Remove="Pages\singleview.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\homepage.cshtml" />
-    <None Include="Pages\Shared\singleview.cshtml" />
-  </ItemGroup>
-
-
-
 </Project>
