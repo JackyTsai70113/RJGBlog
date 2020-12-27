@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Web.Data;
 using Web.Models;
 
 namespace Web.Controllers
@@ -14,17 +13,22 @@ namespace Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
+        //private readonly RJGDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        //public HomeController(ILogger<HomeController> logger, RJGDbContext context)
+        //{
+        //    _logger = logger;
+        //    _context = context;
+        //}
+
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _context = context;
         }
 
         public IActionResult Index()
         {
-            var dd = _context.UserRoles.ToList();
+            //var dd = _context.Test.ToList();
             return View();
         }
 

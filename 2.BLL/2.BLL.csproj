@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>BLL</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\0.Core\0.Core.csproj" />
+    <ProjectReference Include="..\3.DAL\3.DAL.csproj" />
+  </ItemGroup>
+
+</Project>

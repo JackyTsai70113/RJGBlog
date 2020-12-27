@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Web-5163C83C-544C-4E68-89FF-B84115B44344</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <AssemblyName>1.Web</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,11 +14,18 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="MySql.Data" Version="8.0.22" />
     <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.22" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.22" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
     <!-- <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\0.Core\0.Core.csproj" />
+    <ProjectReference Include="..\2.BLL\2.BLL.csproj" />
+    <ProjectReference Include="..\3.DAL\3.DAL.csproj" />
   </ItemGroup>
 
 </Project>
