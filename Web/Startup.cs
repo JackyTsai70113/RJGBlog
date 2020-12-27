@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Data;
+using Web.Services;
 
 namespace Web
 {
@@ -20,6 +21,7 @@ namespace Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ConfigService.SetConfiguration(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -27,11 +29,10 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseMySql(
-            //        Configuration.GetConnectionString("DefaultConnection"),
-            //        mysqlOptions => { mysqlOptions.ServerVersion(new Version(8,0,22),) })
-            //        );
+            services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"))
+                   );
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
