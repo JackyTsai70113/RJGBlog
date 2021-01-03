@@ -2,7 +2,10 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /src
 COPY *.sln .
-COPY Website/*.csproj Website/
+COPY 0.Core/*.csproj 0.Core/
+COPY 1.Web/*.csproj 1.Web/
+COPY 2.BLL/*.csproj 2.BLL/
+COPY 3.DAL/*.csproj 3.DAL/
 RUN dotnet restore
 COPY . .
 
