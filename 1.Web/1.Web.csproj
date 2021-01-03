@@ -5,7 +5,16 @@
     <UserSecretsId>aspnet-Web-5163C83C-544C-4E68-89FF-B84115B44344</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <AssemblyName>1.Web</AssemblyName>
+    <RootNamespace>Web</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\_BackLayout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Shared\_BackLayout.cshtml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.10" />
@@ -26,6 +35,11 @@
     <ProjectReference Include="..\0.Core\0.Core.csproj" />
     <ProjectReference Include="..\2.BLL\2.BLL.csproj" />
     <ProjectReference Include="..\3.DAL\3.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Back\Models\" />
+    <Folder Include="Areas\Front\Models\" />
   </ItemGroup>
 
 </Project>
