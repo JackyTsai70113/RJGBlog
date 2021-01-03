@@ -1,0 +1,19 @@
+{
+  "dashboard": {
+    "WELCOME": "歡迎到來！"
+  },
+  "topbar": {
+    "search": {
+      "PLACEHOLDER": "輸入後請按Enter"
+    }
+  },
+  "sidebar": {
+    "WELCOME": "歡迎",
+    "heading": {
+      "HEADER": "主選單"
+    },
+    "nav": {
+      "SINGLEVIEW": "空白頁面"
+    }
+  }
+}
