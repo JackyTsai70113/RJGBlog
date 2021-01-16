@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Back\Controllers\" />
     <Folder Include="Areas\Back\Models\" />
     <Folder Include="Areas\Front\Models\" />
   </ItemGroup>

@@ -1,0 +1,63 @@
+﻿@model Web.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "註冊頁面";
+}
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <form method="post" action="#" data-parsley-validate="" novalidate="">
+            <!-- START card-->
+            <div class="card card-default">
+                <div class="card-header">
+                    <div class="card-title">註冊帳號</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Account)</label>
+                        @Html.TextBoxFor(x => x.Account, new { @class = "form-control" })
+                        <span asp-validation-for="Account" class="form-text text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Password)</label>
+                        @Html.TextBoxFor(x => x.Password, new { @class = "form-control" })
+                        <span asp-validation-for="Password" class="form-text text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.ConfirmPassword)</label>
+                        @Html.TextBoxFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                        <span asp-validation-for="ConfirmPassword" class="form-text text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Email)</label>
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                        <span asp-validation-for="Email" class="form-text text-danger"></span>
+                    </div>
+                    <div class="required">* 必填欄位</div>
+                </div>
+                <div class="card-footer">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <div class="checkbox c-checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(x => x.IsAgreeWithTerms)
+                                    <span class="fa fa-check"></span> 我同意以下
+                                    <a class="ml-2" href="#">條款</a>
+                                    <span asp-validation-for="IsAgreeWithTerms" class="form-text text-danger"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <button class="btn btn-primary" type="submit">註冊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END card-->
+        </form>
+    </div>
+    <div class="col-4"></div>
+</div>
+
+@section Scripts{
+
+}
