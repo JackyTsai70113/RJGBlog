@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,13 @@ namespace Web.Controllers
         public IActionResult ForgetPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Test(LoginViewModel viewModel)
+        {
+            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, null, "成功");
+            return Json(response);
         }
     }
 }

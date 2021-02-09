@@ -14,3 +14,34 @@ $.validator.methods.range = function (value, element, param) {
         return defaultRangeValidator.call(this, value, element, param);
     }
 }
+
+
+//Ajax
+function postAjaxGetAlert(postData,url) {
+    $.ajax({
+        url: url,
+        type: "post",
+        data: postData,
+        success: function (result) {
+            //console.log(postData)
+            //console.log(result);
+            if (result.statusCode == 200) {
+                alert(result.message);
+                //window.PTC.Loading(false);
+                //swal({
+                //    title: '成功!',
+                //    text: result.Message,
+                //    type: 'success'
+                //}, function () {
+                //    history.back();
+                //    return;
+                //});
+            }
+            else {
+                alert(result.message);
+                //window.PTC.Loading(false);
+                //sweetAlert("失敗!", result.Message, "error");
+            }
+        }
+    })
+}

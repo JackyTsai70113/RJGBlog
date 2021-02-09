@@ -32,6 +32,7 @@
                                 <div class="input-group with-focus">
                                     @*<input class="form-control border-right-0" id="exampleInputEmail1" type="text" placeholder="Enter email" autocomplete="off" required>*@
                                     @Html.TextBoxFor(x => x.Account, new { @class = "form-control border-right-0", @placeholder = "帳號" })
+                                    <span asp-validation-for="Account" class="form-text text-danger"></span>
                                     <div class="input-group-append">
                                         <span class="input-group-text text-muted bg-transparent border-left-0">
                                             <em class="fa fa-user"></em>
@@ -43,6 +44,7 @@
                                 <div class="input-group with-focus">
                                     @*<input class="form-control border-right-0" id="exampleInputPassword1" type="password" placeholder="Password" required>*@
                                     @Html.PasswordFor(x => x.Password, new { @class = "form-control border-right-0", @placeholder = "密碼" })
+                                    <span asp-validation-for="Password" class="form-text text-danger"></span>
                                     <div class="input-group-append">
                                         <span class="input-group-text text-muted bg-transparent border-left-0">
                                             <em class="fa fa-lock"></em>
@@ -53,7 +55,8 @@
                             <div class="clearfix">
                                 <div class="checkbox c-checkbox float-left mt-0">
                                     <label>
-                                        <input type="checkbox" value="" name="remember">
+                                        @*<input type="checkbox" value="" id="IsRemeber" name="IsRemeber">*@
+                                        @Html.CheckBoxFor(x => x.IsRemeber)
                                         <span class="fa fa-check"></span> 記住我
                                     </label>
                                 </div>
@@ -61,7 +64,7 @@
                                     <a class="text-muted" asp-action="ForgetPassword" asp-controller="Login">忘記密碼?</a>
                                 </div>
                             </div>
-                            <button id="btnSubmit" class="btn btn-block btn-primary mt-3" type="button">登入</button>
+                            <button id="btnSubmit" class="btn btn-block btn-primary mt-3" type="submit">登入</button>
                         </form>
                         <a class="btn btn-block btn-secondary" asp-action="Register" asp-controller="Login">馬上註冊</a>
                     </div>
@@ -83,8 +86,20 @@
 
 @section Scripts{
     <script>
-        $("#btnSubmit").click(function () {
-            alert("123");
-        })
+        $('#loginForm').submit(function (e) {
+            //Validation
+            e.preventDefault();
+            var $form = $(this);
+            var isVal = $form.validate().form();
+            console.log(isVal);
+            if (!isVal) return false;
+            //Ajax
+            var postObj = {
+                Account: $("#Account").val(),
+                Password: $("#Password").val(),
+                IsRemeber: $("#IsRemeber").prop("checked")
+            };
+            postAjaxGetAlert(postObj, '@Url.Action("Test","Login")')
+        });
     </script>
 }
