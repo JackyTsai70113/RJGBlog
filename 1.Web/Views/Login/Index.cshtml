@@ -2,17 +2,6 @@
 @{
     ViewData["Title"] = "登入頁面";
 }
-@section Styles{
-    <!-- FONT AWESOME-->
-    <link rel="stylesheet" href="~/vendor/@@fortawesome/fontawesome-free-webfonts/css/fa-brands.css">
-    <link rel="stylesheet" href="~/vendor/@@fortawesome/fontawesome-free-webfonts/css/fa-regular.css">
-    <link rel="stylesheet" href="~/vendor/@@fortawesome/fontawesome-free-webfonts/css/fa-solid.css">
-    <link rel="stylesheet" href="~/vendor/@@fortawesome/fontawesome-free-webfonts/css/fontawesome.css">
-    <!-- SIMPLE LINE ICONS-->
-    <link rel="stylesheet" href="~/vendor/simple-line-icons/css/simple-line-icons.css">
-    <!-- =============== APP STYLES ===============-->
-    @*<link rel="stylesheet" href="css/app.css" id="maincss">*@
-}
 <div class="row">
     <div class="col-4"></div>
     <div class="col-4">
@@ -30,32 +19,30 @@
                         <form class="mb-3" id="loginForm" novalidate>
                             <div class="form-group">
                                 <div class="input-group with-focus">
-                                    @*<input class="form-control border-right-0" id="exampleInputEmail1" type="text" placeholder="Enter email" autocomplete="off" required>*@
                                     @Html.TextBoxFor(x => x.Account, new { @class = "form-control border-right-0", @placeholder = "帳號" })
-                                    <span asp-validation-for="Account" class="form-text text-danger"></span>
                                     <div class="input-group-append">
                                         <span class="input-group-text text-muted bg-transparent border-left-0">
                                             <em class="fa fa-user"></em>
                                         </span>
                                     </div>
                                 </div>
+                                <span asp-validation-for="Account" class="form-text text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <div class="input-group with-focus">
-                                    @*<input class="form-control border-right-0" id="exampleInputPassword1" type="password" placeholder="Password" required>*@
                                     @Html.PasswordFor(x => x.Password, new { @class = "form-control border-right-0", @placeholder = "密碼" })
-                                    <span asp-validation-for="Password" class="form-text text-danger"></span>
                                     <div class="input-group-append">
                                         <span class="input-group-text text-muted bg-transparent border-left-0">
                                             <em class="fa fa-lock"></em>
                                         </span>
                                     </div>
                                 </div>
+                                <span asp-validation-for="Password" class="form-text text-danger"></span>
                             </div>
+
                             <div class="clearfix">
                                 <div class="checkbox c-checkbox float-left mt-0">
                                     <label>
-                                        @*<input type="checkbox" value="" id="IsRemeber" name="IsRemeber">*@
                                         @Html.CheckBoxFor(x => x.IsRemeber)
                                         <span class="fa fa-check"></span> 記住我
                                     </label>
