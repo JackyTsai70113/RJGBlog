@@ -1,7 +1,44 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿//Sweet Alert
+(function () {
+    window.WarmAlert = function (text) {
+        return Swal.fire({
+            icon: 'error',
+            title: '錯誤...',
+            text: text,
+        })
+    };
+})(window.WarmAlert);
 
-// Write your JavaScript code.
+(function () {
+    window.SuccessAlert = function (text) {
+        return Swal.fire({
+            icon: 'success',
+            title: '成功!',
+            text: text,
+        })
+    };
+})(window.SuccessAlert);
+
+(function () {
+    window.ConfirmAlert = function (title, text) {
+        return Swal.fire({
+            icon: 'warning',
+            title: title,
+            showCancelButton: true,
+            confirmButtonText: '確認',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    '成功',
+                    text,
+                    'success'
+                )
+            }
+        })
+    }
+})(window.ConfirmAlert);
 
 // extend range validator method to treat checkboxes differently
 var defaultRangeValidator = $.validator.methods.range;

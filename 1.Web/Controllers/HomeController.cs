@@ -30,7 +30,8 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            HomeViewModel viewModel = new HomeViewModel();
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -54,6 +55,22 @@ namespace Web.Controllers
             };
             var dd = new BaseResponse(HttpStatusCode.OK, obj, "response OK");
             return Json(dd);
+        }
+
+        [HttpGet("GetTagClouds")]
+        public JsonResult GetTagClouds()
+        {
+            List<TagCloud> tagClouds = new List<TagCloud>();
+            tagClouds.Add(new TagCloud() { ID = "1", Name = "Lorem" });
+            tagClouds.Add(new TagCloud() { ID = "2", Name = "Ipsum" });
+            tagClouds.Add(new TagCloud() { ID = "3", Name = "Dolor" });
+            tagClouds.Add(new TagCloud() { ID = "4", Name = "Sit" });
+            tagClouds.Add(new TagCloud() { ID = "5", Name = "Amet" });
+            tagClouds.Add(new TagCloud() { ID = "6", Name = "Consectetur" });
+            tagClouds.Add(new TagCloud() { ID = "7", Name = "Adipiscing" });
+
+            var result = new BaseResponse(HttpStatusCode.OK, tagClouds, "response OK");
+            return Json(result);
         }
     }
 }

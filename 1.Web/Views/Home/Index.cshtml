@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "RJG Blog";
 }
 
@@ -12,19 +13,62 @@
         <!-- Blog Content-->
         <div class="col-xl-9">
             <div class="card-columns">
+                @*文章卡*@
+                @foreach (Core.Blog blog in Model.Blogs)
+                {
+                    @*文章卡*@
+                    <div class="card">
+                        @*封面*@
+                        <a href="#">
+                            <img class="img-fluid" src="@blog.Cover" alt="demo">
+                        </a>
+                        @*內容*@
+                        <div class="card-body">
+                            <p class="d-flex">
+                                <span>
+                                    @*作者*@
+                                    <small class="mr-1">
+                                        By
+                                        <a class="ml-1" href="#">@blog.Author</a>
+                                    </small>
+                                    @*產出日期*@
+                                    <small class="mr-1">@blog.CreateDate</small>
+                                </span>
+                                @*留言數*@
+                                <span class="ml-auto">
+                                    <small>
+                                        <strong>@blog.Comments</strong>
+                                        <span>Comments</span>
+                                    </small>
+                                </span>
+                            </p>
+                            @*標題*@
+                            <h4>
+                                <a href="#">@blog.Title</a>
+                            </h4>
+                            @*部分內文*@
+                            <p>@blog.PartialContent</p>
+                        </div>
+                    </div>
+                }
                 <div class="card">
+                    @*封面*@
                     <a href="#">
                         <img class="img-fluid" src="img/bg1.jpg" alt="demo">
                     </a>
+                    @*內容*@
                     <div class="card-body">
                         <p class="d-flex">
                             <span>
+                                @*作者*@
                                 <small class="mr-1">
                                     By
                                     <a class="ml-1" href="#">Erica Castro</a>
                                 </small>
+                                @*產出日期*@
                                 <small class="mr-1">May 03, 2015</small>
                             </span>
+                            @*留言數*@
                             <span class="ml-auto">
                                 <small>
                                     <strong>56</strong>
@@ -32,9 +76,11 @@
                                 </small>
                             </span>
                         </p>
+                        @*標題*@
                         <h4>
                             <a href="#">Trip down the river</a>
                         </h4>
+                        @*部分內文*@
                         <p>Aenean in sollicitudin velit. Nam sem magna, tristique non facilisis a, porta ut elit. Aliquam luctus nulla in justo euismod blandit. Aliquam condimentum enim a risus cursus blandit.</p>
                     </div>
                 </div>
@@ -245,11 +291,12 @@
         <div class="col-xl-3">
             <!-- Search-->
             <div class="card card-default">
-                <div class="card-header">Search</div>
+                <div class="card-header">搜尋</div>
                 <div class="card-body">
                     <form class="form-horizontal">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Search for...">
+                            @*<input class="form-control" type="text" placeholder="Search for...">*@
+                            @Html.TextBoxFor(x => x.SearchKeyWord, null, new { @class="form-control" , @placeholder = "搜尋..." })
                             <span class="input-group-btn">
                                 <button id="btnSearch" class="btn btn-secondary" type="button">
                                     <em class="fa fa-search"></em>
@@ -261,7 +308,7 @@
             </div>
             <!-- Categories-->
             <div class="card card-default">
-                <div class="card-header">Categories</div>
+                <div class="card-header">分類</div>
                 <div class="card-body">
                     <ul class="list-unstyled">
                         <li>
@@ -294,14 +341,14 @@
             </div>
             <!-- Tag Cloud-->
             <div class="card card-default">
-                <div class="card-header">Tag Cloud</div>
+                <div class="card-header">標籤雲</div>
                 <div class="card-body">
                     <div class="mw-100 jqcloud" id="jqcloud"></div>
                 </div>
             </div>
             <!-- Ads-->
             <div class="card card-default">
-                <div class="card-header">Ads</div>
+                <div class="card-header">廣告</div>
                 <div class="card-body">
                     <a href="#">
                         <img class="img-fluid img-thumbnail" src="img/mockup.png" alt="demo">
@@ -323,25 +370,27 @@
         /* ... */
     ];*@
 
-    var words = [
-        { text: "Lorem", weight: 13 },
-        { text: "Ipsum", weight: 10.5 },
-        { text: "Dolor", weight: 9.4 },
-        { text: "Sit", weight: 8 },
-        { text: "Amet", weight: 6.2 },
-        { text: "Consectetur", weight: 5 },
-        { text: "Adipiscing", weight: 5 }
-        /* ... */
-    ];
+    var words = [];
 
-    $('#jqcloud').jQCloud(words, {
-        width: 240,
-        height: 200,
-        steps:7
-    });
+    $.ajax({
+        type: 'get',
+        url: '@Url.Action("GetTagClouds", null)',
+        success: function (result) {
+            result.data.forEach(function (tagCloud) {
+                words.push({ text: tagCloud.name, weight: tagCloud.weight })
+            })
+            $('#jqcloud').jQCloud(words, {
+                width: 240,
+                height: 200,
+                steps: result.data.length
+            });
+        }
+    })
 
     $('#btnSearch').click(function () {
-        alert('123');
+        //WarmAlert('test1');
+        //SuccessAlert('test2');
+        //ConfirmAlert('是否刪除?','刪除成功');
     })
 </script>
 }
