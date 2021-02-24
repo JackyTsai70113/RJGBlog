@@ -1,4 +1,31 @@
-﻿//Sweet Alert
+﻿//遮罩(Mask)
+$(function () {
+    var mask = document.createElement("div");
+    mask.className = "mask";
+    mask.setAttribute("hidden", "hidden");
+    document.querySelector('body').appendChild(mask);
+
+    $(".mask").html(
+        "<div class='coffee VerticleCenter'> " +       
+          "<div></div>" +
+          "<div></div>" +
+          "<div></div>" +
+        "</div>" +
+        "<div class='VerticleCenter' style='position:relative;text-align:center;'>" +
+         "<div style='margin-top:20px;color:gray;font-weight:bold;'>Loading...</div>" +
+        "</div>"
+    );
+})
+
+function showMask() {
+    $(".mask").removeAttr("hidden")
+}
+
+function hideMask() {
+    $(".mask").attr("hidden", "hidden")
+}
+
+//Sweet Alert
 (function () {
     window.WarmAlert = function (text) {
         return Swal.fire({

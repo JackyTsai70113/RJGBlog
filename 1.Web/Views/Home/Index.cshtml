@@ -296,7 +296,7 @@
                     <form class="form-horizontal">
                         <div class="input-group">
                             @*<input class="form-control" type="text" placeholder="Search for...">*@
-                            @Html.TextBoxFor(x => x.SearchKeyWord, null, new { @class="form-control" , @placeholder = "搜尋..." })
+                            @Html.TextBoxFor(x => x.SearchKeyWord, null, new { @class = "form-control", @placeholder = "搜尋..." })
                             <span class="input-group-btn">
                                 <button id="btnSearch" class="btn btn-secondary" type="button">
                                     <em class="fa fa-search"></em>
@@ -362,7 +362,7 @@
 @section Scripts{
     <!-- JQCLOUD-->
     <script src="vendor/jqcloud2/dist/jqcloud.js"></script>
-<script>
+    <script>
     @*var words = [
         { text: "Lorem", weight: 13, link: 'http://github.com/mistic100/jQCloud' },
         { text: "Ipsum", weight: 10.5, link: 'http://www.strangeplanet.fr' },
@@ -391,6 +391,8 @@
         //WarmAlert('test1');
         //SuccessAlert('test2');
         //ConfirmAlert('是否刪除?','刪除成功');
+        showMask();
+        setTimeout(hideMask, 2500);
     })
-</script>
+    </script>
 }
