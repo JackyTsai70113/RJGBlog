@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using BLL.Services;
+using Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
@@ -48,9 +49,12 @@ namespace Web.Controllers
         [HttpGet("Test")]
         public JsonResult Test()
         {
+            UserService service = new UserService();
+            List<User> users = service.GetUsers();
+            var user = users.First();
             var obj = new
             {
-                a = "a1234",
+                a = user.Email,
                 b = "b4567"
             };
             var dd = new BaseResponse(HttpStatusCode.OK, obj, "response OK");
