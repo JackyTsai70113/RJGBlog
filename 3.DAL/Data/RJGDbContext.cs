@@ -7,10 +7,6 @@ namespace DAL.Data
 {
     public partial class RJGDbContext : DbContext
     {
-        public RJGDbContext()
-        {
-        }
-
         public RJGDbContext(DbContextOptions<RJGDbContext> options)
             : base(options)
         {
@@ -20,11 +16,11 @@ namespace DAL.Data
         // public virtual DbSet<Role> Role { get; set; }
         // public virtual DbSet<Roleuser> Roleuser { get; set; }
         // public virtual DbSet<Test> Test { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

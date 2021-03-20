@@ -1,5 +1,7 @@
 ﻿using BLL.Services;
+using BLL.Services.Interfaces;
 using Core;
+using DAL.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
@@ -16,21 +18,18 @@ namespace Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        //private readonly RJGDbContext _context;
+        private readonly RJGDbContext _context;
+        private readonly IUserService _userService;
 
-        //public HomeController(ILogger<HomeController> logger, RJGDbContext context)
-        //{
-        //    _logger = logger;
-        //    _context = context;
-        //}
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUserService userService)
         {
             _logger = logger;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
+            var users = _userService.GetUsers();
             HomeViewModel viewModel = new HomeViewModel();
             return View(viewModel);
         }
@@ -49,12 +48,9 @@ namespace Web.Controllers
         [HttpGet("Test")]
         public JsonResult Test()
         {
-            UserService service = new UserService();
-            List<User> users = service.GetUsers();
-            var user = users.First();
             var obj = new
             {
-                a = user.Email,
+                a = 1234,
                 b = "b4567"
             };
             var dd = new BaseResponse(HttpStatusCode.OK, obj, "response OK");

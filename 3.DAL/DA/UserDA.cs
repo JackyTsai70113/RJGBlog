@@ -8,6 +8,11 @@ namespace DAL.DA.Interfaces
 {
     public class UserDA : IUserDA
     {
+        private readonly RJGDbContext _context;
+        public UserDA(RJGDbContext context)
+        {
+            _context = context;
+        }
         public List<User> GetAll()
         {
             var user = new User
@@ -18,18 +23,15 @@ namespace DAL.DA.Interfaces
                 CreateTime = DateTime.UtcNow,
                 UpdateTime = DateTime.UtcNow
             };
-            using (var db = new RJGDbContext())
-            {
-                Console.WriteLine("Inserting a new User");
-                db.Add(user);
-                db.SaveChanges();
-            }
-            List<User> users;
-            using (var db = new RJGDbContext())
-            {
-                Console.WriteLine("Read Users");
-                users = db.Users.ToList();
-            }
+            // using (var db = new RJGDbContext())
+            // {
+            //     Console.WriteLine("Inserting a new User");
+            //     db.Add(user);
+            //     db.SaveChanges();
+            // }
+            List<User> users = null;
+            Console.WriteLine("Read Users");
+            users = _context.User.ToList();
             return users;
         }
     }

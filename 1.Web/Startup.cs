@@ -14,6 +14,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
 
+using BLL.Services;
+using BLL.Services.Interfaces;
+using DAL.DA.Interfaces;
+
 namespace Web
 {
     public class Startup
@@ -29,13 +33,16 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-             services.AddDbContext<RJGDbContext>(options =>
-                options.UseSqlServer("Data Source=rjgdb.cuk1mgyzbfvc.ap-northeast-1.rds.amazonaws.com,1433;Server=rjgdb.cuk1mgyzbfvc.ap-northeast-1.rds.amazonaws.com,1433;User Id=root;Password=Pp854vAPiEd3hCp02df1;Database=rjgDB;Trusted_Connection=True;"));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<RJGDbContext>();
-            services.AddControllersWithViews();
+            services.AddDbContext<RJGDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<RJGDbContext>();
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserDA, UserDA>();
+
             services.AddRazorPages();
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,7 +75,7 @@ namespace Web
 
                 endpoints.MapControllerRoute(
                                              name: "default",
-                                             pattern: "{controller=Home}/{action=Test}/{id?}");
+                                             pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
