@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Web-5163C83C-544C-4E68-89FF-B84115B44344</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
-    <AssemblyName>1.Web</AssemblyName>
+    <AssemblyName>Web</AssemblyName>
     <RootNamespace>Web</RootNamespace>
   </PropertyGroup>
 

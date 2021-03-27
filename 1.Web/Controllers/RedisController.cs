@@ -1,32 +1,53 @@
-﻿using Core.Utility.Redis;
+﻿using Core.Models.DTO;
+using Core.Utility.Redis;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Web.Services;
 
-namespace Web.Controllers {
+namespace Web.Controllers
+{
 
-    public class RedisController : Controller {
+    public class RedisController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-        public IActionResult Index() {
+        [HttpGet("Redis/GetAllKVP")]
+        public Dictionary<string, string> GetAllKeysAndValues()
+        {
             RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
 
-            List<string> keys = redisProvider.GetAllKeys();
-            IEnumerable<RedisKeyValuePair> pairs = keys.Select(x => {
-                return new RedisKeyValuePair {
-                    KeyStr = x,
-                    ValueStr = redisProvider.StringGet(x)
-                };
-            });
-            //List<RedisKeyValuePair> pairs = new List<RedisKeyValuePair>();
-            return View(pairs);
+            var dict = redisProvider.GetKeyValuePairs();
+            return dict;
         }
-    }
 
-    public class RedisKeyValuePair {
-        public string KeyStr { get; set; }
-        public string ValueStr { get; set; }
+        [HttpPost("Redis/SetKVP")]
+        public bool SetKeyAndValue([FromBody] RedisKeyValueRequestModel request)
+        {
+            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
+
+            bool result = redisProvider.SetKeyAndValue(request.Key, request.Value);
+            if (result == false)
+            {
+                throw new Exception($"設定鍵值失敗, key: {request.Key}, value: {request.Value}");
+            }
+            return result;
+        }
+
+        [HttpDelete("Redis/Key/{key}")]
+        public bool DeleteKeyAndValue(string key)
+        {
+            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
+
+            bool result = redisProvider.DeleteKey(key);
+            if (result == false)
+            {
+                throw new Exception($"刪除鍵失敗, key: {key}");
+            }
+            return result;
+        }
     }
 }

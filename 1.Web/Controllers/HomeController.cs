@@ -5,47 +5,45 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using Web.Models;
 using Web.Services;
 
-namespace Web.Controllers {
+namespace Web.Controllers
+{
 
-    public class HomeController : Controller {
+    public class HomeController : Controller
+    {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUserService _userService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService) {
+        public HomeController(ILogger<HomeController> logger)
+        {
             _logger = logger;
-            _userService = userService;
         }
 
-        public IActionResult Index() {
-            var users = _userService.GetUsers();
-
-            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
-            var d = redisProvider.StringSet("456", "789");
-            var dd = redisProvider.StringGet("*");
-            var dds = redisProvider.GetAllKeys();
-            var dds1 = redisProvider.GetKeysByPattern("*");
-            var dds2 = redisProvider.GetKeysByPattern("12");
-            var dds3 = redisProvider.GetKeysByPattern("123");
+        public IActionResult Index()
+        {
             HomeViewModel viewModel = new HomeViewModel();
             return View(viewModel);
         }
 
-        public IActionResult Privacy() {
+        public IActionResult Privacy()
+        {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() {
+        public IActionResult Error()
+        {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [HttpGet("Test")]
-        public JsonResult Test() {
-            var obj = new {
+        public JsonResult Test()
+        {
+            var obj = new
+            {
                 a = 1234,
                 b = "b4567"
             };
@@ -54,7 +52,8 @@ namespace Web.Controllers {
         }
 
         [HttpGet("GetTagClouds")]
-        public JsonResult GetTagClouds() {
+        public JsonResult GetTagClouds()
+        {
             List<TagCloud> tagClouds = new List<TagCloud> {
                 new TagCloud() { ID = "1", Name = "Lorem" },
                 new TagCloud() { ID = "2", Name = "Ipsum" },
