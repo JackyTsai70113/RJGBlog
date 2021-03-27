@@ -4,15 +4,18 @@ using System.Linq;
 using Core;
 using DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DAL.DA.Interfaces
 {
-    public class UserDA : IUserDA
+    public class UserDA : BaseDA, IUserDA
     {
         private readonly RJGDbContext _context;
-        public UserDA(RJGDbContext context)
+        private readonly ILogger<UserDA> _logger;
+        public UserDA(ILogger<UserDA> logger, RJGDbContext context)
         {
             _context = context;
+            _logger = logger;
         }
         public List<User> GetAll()
         {

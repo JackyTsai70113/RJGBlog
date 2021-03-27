@@ -1,14 +1,11 @@
 ﻿using BLL.Services.Interfaces;
 using Core;
-using Core.Utility.Redis;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using Web.Models;
-using Web.Services;
 
 namespace Web.Controllers
 {
