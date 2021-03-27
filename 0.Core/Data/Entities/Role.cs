@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core
 {
-    public class User
+    public class Role
     {
-        public User()
+        public Role()
         {
             RoleUser = new HashSet<RoleUser>();
         }
@@ -16,23 +16,13 @@ namespace Core
         [Key]
         public int Id { get; set; }
         [Required]
-        [StringLength(20)]
-        public string Account { get; set; }
-        [Required]
-        [StringLength(20)]
-        public string Password { get; set; }
-        [Required]
-        [StringLength(20)]
+        [StringLength(10)]
         public string Name { get; set; }
         [Required]
-        [StringLength(50)]
-        public string Email { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime CreateTime { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime UpdateTime { get; set; }
+        [StringLength(1000)]
+        public string Authority { get; set; }
 
-        [InverseProperty("User")]
+        [InverseProperty("Role")]
         public virtual ICollection<RoleUser> RoleUser { get; set; }
     }
 }

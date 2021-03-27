@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.DA.Interfaces
 {
@@ -15,23 +16,8 @@ namespace DAL.DA.Interfaces
         }
         public List<User> GetAll()
         {
-            var user = new User
-            {
-                Id = 1,
-                Name = "Jacky",
-                Email = "j10926jacky@gmail.com",
-                CreateTime = DateTime.UtcNow,
-                UpdateTime = DateTime.UtcNow
-            };
-            // using (var db = new RJGDbContext())
-            // {
-            //     Console.WriteLine("Inserting a new User");
-            //     db.Add(user);
-            //     db.SaveChanges();
-            // }
-            List<User> users = null;
-            Console.WriteLine("Read Users");
-            users = _context.User.ToList();
+            List<RoleUser> roleUsers = _context.RoleUser.Include(x=>x.Role).ToList();
+            List<User> users = _context.User.Include(x => x.RoleUser).ToList();
             return users;
         }
     }
