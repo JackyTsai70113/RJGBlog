@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Services;
-
 using BLL.Services;
 using BLL.Services.Interfaces;
 using DAL.DA.Interfaces;
