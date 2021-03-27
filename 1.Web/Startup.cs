@@ -17,6 +17,7 @@ using Web.Services;
 using BLL.Services;
 using BLL.Services.Interfaces;
 using DAL.DA.Interfaces;
+using System.Reflection;
 
 namespace Web
 {
@@ -37,8 +38,8 @@ namespace Web
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<RJGDbContext>();
 
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IUserDA, UserDA>();
+            DIService.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
+            DIService.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
 
             services.AddRazorPages();
 
