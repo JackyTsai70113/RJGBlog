@@ -28,7 +28,8 @@ namespace Web.Areas.Back.Controllers
                 Name = "權限管理",
                 ParentId = -1,
                 IsDisable = false,
-                Icon = "fas fa-user"
+                Icon = "fas fa-user",
+                Sort = 1
             };
 
             Menu menu2 = new Menu()
@@ -39,7 +40,8 @@ namespace Web.Areas.Back.Controllers
                 IsDisable = false,
                 Area = "Back",
                 Controller = "RoleController",
-                Action = "Index"
+                Action = "Index",
+                Sort = 2
             };
 
             Menu menu3 = new Menu()
@@ -50,7 +52,8 @@ namespace Web.Areas.Back.Controllers
                 IsDisable = false,
                 Area = "Back",
                 Controller = "AccountController",
-                Action = "Index"
+                Action = "Index",
+                Sort = 1
             };
 
             result.Add(menu1);

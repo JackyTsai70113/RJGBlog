@@ -28,7 +28,10 @@ namespace Core
         [StringLength(50)]
         public string Icon { get; set; }
         [Required]
-        public bool? IsDisable { get; set; }
+        public bool IsDisable { get; set; }
+
+        [Required]
+        public int Sort { get; set; }
 
         [InverseProperty("Meun")]
         public virtual ICollection<RoleMenu> RoleMenu { get; set; }
