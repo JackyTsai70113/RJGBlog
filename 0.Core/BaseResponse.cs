@@ -12,7 +12,12 @@ namespace Core
     /// </summary>
     public class BaseResponse
     {
-
+        /// <summary>
+        /// 建構子
+        /// </summary>
+        /// <param name="statusCode">HTTP 狀態碼</param>
+        /// <param name="data">資料</param>
+        /// <param name="message">訊息</param>
         public BaseResponse(HttpStatusCode statusCode, object data, string message)
         {
             StatusCode = statusCode;

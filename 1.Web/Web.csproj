@@ -28,8 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\0.Core\Core.csproj" />
-    <ProjectReference Include="..\2.BLL\BLL.csproj" />
     <ProjectReference Include="..\3.DAL\DAL.csproj" />
+    <ProjectReference Include="..\2.BLL\BLL.csproj" />
   </ItemGroup>
 
 </Project>
