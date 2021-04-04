@@ -32,8 +32,4 @@
     <ProjectReference Include="..\3.DAL\DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Back\Models\" />
-  </ItemGroup>
-
 </Project>

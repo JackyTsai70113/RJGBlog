@@ -1,0 +1,57 @@
+﻿@model Web.Areas.Back.Models.MenuViewModel
+
+<nav class="sidebar" data-sidebar-anyclick-close="">
+    <!-- START sidebar nav-->
+    <ul class="sidebar-nav">
+        <!-- START user info-->
+        <li class="has-user-block">
+            <div class="collapse" id="user-block">
+                <div class="item user-block">
+                    <!-- User picture-->
+                    <div class="user-block-picture">
+                        <div class="user-block-status">
+                            <img class="img-thumbnail rounded-circle" src="~/img/user/02.jpg" alt="Avatar" width="60" height="60">
+                            <div class="circle bg-success circle-lg"></div>
+                        </div>
+                    </div>
+                    <!-- Name and Job-->
+                    <div class="user-block-info">
+                        <span class="user-block-name">Hello, Mike</span>
+                        <span class="user-block-role">Designer</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <!-- END user info-->
+        <!--Meun選單-->
+        <li class="nav-heading ">
+            <span data-localize="sidebar.heading.HEADER">功能選單</span>
+        </li>
+
+        @foreach (var parentMenu in Model.Menus.Where(x => x.ParentId == -1))
+        {
+            <li class=" ">
+                <a href="#@parentMenu.Name" title="@parentMenu.Name" data-toggle="collapse" class="collapsed" aria-expanded="false">
+                    <em class="@parentMenu.Icon"></em>
+                    <span>@parentMenu.Name</span>
+                </a>
+                @foreach (var childMenu in Model.Menus.Where(x => x.ParentId == parentMenu.Id))
+                {
+                    <ul class="sidebar-nav sidebar-subnav collapse" id="@parentMenu.Name" style="">
+                        <li class="sidebar-subnav-header">@parentMenu.Name</li>
+                        <li class=" ">
+                            <a href="@Url.Action(childMenu.Action,childMenu.Controller,new { area = childMenu.Area })" title="@childMenu.Name" data-toggle="collapse" class="" aria-expanded="true">
+                                <span>@childMenu.Name</span>
+                            </a>
+                        </li>
+                    </ul>
+                }
+            </li>
+        }
+
+
+    </ul>
+    <!-- END sidebar nav-->
+</nav>
+
+<script src="~/js/app.js"></script>

@@ -29,6 +29,12 @@ namespace DAL.Data
 
             modelBuilder.Entity<Menu>(entity =>
             {
+                entity.Property(e => e.Action).IsFixedLength(true);
+
+                entity.Property(e => e.Area).IsFixedLength(true);
+
+                entity.Property(e => e.Controller).IsFixedLength(true);
+
                 entity.Property(e => e.IsDisable).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.ParentId).HasDefaultValueSql("((-1))");

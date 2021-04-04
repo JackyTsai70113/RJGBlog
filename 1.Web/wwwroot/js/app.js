@@ -405,7 +405,7 @@
 
 
     var preferredLang = 'zh-tw';
-    var pathPrefix = 'server/i18n'; // folder of json files
+    var pathPrefix = '/server/i18n'; // folder of json files
     var packName = 'site';
     var storageKey = 'jq-appLang';
 
