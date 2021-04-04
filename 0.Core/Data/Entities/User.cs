@@ -32,6 +32,9 @@ namespace Core
         [Column(TypeName = "datetime")]
         public DateTime UpdateTime { get; set; }
 
+        [Required]
+        public bool IsDisable { get; set; }
+
         [InverseProperty("User")]
         public virtual ICollection<RoleUser> RoleUser { get; set; }
     }

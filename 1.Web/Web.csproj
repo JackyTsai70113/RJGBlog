@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Back\Models\" />
-    <Folder Include="Areas\Front\Models\" />
   </ItemGroup>
 
 </Project>
