@@ -1,4 +1,4 @@
-﻿@model Web.Models.Views.LoginViewModel
+﻿@model Web.Models.Login.LoginViewModel
 @{
     ViewData["Title"] = "登入頁面";
 }
@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-center py-2">登入後繼續</p>
-                        <form class="mb-3" id="loginForm" novalidate>
+                        <form method="post" action ="/Login/Index" class="mb-3" novalidate>
                             <div class="form-group">
                                 <div class="input-group with-focus">
                                     @Html.TextBoxFor(x => x.Account, new { @class = "form-control border-right-0", @placeholder = "帳號" })
@@ -51,7 +51,7 @@
                                     <a class="text-muted" asp-action="ForgetPassword" asp-controller="Login">忘記密碼?</a>
                                 </div>
                             </div>
-                            <button id="btnSubmit" class="btn btn-block btn-primary mt-3" type="submit">登入</button>
+                            <button id="btnSubmit" class="btn btn-block btn-primary mt-3" type="button" onclick="submitLoginForm()">登入</button>
                         </form>
                         <a class="btn btn-block btn-secondary" asp-action="Register" asp-controller="Login">馬上註冊</a>
                     </div>
@@ -71,22 +71,15 @@
     <div class="col-xl-4 col-md-2"></div>
 </div>
 
-@section Scripts{
-    <script>
-        $('#loginForm').submit(function (e) {
-            //Validation
-            e.preventDefault();
-            var $form = $(this);
-            var isVal = $form.validate().form();
-            console.log(isVal);
-            if (!isVal) return false;
-            //Ajax
-            var postObj = {
-                Account: $("#Account").val(),
-                Password: $("#Password").val(),
-                IsRemeber: $("#IsRemembered").prop("checked")
-            };
-            postAjaxGetAlert(postObj, '@Url.Action("Index","Login")')
-        });
-    </script>
-}
+<script>
+    function submitLoginForm(){
+        $.post($('form').attr("action"), $("form").serialize(), function(data){
+            if(data.statusCode == 401){
+                alert("請重新登入");
+            } else {
+                console.log("登入成功");
+                window.location.href = "/Home/Index";
+            }
+        })
+    }
+</script>

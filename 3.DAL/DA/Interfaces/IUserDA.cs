@@ -7,5 +7,8 @@ namespace DAL.DA.Interfaces
     {
         List<User> GetAll();
         void Create(User user);
+        User GetByAccount(string account);
+
+        User GetByEmail(string email);
     }
 }

@@ -29,5 +29,18 @@ namespace DAL.DA.Interfaces
             _context.User.Add(user);
             _context.SaveChanges();
         }
+
+        public User GetByAccount(string account)
+        {
+            User user = _context.User.Where(u => u.Account == account).FirstOrDefault();
+            return user;
+        }
+
+        public User GetByEmail(string email)
+        {
+            User user = _context.User.Where(u => u.Email == email).FirstOrDefault();
+            return user;
+        }
+
     }
 }

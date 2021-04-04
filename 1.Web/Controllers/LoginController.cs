@@ -2,7 +2,7 @@
 using Core;
 using Microsoft.AspNetCore.Mvc;
 using BLL.Services.Interfaces;
-using Core.Models.DTO.User;
+using Core.Models.DTO.Account;
 using Web.Models.Views;
 using Web.Models.Login;
 
@@ -10,17 +10,39 @@ namespace Web.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IUserService _userService;
+        private readonly IAccountService _accountService;
 
-        public LoginController(IUserService userService)
+        public LoginController(IAccountService accountService)
         {
-            _userService = userService;
+            _accountService = accountService;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(LoginViewModel model)
+        {
+            LoginAccountModel userModel = new LoginAccountModel
+            {
+                Account = model.Account,
+                Password = model.Password
+            };
+            bool loginResult = _accountService.Login(userModel);
+
+            BaseResponse response;
+            if (loginResult == true)
+            {
+                response = new BaseResponse(HttpStatusCode.OK, string.Empty, model.Password);
+            }
+            else
+            {
+                response = new BaseResponse(HttpStatusCode.Unauthorized, string.Empty, "登入失敗");
+            }
+            return Json(response);
         }
 
         [HttpGet]
@@ -32,12 +54,12 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
-            RegisterUserModel userModel = new RegisterUserModel
+            RegisterAccountModel userModel = new RegisterAccountModel
             {
                 Email = model.Email,
                 Password = model.Password
             };
-            _userService.Register(userModel);
+            _accountService.Register(userModel);
             var response = new BaseResponse(HttpStatusCode.Created, string.Empty, model.Password);
             return Json(response);
         }

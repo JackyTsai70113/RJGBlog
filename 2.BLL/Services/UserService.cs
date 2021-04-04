@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using BLL.Services.Interfaces;
 using Core;
-using Core.Models.DTO.User;
+using Core.Models.DTO.Account;
 using DAL.DA.Interfaces;
 
 namespace BLL.Services
@@ -25,41 +25,13 @@ namespace BLL.Services
             return users;
         }
 
-        public bool Register(RegisterUserModel model)
-        {
-            string password = ComputeHash(model.Password);
-            DateTime utcNow = DateTime.UtcNow;
-            User user = new User
-            {
-                Account = model.Email,
-                Password = password,
-                Name = "新使用者",
-                Email = model.Email,
-                CreateTime = utcNow,
-                UpdateTime = utcNow
-            };
-            _userDA.Create(user);
-            return true;
-        }
+
 
         public bool Login()
         {
             return true;
         }
 
-        private string ComputeHash(string input)
-        {
-            HashAlgorithm sha256Hash = new SHA256CryptoServiceProvider();
 
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-
-            byte[] hashedBytes = sha256Hash.ComputeHash(inputBytes);
-
-            string resultWithDash = BitConverter.ToString(hashedBytes);
-
-            string result = resultWithDash.Replace("-", "");
-
-            return result;
-        }
     }
 }
