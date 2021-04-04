@@ -1,7 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Core.Models.DTO.Views
+namespace Web.Models.Login
 {
     public class RegisterViewModel
     {

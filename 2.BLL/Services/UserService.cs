@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using BLL.Services.Interfaces;
 using Core;
-using Core.Models.DTO.Views;
+using Core.Models.DTO.User;
 using DAL.DA.Interfaces;
 
 namespace BLL.Services
@@ -25,7 +25,7 @@ namespace BLL.Services
             return users;
         }
 
-        public bool CreateUser(RegisterViewModel model)
+        public bool Register(RegisterUserModel model)
         {
             string password = ComputeHash(model.Password);
             DateTime utcNow = DateTime.UtcNow;
@@ -39,6 +39,11 @@ namespace BLL.Services
                 UpdateTime = utcNow
             };
             _userDA.Create(user);
+            return true;
+        }
+
+        public bool Login()
+        {
             return true;
         }
 
