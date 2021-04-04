@@ -23,7 +23,7 @@ namespace Core.Utility.Redis
         /// <summary>
         /// 取得 IDatabase，用來處理 Value 相關的功能
         /// </summary>
-        private readonly IDatabase db;
+        private readonly IDatabase _db;
 
         /// <summary>
         /// 建構子
@@ -34,12 +34,12 @@ namespace Core.Utility.Redis
             ConfigurationOptions options = ConfigurationOptions.Parse(connectionString);
             ConnectionMultiplexer _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options)).Value;
             server = _connection.GetServer(options.EndPoints.First());
-            db = _connection.GetDatabase();
+            _db = _connection.GetDatabase();
         }
 
         public string GetValue(string key)
         {
-            string value = db.StringGet(key);
+            string value = _db.StringGet(key);
             return value;
         }
 
@@ -66,7 +66,7 @@ namespace Core.Utility.Redis
             Dictionary<string, string> redisKVPs = new Dictionary<string, string>();
             foreach (RedisKey redisKey in redisKeys)
             {
-                RedisValue redisValue = db.StringGet(redisKey);
+                RedisValue redisValue = _db.StringGet(redisKey);
                 redisKVPs.Add(redisKey.ToString(), redisValue.ToString());
             }
             return redisKVPs;
@@ -84,14 +84,32 @@ namespace Core.Utility.Redis
         /// <param name="key">鍵</param>
         /// <param name="value">值</param>
         /// <returns>是否成功</returns>
-        public bool SetKeyAndValue(string key, string value)
+        public bool Set(string key, string value)
         {
-            return db.StringSet(key, value);
+            return _db.StringSet(key, value);
+        }
+
+        public bool Set(string key, string value, DateTime expires)
+        {
+            TimeSpan expiryTimeSpan = expires.Subtract(DateTime.UtcNow);
+
+            return _db.StringSet(key, value, expiryTimeSpan);
+        }
+
+        /// <summary>
+        /// 設定 redis 鍵值
+        /// </summary>
+        /// <param name="key">鍵</param>
+        /// <param name="value">值</param>
+        /// <returns>是否成功</returns>
+        public bool Set(string key, string value, TimeSpan timeSpan)
+        {
+            return _db.StringSet(key, value, timeSpan);
         }
 
         public bool DeleteKey(string key)
         {
-            return db.KeyDelete(key);
+            return _db.KeyDelete(key);
         }
 
         private IEnumerable<RedisKey> GetKeysByPattern(string pattern = "*")

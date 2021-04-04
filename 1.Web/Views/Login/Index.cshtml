@@ -1,4 +1,4 @@
-﻿@model Web.Models.LoginViewModel
+﻿@model Web.Models.Views.LoginViewModel
 @{
     ViewData["Title"] = "登入頁面";
 }
@@ -43,7 +43,7 @@
                             <div class="clearfix">
                                 <div class="checkbox c-checkbox float-left mt-0">
                                     <label>
-                                        @Html.CheckBoxFor(x => x.IsRemeber)
+                                        @Html.CheckBoxFor(x => x.IsRemembered)
                                         <span class="fa fa-check"></span> 記住我
                                     </label>
                                 </div>
@@ -84,9 +84,9 @@
             var postObj = {
                 Account: $("#Account").val(),
                 Password: $("#Password").val(),
-                IsRemeber: $("#IsRemeber").prop("checked")
+                IsRemeber: $("#IsRemembered").prop("checked")
             };
-            postAjaxGetAlert(postObj, '@Url.Action("Test","Login")')
+            postAjaxGetAlert(postObj, '@Url.Action("Index","Login")')
         });
     </script>
 }

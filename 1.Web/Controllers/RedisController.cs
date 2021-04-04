@@ -24,12 +24,12 @@ namespace Web.Controllers
             return dict;
         }
 
-        [HttpPost("Redis/SetKVP")]
-        public bool SetKeyAndValue([FromBody] RedisKeyValueRequestModel request)
+        [HttpPost("Redis/Set")]
+        public bool Set([FromBody] RedisKeyValueRequestModel request)
         {
             RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
 
-            bool result = redisProvider.SetKeyAndValue(request.Key, request.Value);
+            bool result = redisProvider.Set(request.Key, request.Value);
             if (result == false)
             {
                 throw new Exception($"設定鍵值失敗, key: {request.Key}, value: {request.Value}");
@@ -47,6 +47,14 @@ namespace Web.Controllers
             {
                 throw new Exception($"刪除鍵失敗, key: {key}");
             }
+            return result;
+        }
+
+        public bool Test()
+        {
+            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
+
+            bool result = redisProvider.Set("test", "testValue", new TimeSpan(0, 0, 0, 10));
             return result;
         }
     }

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Models
+namespace Web.Models.Views
 {
     public class HomeViewModel
     {
