@@ -1,8 +1,10 @@
 ﻿using System.Net;
 using Core;
 using Microsoft.AspNetCore.Mvc;
-using Core.Models.DTO.Views;
 using BLL.Services.Interfaces;
+using Core.Models.DTO.User;
+using Web.Models.Views;
+using Web.Models.Login;
 
 namespace Web.Controllers
 {
@@ -30,7 +32,12 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
-            _userService.CreateUser(model);
+            RegisterUserModel userModel = new RegisterUserModel
+            {
+                Email = model.Email,
+                Password = model.Password
+            };
+            _userService.Register(userModel);
             var response = new BaseResponse(HttpStatusCode.Created, string.Empty, model.Password);
             return Json(response);
         }
