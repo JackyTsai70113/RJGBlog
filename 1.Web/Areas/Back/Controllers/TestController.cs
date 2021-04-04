@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Areas.Front.Controllers
+namespace Web.Areas.Back.Controllers
 {
-    [Area("Front")]
-    public class HomeController : Controller
+    [Area("Back")]
+    public class TestController : Controller
     {
         public IActionResult Index()
         {

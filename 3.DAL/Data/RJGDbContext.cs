@@ -3,16 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Core;
 
+
 namespace DAL.Data
 {
     public partial class RJGDbContext : DbContext
     {
+        public RJGDbContext()
+        {
+        }
+
         public RJGDbContext(DbContextOptions<RJGDbContext> options)
             : base(options)
         {
         }
 
+        public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<RoleUser> RoleUser { get; set; }
         public virtual DbSet<User> User { get; set; }
 
@@ -20,9 +27,28 @@ namespace DAL.Data
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<Role>(entity =>
+            modelBuilder.Entity<Menu>(entity =>
             {
-                entity.Property(e => e.Authority).IsUnicode(false);
+                entity.Property(e => e.IsDisable).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.ParentId).HasDefaultValueSql("((-1))");
+            });
+
+            modelBuilder.Entity<RoleMenu>(entity =>
+            {
+                entity.HasKey(e => new { e.RoleId, e.MeunId });
+
+                entity.HasOne(d => d.Meun)
+                    .WithMany(p => p.RoleMenu)
+                    .HasForeignKey(d => d.MeunId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RoleMenu_Menu");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.RoleMenu)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RoleMenu_Role");
             });
 
             modelBuilder.Entity<RoleUser>(entity =>

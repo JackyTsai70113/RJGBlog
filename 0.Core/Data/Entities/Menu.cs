@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace Core
 {
-    public class Role
+    public partial class Menu
     {
-        public Role()
+        public Menu()
         {
             RoleMenu = new HashSet<RoleMenu>();
-            RoleUser = new HashSet<RoleUser>();
         }
 
         [Key]
@@ -19,14 +19,11 @@ namespace Core
         [Required]
         [StringLength(10)]
         public string Name { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime? CreateTime { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime? UpdateTime { get; set; }
+        public int ParentId { get; set; }
+        [Required]
+        public bool? IsDisable { get; set; }
 
-        [InverseProperty("Role")]
+        [InverseProperty("Meun")]
         public virtual ICollection<RoleMenu> RoleMenu { get; set; }
-        [InverseProperty("Role")]
-        public virtual ICollection<RoleUser> RoleUser { get; set; }
     }
 }
