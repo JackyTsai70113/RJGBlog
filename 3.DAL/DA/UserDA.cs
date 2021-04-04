@@ -23,5 +23,11 @@ namespace DAL.DA.Interfaces
             List<User> users = _context.User.Include(x => x.RoleUser).ToList();
             return users;
         }
+
+        public void Create(User user)
+        {
+            _context.User.Add(user);
+            _context.SaveChanges();
+        }
     }
 }

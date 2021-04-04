@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Models
+namespace Web.Models.Views
 {
     public class LoginViewModel
     {
@@ -18,6 +18,6 @@ namespace Web.Models
         public string Password { get; set; }
 
         [DisplayName("記住我")]
-        public bool IsRemeber { get; set; }
+        public bool IsRemembered { get; set; }
     }
 }

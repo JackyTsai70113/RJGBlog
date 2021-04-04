@@ -1,11 +1,10 @@
-﻿using BLL.Services.Interfaces;
-using Core;
+﻿using Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using Web.Models;
+using Web.Models.Views;
 
 namespace Web.Controllers
 {

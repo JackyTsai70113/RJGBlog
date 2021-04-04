@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Web.Models
+namespace Core.Models.DTO.Views
 {
     public class RegisterViewModel
     {
@@ -19,7 +15,7 @@ namespace Web.Models
 
         [DisplayName("確認密碼 *")]
         [Required(ErrorMessage = "此欄位為必填")]
-        [Compare(nameof(Password),ErrorMessage ="密碼需一致")]
+        [Compare(nameof(Password), ErrorMessage = "密碼需一致")]
         public string ConfirmPassword { get; set; }
 
         [DisplayName("Email *")]

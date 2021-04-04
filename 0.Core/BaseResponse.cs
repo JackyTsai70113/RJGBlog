@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Net;
+using Newtonsoft.Json;
 
 //using Newtonsoft.Json;
 
-namespace Core {
+namespace Core
+{
 
     /// <summary>
     /// API 回應基本物件
     /// </summary>
-    public class BaseResponse {
+    public class BaseResponse
+    {
 
-        public BaseResponse(HttpStatusCode statusCode, object data, string message) {
+        public BaseResponse(HttpStatusCode statusCode, object data, string message)
+        {
             StatusCode = statusCode;
             Data = data;
             Message = message;
@@ -23,13 +27,13 @@ namespace Core {
         /// HTTP 狀態碼: https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Status
         /// HttpStatusCode 列舉: https://docs.microsoft.com/zh-tw/dotnet/api/system.net.httpstatuscode?view=net-5.0
         /// </value>
-        //[JsonProperty(PropertyName = "status")]
+        [JsonProperty(PropertyName = "status")]
         public HttpStatusCode StatusCode { get; set; }
 
-        //[JsonProperty(PropertyName = "data")]
+        [JsonProperty(PropertyName = "data")]
         public object Data { get; set; }
 
-        //[JsonProperty(PropertyName = "message")]
+        [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
     }
 }

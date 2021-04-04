@@ -90,7 +90,7 @@ function postAjaxGetAlert(postData,url) {
             //console.log(postData)
             //console.log(result);
             if (result.statusCode == 200) {
-                alert(result.message);
+                alert("success, " + result.message);
                 //window.PTC.Loading(false);
                 //swal({
                 //    title: '成功!',
@@ -102,7 +102,7 @@ function postAjaxGetAlert(postData,url) {
                 //});
             }
             else {
-                alert(result.message);
+                alert("fail, " + result.message);
                 //window.PTC.Loading(false);
                 //sweetAlert("失敗!", result.Message, "error");
             }

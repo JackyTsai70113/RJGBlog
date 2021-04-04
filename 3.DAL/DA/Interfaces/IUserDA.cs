@@ -6,5 +6,6 @@ namespace DAL.DA.Interfaces
     public interface IUserDA
     {
         List<User> GetAll();
+        void Create(User user);
     }
 }

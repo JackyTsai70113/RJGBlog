@@ -1,35 +1,43 @@
-﻿using Core;
+﻿using System.Net;
+using Core;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Web.Models;
+using Core.Models.DTO.Views;
+using BLL.Services.Interfaces;
 
 namespace Web.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly IUserService _userService;
+
+        public LoginController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            _userService.CreateUser(model);
+            var response = new BaseResponse(HttpStatusCode.Created, string.Empty, model.Password);
+            return Json(response);
+        }
+
         public IActionResult ForgetPassword()
         {
             return View();
-        }
-
-        [HttpPost]
-        public IActionResult Test(LoginViewModel viewModel)
-        {
-            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, null, "成功");
-            return Json(response);
         }
     }
 }
