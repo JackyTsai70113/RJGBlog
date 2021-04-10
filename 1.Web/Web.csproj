@@ -33,8 +33,4 @@
     <ProjectReference Include="..\0.Core\Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Back\Models\" />
-  </ItemGroup>
-
 </Project>

@@ -9,11 +9,6 @@ namespace Core
 {
     public partial class Menu
     {
-        public Menu()
-        {
-            RoleMenu = new HashSet<RoleMenu>();
-        }
-
         [Key]
         public int Id { get; set; }
         [Required]
@@ -21,7 +16,22 @@ namespace Core
         public string Name { get; set; }
         public int ParentId { get; set; }
         [Required]
-        public bool? IsDisable { get; set; }
+        [StringLength(10)]
+        public string Area { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string Controller { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string Action { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string Icon { get; set; }
+        [Required]
+        public bool IsDisable { get; set; }
+
+        [Required]
+        public int Sort { get; set; }
 
         [InverseProperty("Meun")]
         public virtual ICollection<RoleMenu> RoleMenu { get; set; }

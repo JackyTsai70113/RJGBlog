@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Web.Areas.Back.Controllers
 {
     [Area("Back")]
-    public class TestController : Controller
+    public class HomeController : Controller
     {
         public IActionResult Index()
         {
