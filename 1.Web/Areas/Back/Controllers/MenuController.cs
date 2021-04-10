@@ -1,9 +1,6 @@
-﻿using Core;
+﻿using Core.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Web.Areas.Back.Models;
 
 namespace Web.Areas.Back.Controllers

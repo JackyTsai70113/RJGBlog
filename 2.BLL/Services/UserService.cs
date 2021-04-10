@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using BLL.Services.Interfaces;
-using Core;
-using Core.Models.DTO.Account;
+using Core.Data.Entities;
 using DAL.DA.Interfaces;
 
 namespace BLL.Services

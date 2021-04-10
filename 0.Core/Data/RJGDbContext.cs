@@ -1,12 +1,10 @@
-﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Core;
+using Core.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-
-namespace DAL.Data
+namespace Core.Data
 {
-    public partial class RJGDbContext : DbContext
+    public partial class RJGDbContext : IdentityDbContext
     {
         public RJGDbContext()
         {

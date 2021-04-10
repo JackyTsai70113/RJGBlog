@@ -14,7 +14,7 @@ namespace Core.Helpers
     /// </remarks>
     public class RedisHelper
     {
-        public readonly IConfiguration Configuration;
+        public readonly IConfiguration _configuration;
 
         /// <summary>
         /// 取得 IServer，用來處理 key 相關的功能
@@ -32,8 +32,8 @@ namespace Core.Helpers
         /// <param name="connectionString">連接字串</param>
         public RedisHelper(IConfiguration configuration)
         {
-            Configuration = configuration;
-            var connectionString = Configuration.GetValue<string>("Redis:ConnectionString");
+            _configuration = configuration;
+            string connectionString = _configuration.GetSection("Redis").GetSection("ConnectionString").Value;
 
             ConfigurationOptions options = ConfigurationOptions.Parse(connectionString);
             ConnectionMultiplexer _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options)).Value;

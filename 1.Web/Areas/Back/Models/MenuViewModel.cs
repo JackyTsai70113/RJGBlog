@@ -1,8 +1,5 @@
-﻿using Core;
-using System;
+﻿using Core.Data.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Web.Areas.Back.Models
 {

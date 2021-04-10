@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using BLL.Services.Interfaces;
-using Core;
+using Core.Data.Entities;
 using Core.Models.DTO.Account;
 using DAL.DA.Interfaces;
 

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Core;
-using Core.Models.DTO.Account;
+using Core.Data.Entities;
 
 namespace BLL.Services.Interfaces
 {

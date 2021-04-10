@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Core;
+using Core.Data.Entities;
 
 namespace DAL.DA.Interfaces
 {
