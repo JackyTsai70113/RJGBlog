@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Models.Login
+namespace Web.Models.View.Login
 {
     public class RegisterViewModel
     {

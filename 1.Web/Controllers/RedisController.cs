@@ -1,5 +1,5 @@
-﻿using Core.Models.DTO;
-using Core.Utility.Redis;
+﻿using Core.Helpers;
+using Core.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,9 +7,14 @@ using Web.Services;
 
 namespace Web.Controllers
 {
-
     public class RedisController : Controller
     {
+        private readonly RedisHelper _redisHelper;
+
+        public RedisController(RedisHelper redisHelper)
+        {
+            _redisHelper = redisHelper;
+        }
         public IActionResult Index()
         {
             return View();
@@ -18,18 +23,14 @@ namespace Web.Controllers
         [HttpGet("Redis/GetAllKVP")]
         public Dictionary<string, string> GetAllKeysAndValues()
         {
-            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
-
-            var dict = redisProvider.GetKeyValuePairs();
+            var dict = _redisHelper.GetKeyValuePairs();
             return dict;
         }
 
         [HttpPost("Redis/Set")]
         public bool Set([FromBody] RedisKeyValueRequestModel request)
         {
-            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
-
-            bool result = redisProvider.Set(request.Key, request.Value);
+            bool result = _redisHelper.Set(request.Key, request.Value);
             if (result == false)
             {
                 throw new Exception($"設定鍵值失敗, key: {request.Key}, value: {request.Value}");
@@ -40,9 +41,7 @@ namespace Web.Controllers
         [HttpDelete("Redis/Key/{key}")]
         public bool DeleteKeyAndValue(string key)
         {
-            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
-
-            bool result = redisProvider.DeleteKey(key);
+            bool result = _redisHelper.DeleteKey(key);
             if (result == false)
             {
                 throw new Exception($"刪除鍵失敗, key: {key}");
@@ -52,9 +51,7 @@ namespace Web.Controllers
 
         public bool Test()
         {
-            RedisProvider redisProvider = new RedisProvider(ConfigService.Redis_ConnectionString);
-
-            bool result = redisProvider.Set("test", "testValue", new TimeSpan(0, 0, 0, 10));
+            bool result = _redisHelper.Set("test", "testValue", new TimeSpan(0, 0, 0, 10));
             return result;
         }
     }

@@ -4,7 +4,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
-using Web.Models.Views;
+using Web.Models.Response;
+using Web.Models.View;
 
 namespace Web.Controllers
 {

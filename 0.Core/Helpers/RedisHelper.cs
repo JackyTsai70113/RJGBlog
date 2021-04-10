@@ -1,20 +1,21 @@
-﻿using StackExchange.Redis;
+﻿using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace Core.Utility.Redis
+namespace Core.Helpers
 {
-
     /// <summary>
-    /// Redis Provider
+    /// Redis Helper
     /// </summary>
     /// <remarks>
     /// https://stackexchange.github.io/StackExchange.Redis/
     /// </remarks>
-    public class RedisProvider
+    public class RedisHelper
     {
+        public readonly IConfiguration Configuration;
+
         /// <summary>
         /// 取得 IServer，用來處理 key 相關的功能
         /// </summary>
@@ -29,8 +30,11 @@ namespace Core.Utility.Redis
         /// 建構子
         /// </summary>
         /// <param name="connectionString">連接字串</param>
-        public RedisProvider(string connectionString)
+        public RedisHelper(IConfiguration configuration)
         {
+            Configuration = configuration;
+            var connectionString = Configuration.GetValue<string>("Redis:ConnectionString");
+
             ConfigurationOptions options = ConfigurationOptions.Parse(connectionString);
             ConnectionMultiplexer _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(options)).Value;
             server = _connection.GetServer(options.EndPoints.First());

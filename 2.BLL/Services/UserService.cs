@@ -9,7 +9,6 @@ using DAL.DA.Interfaces;
 
 namespace BLL.Services
 {
-
     public class UserService : IUserService
     {
         private readonly IUserDA _userDA;
@@ -24,14 +23,5 @@ namespace BLL.Services
             var users = _userDA.GetAll();
             return users;
         }
-
-
-
-        public bool Login()
-        {
-            return true;
-        }
-
-
     }
 }

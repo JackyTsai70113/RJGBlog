@@ -64,11 +64,11 @@ namespace BLL.Services
 
         private string ComputeHash(string input)
         {
-            HashAlgorithm sha256Hash = new SHA256CryptoServiceProvider();
+            HashAlgorithm sha256 = new SHA256CryptoServiceProvider();
 
             byte[] inputBytes = Encoding.UTF8.GetBytes(input);
 
-            byte[] hashedBytes = sha256Hash.ComputeHash(inputBytes);
+            byte[] hashedBytes = sha256.ComputeHash(inputBytes);
 
             string resultWithDash = BitConverter.ToString(hashedBytes);
 

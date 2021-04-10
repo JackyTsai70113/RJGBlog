@@ -1,30 +1,32 @@
 ﻿using System.Net;
-using Core;
 using Microsoft.AspNetCore.Mvc;
 using BLL.Services.Interfaces;
 using Core.Models.DTO.Account;
-using Web.Models.Views;
-using Web.Models.Login;
+using Web.Helpers;
+using Web.Models.Response;
+using Web.Models.View.Login;
 
 namespace Web.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly JwtHelper _jwtHelper;
 
-        public LoginController(IAccountService accountService)
+        public AccountController(IAccountService accountService, JwtHelper jwtHelper)
         {
             _accountService = accountService;
+            _jwtHelper = jwtHelper;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        [HttpGet("~/login")]
+        public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(LoginViewModel model)
+        public IActionResult Login(LoginViewModel model)
         {
             LoginAccountModel userModel = new LoginAccountModel
             {
@@ -36,7 +38,8 @@ namespace Web.Controllers
             BaseResponse response;
             if (loginResult == true)
             {
-                response = new BaseResponse(HttpStatusCode.OK, string.Empty, model.Password);
+                var jwtToken = _jwtHelper.GenerateToken(userModel.Account);
+                response = new BaseResponse(HttpStatusCode.OK, jwtToken, "登入成功");
             }
             else
             {
@@ -45,7 +48,7 @@ namespace Web.Controllers
             return Json(response);
         }
 
-        [HttpGet]
+        [HttpGet("~/register")]
         public IActionResult Register()
         {
             return View();
@@ -56,6 +59,7 @@ namespace Web.Controllers
         {
             RegisterAccountModel userModel = new RegisterAccountModel
             {
+                Account = model.Account,
                 Email = model.Email,
                 Password = model.Password
             };

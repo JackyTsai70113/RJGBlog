@@ -1,11 +1,11 @@
-﻿@model Web.Models.Login.RegisterViewModel
+﻿@model Web.Models.View.Login.RegisterViewModel
 @{
     ViewData["Title"] = "註冊頁面";
 }
 <div class="row">
     <div class="col-xl-4 col-md-2"></div>
     <div class="col-xl-4 col-md-8 col-xs-12">
-        <form method="post" action="/Login/Register" data-parsley-validate="" novalidate>
+        <form method="post" action="/Account/Register" data-parsley-validate="" novalidate>
             <!-- START card-->
             <div class="card card-default">
                 <div class="card-header">
@@ -61,8 +61,9 @@
 <script>
     function formSubmit(){
         $.post($('form').attr("action"), $("form").serialize(), function(data){
-            if(data.statusCode == 201){
-                window.location.href = "/Home/Index";
+            console.log(data);
+            if(data.status == 201){
+                window.location.href = "/";
             } else {
                 alert("請重新登入");
             }

@@ -1,4 +1,4 @@
-﻿@model Web.Models.Login.LoginViewModel
+﻿@model Web.Models.View.Login.LoginViewModel
 @{
     ViewData["Title"] = "登入頁面";
 }
@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-center py-2">登入後繼續</p>
-                        <form method="post" action ="/Login/Index" class="mb-3" novalidate>
+                        <form method="post" action ="/Account/Login" class="mb-3" novalidate>
                             <div class="form-group">
                                 <div class="input-group with-focus">
                                     @Html.TextBoxFor(x => x.Account, new { @class = "form-control border-right-0", @placeholder = "帳號" })
@@ -53,7 +53,7 @@
                             </div>
                             <button id="btnSubmit" class="btn btn-block btn-primary mt-3" type="button" onclick="submitLoginForm()">登入</button>
                         </form>
-                        <a class="btn btn-block btn-secondary" asp-action="Register" asp-controller="Login">馬上註冊</a>
+                        <a class="btn btn-block btn-secondary" href="/register">馬上註冊</a>
                     </div>
                 </div>
                 <!-- END card-->
@@ -78,7 +78,7 @@
                 alert("請重新登入");
             } else {
                 console.log("登入成功");
-                window.location.href = "/Home/Index";
+                window.location.href = "/";
             }
         })
     }
