@@ -10,8 +10,10 @@ namespace Web.Areas.Back.Controllers
     {
         public IActionResult Navigation()
         {
-            MenuViewModel viewModel = new MenuViewModel();
-            viewModel.Menus = GetMenus();
+            MenuViewModel viewModel = new MenuViewModel
+            {
+                Menus = GetMenus()
+            };
             return PartialView("_Navigation", viewModel);
         }
 
