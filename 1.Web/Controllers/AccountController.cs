@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BLL.Services.Interfaces;
 using Core.Models.DTO.Account;
-using Web.Helpers;
 using Web.Models.Response;
 using Web.Models.View.Login;
 
@@ -11,12 +10,10 @@ namespace Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly JwtHelper _jwtHelper;
 
-        public AccountController(IAccountService accountService, JwtHelper jwtHelper)
+        public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
-            _jwtHelper = jwtHelper;
         }
 
         [HttpGet("~/login")]
@@ -38,8 +35,7 @@ namespace Web.Controllers
             BaseResponse response;
             if (loginResult == true)
             {
-                var jwtToken = _jwtHelper.GenerateToken(userModel.Account);
-                response = new BaseResponse(HttpStatusCode.OK, jwtToken, "登入成功");
+                response = new BaseResponse(HttpStatusCode.OK, "", "登入成功");
             }
             else
             {

@@ -5,12 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Web.Services;
-using System.Reflection;
-using Core.Helpers;
-using Web.Helpers;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+// using Web.Services;
 using Core.Data;
 
 namespace Web
@@ -20,7 +15,7 @@ namespace Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            ConfigService.SetConfiguration(configuration);
+            //ConfigService.SetConfiguration(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -30,17 +25,19 @@ namespace Web
         {
             services.AddDbContext<RJGDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<RJGDbContext>();
 
-            DIService.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
-            DIService.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
+            // DIService.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
+            // DIService.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
 
-            services.AddSingleton<RedisHelper>();
-            services.AddSingleton<JwtHelper>();
+            // services.AddSingleton<RedisHelper>();
+            // services.AddSingleton<JwtHelper>();
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
-            services.AddSession();
+            //services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +46,7 @@ namespace Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
@@ -58,7 +56,6 @@ namespace Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
 
             app.UseRouting();
 
@@ -67,13 +64,14 @@ namespace Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                                             name: "areas",
-                                             pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                // endpoints.MapControllerRoute(
+                //                              name: "areas",
+                //                              pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                                             name: "default",
-                                             pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

@@ -9,8 +9,8 @@
         <a  class="nav-link text-dark" title="Manage">Hello @User.Identity.Name!</a>
     </li>
     <li class="nav-item">
-        <form  class="form-inline"  asp-action="Logout" asp-controller="Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">登出</button>
+        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
         </form>
     </li>
 }
@@ -18,6 +18,12 @@ else
 {
     <li class="nav-item">
         <a class="nav-link text-dark"asp-action="Index" asp-controller="Login">登入</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </li>
 }
 </ul>

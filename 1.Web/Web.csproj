@@ -3,24 +3,29 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-Web-5163C83C-544C-4E68-89FF-B84115B44344</UserSecretsId>
-    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <!-- <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <AssemblyName>Web</AssemblyName>
-    <RootNamespace>Web</RootNamespace>
+    <RootNamespace>Web</RootNamespace> -->
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Content Remove="Views\Shared\_BackLayout.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Views\Shared\_BackLayout.cshtml" />
-  </ItemGroup>
+  </ItemGroup> -->
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.14" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.14" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.14">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.14">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
