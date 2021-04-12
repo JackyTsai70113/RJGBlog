@@ -1,12 +1,67 @@
-@page
+﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "註冊頁面";
 }
 
 <h1>@ViewData["Title"]</h1>
-
+<div asp-validation-summary="All" class="text-danger"></div>
 <div class="row">
+    <div class="col-xl-4 col-md-2"></div>
+    <div class="col-xl-4 col-md-8 col-xs-12">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" data-parsley-validate="" novalidate>
+            <!-- START card-->
+            <div class="card card-default">
+                <div class="card-header">
+                    <div class="card-title">註冊帳號</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Input.Account)</label>
+                        @Html.TextBoxFor(x => x.Input.Account, new { @class = "form-control" })
+                        <span asp-validation-for="Input.Account" class="form-text text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Input.Password)</label>
+                        @Html.TextBoxFor(x => x.Input.Password, new { @class = "form-control" })
+                        <span asp-validation-for="Input.Password" class="form-text text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Input.ConfirmPassword)</label>
+                        @Html.TextBoxFor(x => x.Input.ConfirmPassword, new { @class = "form-control" })
+                        <span asp-validation-for="Input.ConfirmPassword" class="form-text text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">@Html.DisplayNameFor(x => x.Input.Email)</label>
+                        @Html.TextBoxFor(x => x.Input.Email, new { @class = "form-control" })
+                        <span asp-validation-for="Input.Email" class="form-text text-danger"></span>
+                    </div>
+                    <div class="required">* 必填欄位</div>
+                </div>
+                <div class="card-footer">
+                    <div class="clearfix">
+                        <div class="float-left">
+                            <div class="checkbox c-checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(x => x.Input.IsAgreeWithTerms)
+                                    <span class="fa fa-check"></span> 我同意以下
+                                    <a class="ml-2" href="#">條款</a>
+                                    <!--<span asp-validation-for="Input.IsAgreeWithTerms" class="form-text text-danger"></span>-->
+                                </label>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <button class="btn btn-primary" type="submit">註冊</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END card-->
+        </form>
+    </div>
+    <div class="col-xl-4 col-md-2"></div>
+</div>
+@*<div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
@@ -60,7 +115,7 @@
             }
         </section>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
