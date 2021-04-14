@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -43,28 +43,28 @@ namespace Web.Areas.Identity.Pages.Account {
 
         public class InputModel {
 
-            [Required(ErrorMessage = "¦¹Äæ¦ì¬°¥²¶ñ")]
-            [Display(Name = "±b¸¹ *")]
+            [Required(ErrorMessage = "æ­¤æ¬„ä½ç‚ºå¿…å¡«")]
+            [Display(Name = "å¸³è™Ÿ *")]
             public string Account { get; set; }
 
-            [Required(ErrorMessage = "¦¹Äæ¦ì¬°¥²¶ñ")]
-            [EmailAddress(ErrorMessage = "Email®æ¦¡¤£²Å")]
+            [Required(ErrorMessage = "æ­¤æ¬„ä½ç‚ºå¿…å¡«")]
+            [EmailAddress(ErrorMessage = "Emailæ ¼å¼ä¸ç¬¦")]
             [Display(Name = "Email *")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "¦¹Äæ¦ì¬°¥²¶ñ")]
+            [Required(ErrorMessage = "æ­¤æ¬„ä½ç‚ºå¿…å¡«")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "±K½X *")]
+            [Display(Name = "å¯†ç¢¼ *")]
             public string Password { get; set; }
 
-            [Required(ErrorMessage = "¦¹Äæ¦ì¬°¥²¶ñ")]
+            [Required(ErrorMessage = "æ­¤æ¬„ä½ç‚ºå¿…å¡«")]
             [DataType(DataType.Password)]
-            [Display(Name = "½T»{±K½X *")]
-            [Compare("Password", ErrorMessage = "±K½X»İ¤@­P")]
+            [Display(Name = "ç¢ºèªå¯†ç¢¼ *")]
+            [Compare("Password", ErrorMessage = "å¯†ç¢¼éœ€ä¸€è‡´")]
             public string ConfirmPassword { get; set; }
 
-            [CheckboxIsCheckedAttribute(ErrorMessage = "½Ğ¦P·N±ø´Ú¨Ã¤Ä¿ï")]
+            [CheckboxIsCheckedAttribute(ErrorMessage = "è«‹åŒæ„æ¢æ¬¾ä¸¦å‹¾é¸")]
             public bool IsAgreeWithTerms { get; set; }
         }
 

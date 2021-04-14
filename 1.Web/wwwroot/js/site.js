@@ -46,26 +46,26 @@ function hideMask() {
     };
 })(window.SuccessAlert);
 
-(function () {
-    window.ConfirmAlert = function (title, text) {
-        return Swal.fire({
-            icon: 'warning',
-            title: title,
-            showCancelButton: true,
-            confirmButtonText: '確認',
-            cancelButtonText: '取消',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    '成功',
-                    text,
-                    'success'
-                )
-            }
-        })
-    }
-})(window.ConfirmAlert);
+//(function () {
+//    window.ConfirmAlert = function (title, text) {
+//        return Swal.fire({
+//            icon: 'warning',
+//            title: title,
+//            showCancelButton: true,
+//            confirmButtonText: '確認',
+//            cancelButtonText: '取消',
+//            reverseButtons: true
+//        }).then((result) => {
+//            if (result.isConfirmed) {
+//                Swal.fire(
+//                    '成功',
+//                    text,
+//                    'success'
+//                )
+//            }
+//        })
+//    }
+//})(window.ConfirmAlert);
 
 // extend range validator method to treat checkboxes differently
 var defaultRangeValidator = $.validator.methods.range;
