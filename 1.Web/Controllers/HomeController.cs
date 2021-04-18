@@ -1,5 +1,6 @@
 ﻿using Core.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -11,18 +12,20 @@ namespace Web.Controllers
 
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger;
 
-        //public HomeController(ILogger<HomeController> logger) {
-        //    _logger = logger;
-        //}
-
-        public HomeController()
+        public HomeController(ILogger<HomeController> logger)
         {
+            _logger = logger;
         }
+
+        //public HomeController()
+        //{
+        //}
 
         public IActionResult Index()
         {
+            _logger.LogInformation($"進入首頁");
             HomeViewModel viewModel = new HomeViewModel();
             return View(viewModel);
         }

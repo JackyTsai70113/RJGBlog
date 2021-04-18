@@ -20,7 +20,7 @@ namespace Web
                 })
                 .ConfigureLogging(logging =>
                 {
-                    logging.ClearProviders();
+                    logging.ClearProviders(); // 清除預設 Logging Providers
                     logging.SetMinimumLevel(LogLevel.Trace);
                 })
                 .UseNLog();  // NLog: Setup NLog for Dependency injection

@@ -1,52 +1,58 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
 @model Core.Models.DTO.Blogs.IndexModel;
-@{
-    ViewData["Title"] = "RJG Blog";
-}
 
 @section Styles{
     <!-- JQCLOUD-->
     <link rel="stylesheet" href="vendor/jqcloud2/dist/jqcloud.css">
 }
 
-<a asp-area="" asp-controller="Blog" asp-action="Create">寫新文章</a>
+@if (SignInManager.IsSignedIn(User)){
+    <a asp-area="" asp-controller="Blog" asp-action="Create">寫新文章</a>
 
-<div class="content-wrapper">
-    <div class="row">
-        <!-- Blog Content-->
-        <div class="col-xl-9">
-            <div class="card-columns">
-                @*文章卡*@
-                @foreach (Core.Models.DTO.Blogs.IndexModel.Blog blog in Model.Blogs)
-                {
+    <div class="content-wrapper">
+        <div class="row">
+            <!-- Blog Content-->
+            <div class="col-xl-9">
+                <div class="card-columns">
                     @*文章卡*@
-                    <div class="card">
-                        @*封面*@
-                        <a href="#">
-                            <img class="img-fluid" src="@blog.CoverImageUrl" alt="@blog.CoverImageUrl">
-                        </a>
-                        @*內容*@
-                        <div class="card-body">
-                            <p class="d-flex">
-                                <span>
-                                    @*作者*@
-                                    <small class="mr-1">
-                                        By
-                                        <a class="ml-1" href="#">@blog.Author</a>
-                                    </small>
-                                    @*更新時間*@
-                                    <small class="mr-1">@blog.UpdateTime</small>
-                                </span>
-                            </p>
-                            @*標題*@
-                            <h4>
-                                <a href="#">@blog.Title</a>
-                            </h4>
-                            @*部分內文*@
-                            <p>@blog.PartialContent</p>
+                    @foreach (Core.Models.DTO.Blogs.IndexModel.Blog blog in Model.Blogs)
+                    {
+                        @*文章卡*@
+                        <div class="card">
+                            @*封面*@
+                            <a href="#">
+                                <img class="img-fluid" src="@blog.CoverImageUrl" alt="@blog.CoverImageUrl">
+                            </a>
+                            @*內容*@
+                            <div class="card-body">
+                                <p>
+                                    <span>
+                                        @*作者*@
+                                        <small class="mr-1">
+                                            <a class="ml-1" href="#">@blog.Author</a>
+                                        </small>
+                                    </span>
+                                    <br /> 
+                                    <span>
+                                        @*更新時間*@
+                                        <small class="mr-1">@blog.UpdateTime</small>
+                                    </span>
+                                </p>
+                                @*標題*@
+                                <h4>
+                                    <a href="#">@blog.Title</a>
+                                </h4>
+                                @*部分內文*@
+                                <p>@blog.PartialContent</p>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
+} else {
+    <span dir="auto" class="style-scope yt-formatted-string">登入後即可查看你的文章。</span>
+}

@@ -14,7 +14,7 @@ namespace Core.Models.DTO.Blogs
             public string CoverImageUrl { get; set; }
             public string Title { get; set; }
             public string PartialContent { get; set; }
-            public DateTime UpdateTime { get; set; }
+            public string UpdateTime { get; set; }
             public string Author { get; set; }
         }
     }

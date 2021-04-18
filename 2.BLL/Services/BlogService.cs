@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BLL.Services.Interfaces;
 using Core.Data.Entities;
+using Core.Helpers;
 using Core.Models.DTO.Blogs;
 using DAL.DA.Interfaces;
 namespace BLL.Services
@@ -24,14 +25,14 @@ namespace BLL.Services
             };
             foreach (Blog b in dbBlogs)
             {
-                string partialContent = b.Content.Substring(0, 30);
+                string partialContent = b.Content.Length > 30 ? b.Content.Substring(0, 30) + "..." : b.Content;
                 model.Blogs.Add(new IndexModel.Blog
                 {
                     Id = b.Id,
                     CoverImageUrl = b.CoverImageUrl,
                     Title = b.Title,
                     PartialContent = partialContent,
-                    UpdateTime = b.UpdateTime,
+                    UpdateTime = b.UpdateTime.ToLocalTime().ToFullDateShortTime(),
                     Author = "作者欄位"
                 });
             };
