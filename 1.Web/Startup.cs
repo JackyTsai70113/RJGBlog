@@ -8,9 +8,10 @@ using Microsoft.Extensions.Hosting;
 // using Web.Services;
 using Core.Data;
 using System;
-using Web.Services.Interfaces;
+using Core.Helpers;
 using Web.Services;
 using System.Reflection;
+using Web.Services.Interfaces;
 
 namespace Web
 {
@@ -30,14 +31,12 @@ namespace Web
             services.AddDbContext<RJGDbContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<RJGDbContext>();
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<RJGDbContext>();
 
-            DIService.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
-            DIService.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
-
-            // services.AddSingleton<RedisHelper>();
-            // services.AddSingleton<JwtHelper>();
-            services.AddTransient<IAccountService, AccountService>();
+            DIHelper.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
+            DIHelper.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
+            DIHelper.AddTransient(services, Assembly.Load("Web"), Assembly.Load("Web"));
+            services.AddSingleton<RedisHelper>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
@@ -48,11 +47,13 @@ namespace Web
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+
+            //設定Menu權限
+            Helpers.StartupHelper.SetMenuList(services);
         }
 
 
@@ -99,12 +100,12 @@ namespace Web
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireDigit = true; // 密碼中需要0-9 之間的數位
+                options.Password.RequireNonAlphanumeric = false; //密碼中需要非英數位元
+                options.Password.RequireUppercase = false; //密碼中需要有大寫字元
+                options.Password.RequireLowercase = true; //密碼中需要有小寫字元
+                options.Password.RequiredLength = 6; //密碼的最小長度
+                options.Password.RequiredUniqueChars = 0; //需要密碼中的相異字元數目
 
                 // Lockout settings.
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);

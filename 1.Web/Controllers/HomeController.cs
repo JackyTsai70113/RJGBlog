@@ -1,4 +1,6 @@
-﻿using Core.Domain;
+﻿using Core;
+using Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -19,10 +21,6 @@ namespace Web.Controllers
             _logger = logger;
         }
 
-        //public HomeController()
-        //{
-        //}
-
         public IActionResult Index()
         {
             _logger.LogInformation($"進入首頁");
@@ -30,7 +28,14 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
+        [Authorize("Privacy")]
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [Authorize("Introduce")]
+        public IActionResult Introduce()
         {
             return View();
         }

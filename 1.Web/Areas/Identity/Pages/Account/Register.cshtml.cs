@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Web.Services.Interfaces;
 
 namespace Web.Areas.Identity.Pages.Account {
 
@@ -21,17 +22,18 @@ namespace Web.Areas.Identity.Pages.Account {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IUserService _userService;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender) {
+            IUserService userService) 
+        {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -41,11 +43,12 @@ namespace Web.Areas.Identity.Pages.Account {
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel {
+        public class InputModel 
+        {
 
             [Required(ErrorMessage = "此欄位為必填")]
-            [Display(Name = "帳號 *")]
-            public string Account { get; set; }
+            [Display(Name = "使用者名稱 *")]
+            public string UserName { get; set; }
 
             [Required(ErrorMessage = "此欄位為必填")]
             [EmailAddress(ErrorMessage = "Email格式不符")]
@@ -68,50 +71,60 @@ namespace Web.Areas.Identity.Pages.Account {
             public bool IsAgreeWithTerms { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null) {
+        public async Task OnGetAsync(string returnUrl = null) 
+        {
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList(); //取得外部驗，暫時沒用到
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList(); //取得外部驗，暫時沒用到
+            //Model驗證
             if (ModelState.IsValid) {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded) {
-                    _logger.LogInformation("User created a new account with password.");
+                IdentityResult result = _userService.CreateUser(Input.UserName, Input.Email, Input.Password).Result;
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("使用者建立一組新的帳號，userName:{0}，Email:{1}", Input.UserName, Input.Email);
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    //取得帳號資訊
+                    var user = await _userService.GetUserByEmailAsync(Input.Email);
+
+                    //Email 驗證
+                    string code = await _userService.GetEmailConfirmTokenAsync(Input.Email);
+
+                    //Email驗證頁面
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code, returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //寄出驗證Email emailSender是空殼 沒用到
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"驗證您的帳號請 <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>按這裡</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount) {
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
-                    } else {
+                    else
+                    {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
-                foreach (var error in result.Errors) {
+                //錯誤訊息
+                foreach (var error in result.Errors)
+                {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
-            // If we got this far, something failed, redisplay form
+            //如果出錯，重新顯示頁面
             return Page();
         }
 
         [AttributeUsageAttribute(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-        class CheckboxIsCheckedAttribute : RequiredAttribute {
-
+        class CheckboxIsCheckedAttribute : RequiredAttribute 
+        {
             public override bool IsValid(object value) {
                 bool isRequiredValid = base.IsValid(value);
                 if (!isRequiredValid)
