@@ -13,6 +13,37 @@
                 <button type="submit" class="nav-link btn btn-link text-dark">登出</button>
             </form>
         </li>
+        @*START Alert menu*@
+        <li class="nav-item dropdown dropdown-list">
+            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-toggle="dropdown">
+                @User.Identity.Name
+            </a>
+            @*START Dropdown menu*@
+            <div class="dropdown-menu dropdown-menu-right animated flipInX">
+                <div class="dropdown-item">
+                    @*START list group*@
+                    <div class="list-group">
+                        @*list item*@
+                        <div class="list-group-item list-group-item-action">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Create">寫文章</a>
+                        </div>
+                        @*list item*@
+                        <div class="list-group-item list-group-item-action">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Blog" asp-action="Index">我的文章</a>
+                        </div>
+                        @*list item*@
+                        <div class="list-group-item list-group-item-action">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="nav-link btn btn-link text-dark">登出</button>
+                        </form>
+                        </div>
+                    </div>
+                    @*END list group*@
+                </div>
+            </div>
+            @*END Dropdown menu*@
+        </li>
+        @*END Alert menu*@
     }
     else
     {

@@ -37,8 +37,7 @@ namespace Web
             DIHelper.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
             DIHelper.AddTransient(services, Assembly.Load("Web"), Assembly.Load("Web"));
             services.AddSingleton<RedisHelper>();
-
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             services.ConfigureIdentity();

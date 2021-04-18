@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using Core.Data.Entities;
+using Core.Models.DTO.Blogs;
 
 namespace BLL.Services.Interfaces
 {
     public interface IBlogService
     {
-        List<Blog> GetListByUserId(string userId);
+        IndexModel GetIndexModel(string userId);
+        bool Create(CreateModel model);
     }
 }

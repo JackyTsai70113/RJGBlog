@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Models.View.Blog
+namespace Core.Models.DTO.Blogs
 {
     public class CreateModel
     {
@@ -18,5 +18,7 @@ namespace Web.Models.View.Blog
         [Required(ErrorMessage = "此欄位為必填")]
         [StringLength(4000, ErrorMessage = "The {0} value cannot exceed {1}")]
         public string Content { get; set; }
+
+        public string UserId { get; set; }
     }
 }
