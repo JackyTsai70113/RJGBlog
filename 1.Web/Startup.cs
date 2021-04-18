@@ -10,6 +10,7 @@ using Core.Data;
 using System;
 using Web.Services.Interfaces;
 using Web.Services;
+using System.Reflection;
 
 namespace Web
 {
@@ -31,13 +32,13 @@ namespace Web
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<RJGDbContext>();
 
-            // DIService.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
-            // DIService.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
+            DIService.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
+            DIService.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
 
             // services.AddSingleton<RedisHelper>();
             // services.AddSingleton<JwtHelper>();
             services.AddTransient<IAccountService, AccountService>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
             services.ConfigureIdentity();

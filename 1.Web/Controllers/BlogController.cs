@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using BLL.Services.Interfaces;
-using Core.Data.Entities;
+using Core.Models.DTO.Blogs;
 using Microsoft.AspNetCore.Mvc;
-using Web.Models.View.Blog;
 using Web.Services.Interfaces;
 
 namespace Web.Controllers
@@ -19,6 +17,14 @@ namespace Web.Controllers
             _blogService = blogService;
         }
 
+        public IActionResult Index()
+        {
+            string identityName = User.Identity.Name;
+            string userId = _accountService.GetCurrentUserIdAsync(identityName).Result;
+            IndexModel model = _blogService.GetIndexModel(userId);
+            return View(model);
+        }
+
         [HttpGet("/user/{userName}/blog")]
         public IActionResult Index(string userName)
         {
@@ -28,8 +34,8 @@ namespace Web.Controllers
                 throw new Exception("無法瀏覽這個頁面，不便之處，敬請見諒。");
             }
             string userId = _accountService.GetCurrentUserIdAsync(userName).Result;
-            List<Blog> blogs = _blogService.GetListByUserId(userId);
-            return View(blogs);
+            IndexModel model = _blogService.GetIndexModel(userId);
+            return View(model);
         }
 
         [HttpGet]
@@ -41,6 +47,10 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult Create(CreateModel model)
         {
+            string identityName = User.Identity.Name;
+            string userId = _accountService.GetCurrentUserIdAsync(identityName).Result;
+            model.UserId = userId;
+            _blogService.Create(model);
             return View();
         }
     }

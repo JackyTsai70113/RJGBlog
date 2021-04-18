@@ -12,7 +12,7 @@ namespace Core.Data.Entities
     public partial class Blog
     {
         [Key]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [StringLength(255)]
         public string CoverImageUrl { get; set; }
         [Required]

@@ -1,5 +1,4 @@
-@using Core.Domain
-@model Web.Models.View.HomeViewModel
+@model Core.Models.DTO.Blogs.IndexModel;
 @{
     ViewData["Title"] = "RJG Blog";
 }
@@ -9,40 +8,45 @@
     <link rel="stylesheet" href="vendor/jqcloud2/dist/jqcloud.css">
 }
 
-@section Scripts{
-    <!-- JQCLOUD-->
-    <script src="vendor/jqcloud2/dist/jqcloud.js"></script>
-    <script>
-    @*var words = [
-        { text: "Lorem", weight: 13, link: 'http://github.com/mistic100/jQCloud' },
-        { text: "Ipsum", weight: 10.5, link: 'http://www.strangeplanet.fr' },
-        { text: "Dolor", weight: 9.4, link: 'http://piwigo.org' },
-        /* ... */
-    ];*@
+<a asp-area="" asp-controller="Blog" asp-action="Create">寫新文章</a>
 
-    var words = [];
-
-    $.ajax({
-        type: 'get',
-        url: '@Url.Action("GetTagClouds", null)',
-        success: function (result) {
-            result.data.forEach(function (tagCloud) {
-                words.push({ text: tagCloud.name, weight: tagCloud.weight })
-            })
-            $('#jqcloud').jQCloud(words, {
-                width: 240,
-                height: 200,
-                steps: result.data.length
-            });
-        }
-    })
-
-    $('#btnSearch').click(function () {
-        //WarmAlert('test1');
-        //SuccessAlert('test2');
-        //ConfirmAlert('是否刪除?','刪除成功');
-        showMask();
-        setTimeout(hideMask, 2500);
-    })
-    </script>
-}
+<div class="content-wrapper">
+    <div class="row">
+        <!-- Blog Content-->
+        <div class="col-xl-9">
+            <div class="card-columns">
+                @*文章卡*@
+                @foreach (Core.Models.DTO.Blogs.IndexModel.Blog blog in Model.Blogs)
+                {
+                    @*文章卡*@
+                    <div class="card">
+                        @*封面*@
+                        <a href="#">
+                            <img class="img-fluid" src="@blog.CoverImageUrl" alt="@blog.CoverImageUrl">
+                        </a>
+                        @*內容*@
+                        <div class="card-body">
+                            <p class="d-flex">
+                                <span>
+                                    @*作者*@
+                                    <small class="mr-1">
+                                        By
+                                        <a class="ml-1" href="#">@blog.Author</a>
+                                    </small>
+                                    @*更新時間*@
+                                    <small class="mr-1">@blog.UpdateTime</small>
+                                </span>
+                            </p>
+                            @*標題*@
+                            <h4>
+                                <a href="#">@blog.Title</a>
+                            </h4>
+                            @*部分內文*@
+                            <p>@blog.PartialContent</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

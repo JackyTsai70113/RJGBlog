@@ -10,13 +10,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 
-namespace Web.Areas.Identity.Pages.Account {
+namespace Web.Areas.Identity.Pages.Account
+{
 
     [AllowAnonymous]
-    public class ForgotPasswordModel : PageModel {
+    public class ForgotPasswordModel : PageModel
+    {
         private readonly ILogger<ForgotPasswordModel> _logger;
 
-        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger) {
+        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger)
+        {
             _logger = logger;
         }
 
@@ -28,7 +31,8 @@ namespace Web.Areas.Identity.Pages.Account {
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public class InputModel {
+        public class InputModel
+        {
 
             [Required(ErrorMessage = "此欄位為必填")]
             [Display(Name = "帳號 *")]
@@ -40,8 +44,10 @@ namespace Web.Areas.Identity.Pages.Account {
             public string Email { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null) {
-            if (!string.IsNullOrEmpty(ErrorMessage)) {
+        public async Task OnGetAsync(string returnUrl = null)
+        {
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
@@ -53,7 +59,8 @@ namespace Web.Areas.Identity.Pages.Account {
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
             await Task.Delay(1);
             return Page();
         }
