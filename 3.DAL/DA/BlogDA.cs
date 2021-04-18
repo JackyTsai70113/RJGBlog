@@ -41,7 +41,6 @@ namespace DAL.DA
             return blog;
         }
 
-
         public int Delete(Blog blog)
         {
             _context.Blog.Remove(blog);
@@ -53,6 +52,10 @@ namespace DAL.DA
         {
             _context.Blog.RemoveRange(blogs);
             int changeCount = _context.SaveChanges();
+            if (changeCount > 0)
+            {
+                _logger.LogTrace($"成功刪除 Blog 筆數: {changeCount}");
+            }
             return changeCount;
         }
     }
