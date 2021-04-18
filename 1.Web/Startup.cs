@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 // using Web.Services;
 using Core.Data;
 using System;
+using Web.Services.Interfaces;
+using Web.Services;
 
 namespace Web
 {
@@ -34,7 +36,7 @@ namespace Web
 
             // services.AddSingleton<RedisHelper>();
             // services.AddSingleton<JwtHelper>();
-
+            services.AddTransient<IAccountService, AccountService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -89,7 +91,8 @@ namespace Web
         }
     }
 
-    public static class ServicesExtension{
+    public static class ServicesExtension
+    {
         public static void ConfigureIdentity(this IServiceCollection services)
         {
             services.Configure<IdentityOptions>(options =>

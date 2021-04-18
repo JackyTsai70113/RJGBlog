@@ -18,7 +18,7 @@ namespace Core.Data
         public virtual DbSet<RoleMenu> RoleMenu { get; set; }
         public virtual DbSet<RoleUser> RoleUser { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Blogs> Blogs { get; set; }
+        public virtual DbSet<Blog> Blog { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,7 +80,7 @@ namespace Core.Data
                 entity.Property(e => e.Password).IsUnicode(false);
             });
 
-            modelBuilder.Entity<Blogs>(entity =>
+            modelBuilder.Entity<Blog>(entity =>
             {
                 entity.Property(e => e.CoverImageUrl).IsUnicode(false);
             });

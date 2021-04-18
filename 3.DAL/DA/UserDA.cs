@@ -9,12 +9,11 @@ namespace DAL.DA.Interfaces
 {
     public class UserDA : BaseDA, IUserDA
     {
-        private readonly RJGDbContext _context;
         private readonly ILogger<UserDA> _logger;
         public UserDA(ILogger<UserDA> logger, RJGDbContext context)
         {
-            _context = context;
             _logger = logger;
+            _context = context;
         }
         public List<User> GetAll()
         {

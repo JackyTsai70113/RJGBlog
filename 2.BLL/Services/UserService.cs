@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using BLL.Services.Interfaces;
 using Core.Data.Entities;
 using DAL.DA.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace BLL.Services
 {

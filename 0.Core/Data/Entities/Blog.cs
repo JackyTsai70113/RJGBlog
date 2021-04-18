@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.Data.Entities
 {
-    public partial class Blogs
+    public partial class Blog
     {
         [Key]
         public string Id { get; set; }

@@ -1,41 +1,48 @@
-﻿using Core;
+﻿using Core.Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using Web.Models.Response;
 using Web.Models.View;
 
-namespace Web.Controllers {
+namespace Web.Controllers
+{
 
-    public class HomeController : Controller {
+    public class HomeController : Controller
+    {
         //private readonly ILogger<HomeController> _logger;
 
         //public HomeController(ILogger<HomeController> logger) {
         //    _logger = logger;
         //}
 
-        public HomeController() {
+        public HomeController()
+        {
         }
 
-        public IActionResult Index() {
+        public IActionResult Index()
+        {
             HomeViewModel viewModel = new HomeViewModel();
             return View(viewModel);
         }
 
-        public IActionResult Privacy() {
+        public IActionResult Privacy()
+        {
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() {
+        public IActionResult Error()
+        {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         [HttpGet("Test")]
-        public JsonResult Test() {
-            var obj = new {
+        public JsonResult Test()
+        {
+            var obj = new
+            {
                 a = 1234,
                 b = "b4567"
             };
@@ -44,7 +51,8 @@ namespace Web.Controllers {
         }
 
         [HttpGet("GetTagClouds")]
-        public JsonResult GetTagClouds() {
+        public JsonResult GetTagClouds()
+        {
             List<TagCloud> tagClouds = new List<TagCloud> {
                 new TagCloud() { ID = "1", Name = "Lorem" },
                 new TagCloud() { ID = "2", Name = "Ipsum" },
