@@ -1,4 +1,6 @@
-﻿using Core.Domain;
+﻿using Core;
+using Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,13 +23,19 @@ namespace Web.Controllers
         {
         }
 
-        public IActionResult Index()
-        {
+        public IActionResult Index() {
+            var user = HttpContext.User.Identity;
             HomeViewModel viewModel = new HomeViewModel();
             return View(viewModel);
         }
 
-        public IActionResult Privacy()
+        [Authorize("Privacy")]
+        public IActionResult Privacy() {
+            return View();
+        }
+
+        [Authorize("Introduce")]
+        public IActionResult Introduce()
         {
             return View();
         }

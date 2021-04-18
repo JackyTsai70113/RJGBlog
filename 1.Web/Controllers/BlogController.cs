@@ -10,12 +10,12 @@ namespace Web.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly IAccountService _accountService;
+        private readonly Services.Interfaces.IUserService _userService;
         private readonly IBlogService _blogService;
 
-        public BlogController(IAccountService accountService, IBlogService blogService)
+        public BlogController(Services.Interfaces.IUserService userService, IBlogService blogService)
         {
-            _accountService = accountService;
+            _userService = userService;
             _blogService = blogService;
         }
 
@@ -27,7 +27,7 @@ namespace Web.Controllers
             {
                 throw new Exception("無法瀏覽這個頁面，不便之處，敬請見諒。");
             }
-            string userId = _accountService.GetCurrentUserIdAsync(userName).Result;
+            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
             List<Blog> blogs = _blogService.GetListByUserId(userId);
             return View(blogs);
         }
