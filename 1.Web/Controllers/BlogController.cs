@@ -19,21 +19,21 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            string identityName = User.Identity.Name;
-            string userId = _accountService.GetCurrentUserIdAsync(identityName).Result;
+            string userName = User.Identity.Name;
+            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
             IndexModel model = _blogService.GetIndexModel(userId);
             return View(model);
         }
 
-        [HttpGet("/user/{userName}/blog")]
-        public IActionResult Index(string userName)
+        [HttpGet("/user/{urlUserName}/blog")]
+        public IActionResult Index(string urlUserName)
         {
-            string identityName = User.Identity.Name;
-            if (identityName != userName)
+            string userName = User.Identity.Name;
+            if (userName != urlUserName)
             {
                 throw new Exception("無法瀏覽這個頁面，不便之處，敬請見諒。");
             }
-            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
+            string userId = _userService.GetUserByNameAsync(urlUserName).Result.Id;
             IndexModel model = _blogService.GetIndexModel(userId);
             return View(model);
         }
@@ -47,8 +47,8 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult Create(CreateModel model)
         {
-            string identityName = User.Identity.Name;
-            string userId = _accountService.GetCurrentUserIdAsync(identityName).Result;
+            string userName = User.Identity.Name;
+            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
             model.UserId = userId;
             _blogService.Create(model);
             return View();
