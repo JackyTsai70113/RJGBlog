@@ -57,9 +57,69 @@ namespace Web.Controllers
         {
             string userName = User.Identity.Name;
             string userId = _userService.GetUserByNameAsync(userName).Result.Id;
-            model.UserId = userId;
-            _blogService.Create(model);
-            return View();
+
+            if (ModelState.IsValid)
+            {
+                _blogService.Create(model, userId);
+            }
+
+            return RedirectToAction("Details", new { urlUserName = userName, blogId = model.Id });
+        }
+
+        [HttpGet("user/{urlUserName}/blog/{blogId}")]
+        public IActionResult Details(string urlUserName, int blogId)
+        {
+            string userName = User.Identity.Name;
+            if (urlUserName != userName)
+            {
+                return Unauthorized($"錯誤: 登入者({userName}) 試圖訪問 {urlUserName} 的資訊");
+            }
+            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
+
+            DetailsModel model = _blogService.GetDetails(blogId, userId);
+            return View(model);
+        }
+
+        [HttpGet("user/{urlUserName}/blog/{blogId}/edit")]
+        public IActionResult Edit(string urlUserName, int blogId)
+        {
+            string userName = User.Identity.Name;
+            if (urlUserName != userName)
+            {
+                return Unauthorized($"錯誤: 登入者({userName}) 試圖訪問 {urlUserName} 的資訊");
+            }
+            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
+
+            EditModel model = _blogService.GetEditModel(blogId, userId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditModel model)
+        {
+            string userName = User.Identity.Name;
+            string userId = _userService.GetUserByNameAsync(userName).Result.Id;
+
+            if (ModelState.IsValid)
+            {
+                _blogService.Edit(model, userId);
+            }
+
+            return RedirectToAction("Details", new { urlUserName = userName, blogId = model.Id });
+        }
+
+        [HttpPost]
+        public IActionResult Delete(string urlUserName, int blogId)
+        {
+            string userName = User.Identity.Name;
+            if (urlUserName != userName)
+            {
+                return Unauthorized($"錯誤: 登入者({userName}) 試圖訪問 {urlUserName} 的資訊");
+            }
+
+            _blogService.Delete(blogId);
+
+            return RedirectToAction("Index", new { urlUserName = userName });
         }
     }
 }

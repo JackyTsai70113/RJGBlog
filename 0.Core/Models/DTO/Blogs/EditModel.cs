@@ -1,9 +1,13 @@
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.DTO.Blogs
 {
-    public class CreateModel
+    public class EditModel
     {
+        /// <summary>
+        /// Id
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>

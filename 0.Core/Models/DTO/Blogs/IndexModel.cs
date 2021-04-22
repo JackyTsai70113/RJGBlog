@@ -15,7 +15,6 @@ namespace Core.Models.DTO.Blogs
             public string Title { get; set; }
             public string PartialContent { get; set; }
             public string UpdateTime { get; set; }
-            public string Author { get; set; }
         }
     }
 }

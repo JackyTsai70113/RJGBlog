@@ -10,6 +10,7 @@ namespace DAL.DA
     public class BlogDA : BaseDA, IBlogDA
     {
         private readonly ILogger<BlogDA> _logger;
+
         public BlogDA(ILogger<BlogDA> logger, RJGDbContext context)
         {
             _logger = logger;
@@ -35,10 +36,19 @@ namespace DAL.DA
             return changeCount;
         }
 
-        public Blog GetById(string id)
+        public Blog GetById(int id)
         {
             Blog blog = _context.Blog.Find(id);
             return blog;
+        }
+
+        public int Delete(int blogId)
+        {
+            Blog blog = new Blog { Id = blogId };
+            _context.Blog.Attach(blog);
+            _context.Blog.Remove(blog);
+            int changeCount = _context.SaveChanges();
+            return changeCount;
         }
 
         public int Delete(Blog blog)

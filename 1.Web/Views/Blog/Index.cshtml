@@ -1,11 +1,12 @@
+@using Core.Models.DTO.Blogs
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 
-@model Core.Models.DTO.Blogs.IndexModel;
+@model IndexModel;
 
 @section Styles{
     <!-- JQCLOUD-->
-    <link rel="stylesheet" href="vendor/jqcloud2/dist/jqcloud.css">
+    <link rel="stylesheet" href="/vendor/jqcloud2/dist/jqcloud.css">
 }
 
 @if (SignInManager.IsSignedIn(User)){
@@ -17,24 +18,17 @@
             <div class="col-xl-9">
                 <div class="card-columns">
                     @*文章卡*@
-                    @foreach (Core.Models.DTO.Blogs.IndexModel.Blog blog in Model.Blogs)
+                    @foreach (IndexModel.Blog blog in Model.Blogs)
                     {
                         @*文章卡*@
                         <div class="card">
                             @*封面*@
-                            <a href="#">
+                            <a href="/user/@User.Identity.Name/blog/@blog.Id">
                                 <img class="img-fluid" src="@blog.CoverImageUrl" alt="@blog.CoverImageUrl">
                             </a>
                             @*內容*@
                             <div class="card-body">
                                 <p>
-                                    <span>
-                                        @*作者*@
-                                        <small class="mr-1">
-                                            <a class="ml-1" href="#">@blog.Author</a>
-                                        </small>
-                                    </span>
-                                    <br /> 
                                     <span>
                                         @*更新時間*@
                                         <small class="mr-1">@blog.UpdateTime</small>
@@ -42,10 +36,12 @@
                                 </p>
                                 @*標題*@
                                 <h4>
-                                    <a href="#">@blog.Title</a>
+                                    <a href="/user/@User.Identity.Name/blog/@blog.Id" class="nav-link text-dark">@blog.Title</a>
                                 </h4>
                                 @*部分內文*@
-                                <p>@blog.PartialContent</p>
+                                <p>
+                                    <a href="/user/@User.Identity.Name/blog/@blog.Id" class="nav-link text-dark">@blog.PartialContent</a>
+                                </p>
                             </div>
                         </div>
                     }

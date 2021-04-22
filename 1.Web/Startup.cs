@@ -5,13 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-// using Web.Services;
 using Core.Data;
 using System;
 using Core.Helpers;
 using Web.Services;
 using System.Reflection;
-using Web.Services.Interfaces;
 
 namespace Web
 {
@@ -42,11 +40,10 @@ namespace Web
 
             services.ConfigureIdentity();
 
-            services.ConfigureApplicationCookie(options =>
-            {
+            services.ConfigureApplicationCookie(options => {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
@@ -56,16 +53,13 @@ namespace Web
             Helpers.StartupHelper.SetMenuList(services);
         }
 
-
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
+            } else
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -79,8 +73,7 @@ namespace Web
             app.UseAuthentication(); // 驗證
             app.UseAuthorization(); // 授權
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -97,8 +90,7 @@ namespace Web
     {
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(options =>
-            {
+            services.Configure<IdentityOptions>(options => {
                 // Password settings.
                 options.Password.RequireDigit = true; // 密碼中需要0-9 之間的數位
                 options.Password.RequireNonAlphanumeric = false; //密碼中需要非英數位元
