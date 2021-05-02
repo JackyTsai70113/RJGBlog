@@ -27,5 +27,7 @@ namespace Core.Data.Entities
         public DateTime UpdateTime { get; set; }
         [Required]
         public string UserId { get; set; }
+
+        public ICollection<BlogTagMapping> BlogTagMapping { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace Core.Data
         public virtual DbSet<RoleUser> RoleUser { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Blog> Blog { get; set; }
+        public virtual DbSet<BlogTag> BlogTag { get; set; }
+        public virtual DbSet<BlogTagMapping> BlogTagMapping { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,7 +84,53 @@ namespace Core.Data
 
             modelBuilder.Entity<Blog>(entity =>
             {
-                entity.Property(e => e.CoverImageUrl).IsUnicode(false);
+                entity.Property(e => e.Content)
+                      .IsRequired()
+                      .HasMaxLength(4000);
+
+                entity.Property(e => e.CoverImageUrl)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UpdateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).IsRequired();
+            });
+
+            modelBuilder.Entity<BlogTag>(entity =>
+            {
+                entity.Property(e => e.CreateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.CreateUserId).IsRequired();
+
+                entity.Property(e => e.HexColorCode)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<BlogTagMapping>(entity =>
+            {
+                entity.HasKey(e => new { e.BlogId, e.BlogTagId });
+
+                entity.HasOne(d => d.Blog)
+                    .WithMany(p => p.BlogTagMapping)
+                    .HasForeignKey(d => d.BlogId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.BlogTag)
+                    .WithMany(p => p.BlogTagMapping)
+                    .HasForeignKey(d => d.BlogTagId);
             });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
