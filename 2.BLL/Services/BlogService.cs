@@ -5,6 +5,7 @@ using Core.Data.Entities;
 using Core.Helpers;
 using Core.Models.DTO.Blogs;
 using DAL.DA.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BLL.Services
 {
@@ -12,13 +13,17 @@ namespace BLL.Services
     {
         private readonly IBlogDA _blogDA;
 
-        public BlogService(IBlogDA blogDA)
+        private readonly ILogger<BlogService> _logger;
+
+        public BlogService(IBlogDA blogDA, ILogger<BlogService> logger)
         {
             _blogDA = blogDA;
+            _logger = logger;
         }
 
         public IndexModel GetIndexModel(string userId)
         {
+            _logger.LogInformation("GetIndexModel");
             List<Blog> dbBlogs = _blogDA.GetListByUserId(userId);
             IndexModel model = new IndexModel {
                 Blogs = new List<IndexModel.Blog>()
