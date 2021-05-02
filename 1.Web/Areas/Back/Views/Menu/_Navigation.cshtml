@@ -38,7 +38,7 @@
                     @foreach (var childMenu in Model.Menus.Where(x => x.ParentId == parentMenu.Id).OrderBy(x => x.Sort))
                     {
                         <li class=" ">
-                            <a href="@Url.Action(childMenu.Action, childMenu.Controller, new { area = childMenu.Area })" title="@childMenu.Name" data-toggle="collapse" class="" aria-expanded="true">
+                            <a href="@Url.Action(childMenu.Action, childMenu.Controller, new { area = childMenu.Area })" title="@childMenu.Name">
                                 <span>@childMenu.Name</span>
                             </a>
                         </li>

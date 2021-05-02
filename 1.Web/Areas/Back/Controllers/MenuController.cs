@@ -38,7 +38,7 @@ namespace Web.Areas.Back.Controllers
                 ParentId = 1,
                 IsDisable = false,
                 Area = "Back",
-                Controller = "RoleController",
+                Controller = "Role",
                 Action = "Index",
                 Sort = 2
             };
@@ -50,7 +50,7 @@ namespace Web.Areas.Back.Controllers
                 ParentId = 1,
                 IsDisable = false,
                 Area = "Back",
-                Controller = "AccountController",
+                Controller = "Account",
                 Action = "Index",
                 Sort = 1
             };

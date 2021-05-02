@@ -29,6 +29,8 @@ namespace Web.Controllers
             }
             string userId = _userService.GetUserByNameAsync(userName).Result.Id;
             IndexModel model = _blogService.GetIndexModel(userId);
+
+            _logger.LogInformation("進入我的文章");
             return View(model);
         }
 

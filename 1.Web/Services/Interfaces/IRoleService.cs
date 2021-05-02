@@ -9,8 +9,14 @@ namespace Web.Services.Interfaces
     {
         Task<IdentityRole> GetRoleByIdAsync(string Id);
 
-        Task<bool> AddRoleAsync(IdentityRole role);
+        Task<IdentityRole> GetRoleByNameAsync(string roleName);
 
-        Task<bool> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims);
+        Task<IdentityResult> AddRoleAsync(IdentityRole role);
+
+        Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims);
+
+        Task<IdentityResult> AddToRoleAsync(IdentityUser user, string roleName);
+
+        List<IdentityRole> GetAllRole();
     }
 }
