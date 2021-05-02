@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.Domain;
+﻿using Core.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,7 +10,6 @@ using Web.Models.View;
 
 namespace Web.Controllers
 {
-
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
