@@ -3,6 +3,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Data.Entities;
+using Core.Domain;
+using DAL.DA.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
@@ -14,17 +17,20 @@ namespace Web.Services
     public class RoleService : IRoleService
     {
         private readonly IUserService _userService;
+        private readonly IMenuDA _menuDA;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RoleService> _logger;
         public RoleService(
             IUserService userService,
+            IMenuDA menuDA,
             RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             ILogger<RoleService> logger
             )
         {
             _userService = userService;
+            _menuDA = menuDA;
             _roleManager = roleManager;
             _userManager = userManager;
             _logger = logger;
@@ -67,6 +73,37 @@ namespace Web.Services
         public  List<IdentityRole> GetAllRole()
         {
             return _roleManager.Roles.ToList();
+        }
+
+        public List<MenuTree> GetMenuTrees()
+        {
+            List<MenuTree> menuTrees = new List<MenuTree>();
+            List<MenuTree> childMenuTrees = new List<MenuTree>();
+            List<Menu> menus = _menuDA.GetList();
+
+            foreach (Menu menu in menus.Where(x => x.ParentId != -1))
+            {
+                MenuTree menuTree = new MenuTree()
+                {
+                    Id = menu.Id,
+                    Text = menu.Name,
+                    ParentId = menu.ParentId
+                };
+
+                childMenuTrees.Add(menuTree);
+            }
+
+            foreach (Menu menu in menus.Where(x=>x.ParentId == -1))
+            {
+                MenuTree menuTree = new MenuTree()
+                {
+                    Id= menu.Id,
+                    Text = menu.Name,
+                    children = childMenuTrees.Where(x=>x.ParentId == menu.Id).ToList()
+                };
+                menuTrees.Add(menuTree);
+            }
+            return menuTrees;
         }
     }
 }

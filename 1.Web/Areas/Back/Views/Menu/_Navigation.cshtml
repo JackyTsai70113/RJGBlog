@@ -25,7 +25,8 @@
         <!-- END user info-->
         <!--Meun選單-->
         <li class="nav-heading ">
-            <span data-localize="sidebar.heading.HEADER">功能選單</span>
+            @*<span data-localize="sidebar.heading.HEADER">功能選單</span>*@
+            <span>功能選單</span>
         </li>
         @foreach (var parentMenu in Model.Menus.Where(x => x.ParentId == -1).OrderBy(x=>x.Sort))
         {
@@ -37,7 +38,10 @@
                 <ul class="sidebar-nav sidebar-subnav collapse" id="@parentMenu.Name" style="">
                     @foreach (var childMenu in Model.Menus.Where(x => x.ParentId == parentMenu.Id).OrderBy(x => x.Sort))
                     {
-                        <li class=" ">
+                        string isActive = string.Empty;
+                        if (childMenu.Controller == Model.PageController)
+                        { isActive = "active"; }
+                        <li class="@isActive">
                             <a href="@Url.Action(childMenu.Action, childMenu.Controller, new { area = childMenu.Area })" title="@childMenu.Name">
                                 <span>@childMenu.Name</span>
                             </a>

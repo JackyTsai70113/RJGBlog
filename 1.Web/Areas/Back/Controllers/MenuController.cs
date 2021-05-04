@@ -8,11 +8,13 @@ namespace Web.Areas.Back.Controllers
     [Area("Back")]
     public class MenuController : Controller
     {
-        public IActionResult Navigation()
+        public IActionResult Navigation(string pageArea, string pageController)
         {
             MenuViewModel viewModel = new MenuViewModel
             {
-                Menus = GetMenus()
+                Menus = GetMenus(),
+                PageArea = pageArea,
+                PageController = pageController
             };
             return PartialView("_Navigation", viewModel);
         }

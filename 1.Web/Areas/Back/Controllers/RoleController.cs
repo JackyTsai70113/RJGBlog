@@ -34,7 +34,9 @@ namespace Web.Areas.Back.Controllers
         {
             RoleEditViewModel viewModel = new RoleEditViewModel();
             if (string.IsNullOrEmpty(id))
+            {
                 viewModel.ActionType = Core.Enum.ActionType.Create;
+            }
             else
             {
                 viewModel.Role = await _roleService.GetRoleByIdAsync(id);
@@ -42,6 +44,14 @@ namespace Web.Areas.Back.Controllers
             }
 
             return View(viewModel);
+        }
+
+        public IActionResult GetMenuTreeList()
+        {
+            var menuTrees = _roleService.GetMenuTrees();
+            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, menuTrees, "取得成功");
+            return Json(response);
+            //return Json(menuTrees);
         }
 
         public IActionResult Delete()

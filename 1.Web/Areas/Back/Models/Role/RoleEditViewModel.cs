@@ -1,4 +1,5 @@
-﻿using Core.Enum;
+﻿using Core.Domain;
+using Core.Enum;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,7 @@ namespace Web.Areas.Back.Models.Role
         public ActionType ActionType { get; set; }
 
         public IdentityRole Role { get; set; }
+
+        public List<MenuTree> MenuTrees { get; set; }
     }
 }

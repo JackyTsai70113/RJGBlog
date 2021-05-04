@@ -38,7 +38,7 @@
             <nav class="navbar topnavbar">
                 <!-- Start 側邊表頭-->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#/">
+                    <a class="navbar-brand" asp-area="Back" asp-controller="Home" asp-action="Index">
                         <div class="brand-logo">
                             <img class="img-fluid" src="~/img/logo.png" alt="App Logo">
                         </div>
@@ -218,13 +218,20 @@
     @RenderSection("Scripts", required: false)
 
     <script>
+
+        @{ 
+                string controller = ViewContext.RouteData.Values["controller"].ToString();
+                string area = ViewContext.RouteData.Values["area"].ToString();
+         }
+
         $.ajax({
             url: '@Url.Action("Navigation", "Menu", new { Area = "Back" })',
+            data: { pageArea: '@area', pageController: '@controller' },
             success: function (res) {
                 $("#menuDiv").html(res);
-                //console.log(res)
-            }
-        })
+                    //console.log(res)
+                }
+            })
     </script>
 
 </body>
