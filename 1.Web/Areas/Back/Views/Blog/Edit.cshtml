@@ -1,0 +1,42 @@
+﻿@model Core.Models.DTO.Blogs.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>EditModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" class="mb-3">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" name="id" id="blogId" value="@Model.Id">
+            <div class="form-group">
+                <label asp-for="CoverImageUrl" class="control-label"></label>
+                @Html.TextBoxFor(m => m.CoverImageUrl, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.CoverImageUrl) })
+                <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.Title) })
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                @Html.TextBoxFor(m => m.Content, new { @class = "form-control", placeholder = @Html.DisplayNameFor(m => m.Content) })
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <button class="btn btn-block btn-primary mt-3" type="submit">儲存文章</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

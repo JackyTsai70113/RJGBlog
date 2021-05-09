@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Web.Services.Interfaces;
 
-namespace Web.Controllers
+namespace Web.Areas.Back.Controllers
 {
+    [Area("Back")]
     public class BlogController : Controller
     {
         private readonly ILogger<BlogController> _logger;
@@ -34,7 +35,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-        [HttpGet("/user/{urlUserName}/blogs")]
+        [HttpGet("/back/user/{urlUserName}/blogs")]
         public IActionResult Index(string urlUserName, int skip = 0, int limit = 10)
         {
             string userName = User.Identity.Name;
@@ -48,6 +49,7 @@ namespace Web.Controllers
             return View(model);
         }
 
+        // [HttpGet("back/user/{urlUserName}/blog/{blogId}/create")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -63,13 +65,14 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 _blogService.Create(model, userId, out Guid blogId);
-                return RedirectToRoute("Details", new { urlUserName = userName, blogId = blogId });
+                return RedirectToAction("Details", new { area = "Back", urlUserName = userName, blogId = blogId });
             } else {
                 return View(model);
             }
         }
 
-        [HttpGet("user/{urlUserName}/blog/{blogId}")]
+        // [HttpGet("back/user/{urlUserName}/blog/{blogId}")]
+        [HttpGet]
         public IActionResult Details(string urlUserName, Guid blogId)
         {
             string userName = User.Identity.Name;
@@ -83,7 +86,8 @@ namespace Web.Controllers
             return View(model);
         }
 
-        [HttpGet("user/{urlUserName}/blog/{blogId}/edit")]
+        // [HttpGet("back/user/{urlUserName}/blog/{blogId}/edit")]
+        [HttpGet]
         public IActionResult Edit(string urlUserName, Guid blogId)
         {
             string userName = User.Identity.Name;
@@ -108,10 +112,11 @@ namespace Web.Controllers
                 _blogService.Edit(model, userId);
             }
 
-            return RedirectToAction("Details", new { urlUserName = userName, blogId = model.Id });
+            return RedirectToAction("Details", new { area = "Back", urlUserName = userName, blogId = model.Id });
         }
 
-        [HttpPost("user/{urlUserName}/blog/{blogId}/delete")]
+        // [HttpPost("user/{urlUserName}/blog/{blogId}/delete")]
+        [HttpPost]
         public IActionResult Delete(string urlUserName, Guid blogId)
         {
             string userName = User.Identity.Name;
@@ -122,7 +127,7 @@ namespace Web.Controllers
 
             _blogService.Delete(blogId);
 
-            return RedirectToAction("Index", new { urlUserName = userName });
+            return RedirectToAction("Index", new { area = "Back", urlUserName = userName });
         }
     }
 }

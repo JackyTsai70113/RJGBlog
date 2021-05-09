@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="~/css/app.css" id="maincss">
     <link href="~/css/theme-f.css" rel="stylesheet" />
     <link href="~/css/coffee.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
 </head>
 
 <body>
@@ -225,9 +226,9 @@
     <script>
 
         @{
-                string controller = ViewContext.RouteData.Values["controller"].ToString();
-                string area = ViewContext.RouteData.Values["area"].ToString();
-         }
+            string controller = ViewContext.RouteData.Values["controller"].ToString();
+            string area = ViewContext.RouteData.Values["area"].ToString();
+        }
 
         $.ajax({
             url: '@Url.Action("Navigation", "Menu", new { Area = "Back" })',

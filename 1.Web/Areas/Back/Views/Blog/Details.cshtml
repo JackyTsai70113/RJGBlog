@@ -1,0 +1,32 @@
+﻿@model Core.Models.DTO.Blogs.DetailsModel
+
+<div class="row">
+    <div class="col-xl-2 col-md-2"></div>
+    <div class="col-xl-8 col-md-8 col-xs-12">
+        <div class="wrapper">
+            <div class="block-center mt-4 wd-xl">
+                <!-- START card-->
+                <div class="card card-flat">
+                    <div class="card-body">
+                        <img class="img-fluid" src="@Model.CoverImageUrl" alt="@Model.CoverImageUrl">
+                        <div class="card-body">
+                            <p>
+                                <span>
+                                    <small class="mr-1">@Model.UpdateTime</small>
+                                </span>
+                            </p>
+                            <h4>@Model.Title</h4>
+                            <p>@Model.Content</p>
+                        </div>
+                        <a href="@Url.Action("Edit", new { area = "Back", urlUserName = @User.Identity.Name, blogId = @Model.Id })" class="nav-link text-dark">編輯文章</a>
+                        <form method="post" action="@Url.Action("Delete", new { area = "Back", urlUserName = @User.Identity.Name, blogId = @Model.Id })">
+                            <button class="btn btn-block btn-primary mt-3" type="submit">刪除文章</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- END card-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-2"></div>
+</div>
