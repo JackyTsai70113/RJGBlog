@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DAL.DA
 {
-    public class BlogDA : BaseDA, IBlogDA
+    public class BlogDA : BaseDA<Blog>, IBlogDA
     {
         private readonly ILogger<BlogDA> _logger;
 
@@ -17,15 +17,29 @@ namespace DAL.DA
             _context = context;
         }
 
-        public List<Blog> GetList()
+        public IQueryable<Blog> GetList()
         {
-            List<Blog> blogs = _context.Blog.ToList();
+            IQueryable<Blog> blogs = _context.Blog;
             return blogs;
         }
 
-        public List<Blog> GetListByUserId(string userId)
+        public IQueryable<Blog> GetListByUserId(string userId)
         {
-            List<Blog> blogs = _context.Blog.Where(b => b.UserId == userId).ToList();
+            IQueryable<Blog> blogs = _context.Blog.Where(b => b.UserId == userId);
+            return blogs;
+        }
+
+        public List<Blog> GetPagedList(int skip, int limit, out int total)
+        {
+            IQueryable<Blog> blogQuery = _context.Blog;
+            List<Blog> blogs = GetPagedEnumerable(blogQuery, skip, limit, out total).ToList();
+            return blogs;
+        }
+
+        public List<Blog> GetPagedListByUserId(string userId, int skip, int limit, out int total)
+        {
+            IQueryable<Blog> blogQuery = _context.Blog.Where(b => b.UserId == userId);
+            List<Blog> blogs = GetPagedEnumerable(blogQuery, skip, limit, out total).ToList();
             return blogs;
         }
 

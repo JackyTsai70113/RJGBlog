@@ -8,6 +8,8 @@ namespace Core.Models.DTO.Blogs
     {
         public List<Blog> Blogs { get; set; }
 
+        public int total { get; set; }
+
         public class Blog
         {
             public int Id { get; set; }

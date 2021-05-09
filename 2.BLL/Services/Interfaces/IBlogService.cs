@@ -5,7 +5,7 @@ namespace BLL.Services.Interfaces
 {
     public interface IBlogService
     {
-        IndexModel GetIndexModel(string userId);
+        IndexModel GetPagedIndexModel(string userId, int skip, int limit);
 
         bool Create(CreateModel model, string userId);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BLL.Services.Interfaces;
 using Core.Data.Entities;
 using Core.Helpers;
@@ -21,12 +22,13 @@ namespace BLL.Services
             _logger = logger;
         }
 
-        public IndexModel GetIndexModel(string userId)
+        public IndexModel GetPagedIndexModel(string userId, int skip, int limit)
         {
-            _logger.LogInformation("GetIndexModel");
-            List<Blog> dbBlogs = _blogDA.GetListByUserId(userId);
+            _logger.LogInformation("GetPagedIndexModel");
+            List<Blog> dbBlogs = _blogDA.GetPagedListByUserId(userId, skip, limit, out int total);
             IndexModel model = new IndexModel {
-                Blogs = new List<IndexModel.Blog>()
+                Blogs = new List<IndexModel.Blog>(),
+                total = total
             };
             foreach (Blog b in dbBlogs)
             {

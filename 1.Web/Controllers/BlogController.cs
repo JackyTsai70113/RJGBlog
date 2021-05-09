@@ -20,7 +20,7 @@ namespace Web.Controllers
             _blogService = blogService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int skip, int limit)
         {
             string userName = User.Identity.Name;
             if (userName == null)
@@ -28,14 +28,14 @@ namespace Web.Controllers
                 return View();
             }
             string userId = _userService.GetUserByNameAsync(userName).Result.Id;
-            IndexModel model = _blogService.GetIndexModel(userId);
+            IndexModel model = _blogService.GetPagedIndexModel(userId, skip, limit);
 
             _logger.LogInformation("進入我的文章");
             return View(model);
         }
 
         [HttpGet("/user/{urlUserName}/blog")]
-        public IActionResult Index(string urlUserName)
+        public IActionResult Index(string urlUserName, int skip = 0, int limit = 10)
         {
             string userName = User.Identity.Name;
             if (userName != urlUserName)
@@ -44,7 +44,7 @@ namespace Web.Controllers
                 throw new Exception("無法瀏覽這個頁面，不便之處，敬請見諒。");
             }
             string userId = _userService.GetUserByNameAsync(urlUserName).Result.Id;
-            IndexModel model = _blogService.GetIndexModel(userId);
+            IndexModel model = _blogService.GetPagedIndexModel(userId, skip, limit);
             return View(model);
         }
 

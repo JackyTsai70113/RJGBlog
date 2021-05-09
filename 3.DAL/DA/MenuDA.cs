@@ -1,14 +1,14 @@
 ﻿using Core.Data;
 using Core.Data.Entities;
+using DAL.DA.Interfaces;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace DAL.DA.Interfaces
+
+namespace DAL.DA
 {
-    public class MenuDA : BaseDA, IMenuDA
+    public class MenuDA : BaseDA<Menu>, IMenuDA
     {
         private readonly ILogger<MenuDA> _logger;
 
