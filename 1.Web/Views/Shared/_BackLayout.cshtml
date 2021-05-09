@@ -28,6 +28,7 @@
     <!-- =============== APP STYLES ===============-->
     <link rel="stylesheet" href="~/css/app.css" id="maincss">
     <link href="~/css/theme-f.css" rel="stylesheet" />
+    <link href="~/css/coffee.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -212,14 +213,18 @@
     <script src="~/vendor/jquery-localize/dist/jquery.localize.js"></script>
     <!-- TreeView-->
     <script src="~/vendor/gijgo-combined-1.9.13/js/gijgo.js"></script>
+    <!-- sweetalert2-->
+    <link rel="stylesheet" href="~/vendor/@@sweetalert2/theme-dark/dark.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@@10"></script>
     <!-- =============== PAGE VENDOR SCRIPTS ===============-->
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/js/app.js"></script>
+    <script src="~/js/backsite.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 
     <script>
 
-        @{ 
+        @{
                 string controller = ViewContext.RouteData.Values["controller"].ToString();
                 string area = ViewContext.RouteData.Values["area"].ToString();
          }
@@ -231,7 +236,7 @@
                 $("#menuDiv").html(res);
                     //console.log(res)
                 }
-            })
+        })
     </script>
 
 </body>

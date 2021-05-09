@@ -1,0 +1,102 @@
+﻿@model Web.Areas.Back.Models.Role.RoleAccountViewModel
+@{
+    ViewData["Title"] = "角色帳號編輯";
+}
+
+<div class="row form-group">
+    <div class="col-auto">
+        <input id="userName" class="form-control mb-2" type="text" placeholder="請輸入帳號.." />
+    </div>
+    <div class="col-auto">
+        <button onclick="RoleAccountAdd()" class="btn btn-green fa-pull-left">
+            <em class="fas fa-plus"></em>
+            新增
+        </button>
+    </div>
+</div>
+
+<div id="partialDiv"></div>
+
+<a href="@Url.Action("Index","Role",new { @area = "Back" })" class="btn btn-inverse">
+    <em class="fas fa-undo"></em>
+    返回
+</a>
+
+@section Scripts{
+    <script>
+
+    $(function () {
+        GetRoleAccountList();
+    })
+
+    function GetRoleAccountList() {
+        //showMask();
+        $.ajax({
+            url: '@Url.Action("GetRoleUsers","Role",new { @area = "Back"})',
+            type: "get",
+            data: { roleName : '@Model.RoleName' },
+            success: function (result) {
+                $("#partialDiv").html(result);
+                //hideMask();
+            }
+        })
+    }
+
+        function RoleAccountAdd() {
+            var userName = $("#userName").val();
+
+            if (userName == null || userName == '') {
+                window.WarmAlert('請輸入帳號');
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("RoleAccountAdd", "Role",new { @area = "Back"})',
+                type: "post",
+                data: { userName: userName, roleName: '@Model.RoleName' },
+                success: function (result) {
+                    if (result.data) {
+                        window.SuccessAlert('新增' + userName + '成功')
+                        GetRoleAccountList();
+                        $("#userName").val('');
+                    }
+                    else {
+                        window.WarmAlert(result.message);
+                    }
+                    console.log(result);
+                    //hideMask();
+                }
+            })
+        }
+
+        function RoleAccountDelete(userName) {
+
+            window.ConfirmAlert('是否刪除' + userName, userName, Delete);
+
+        }
+
+
+        function Delete(userName) {
+
+            $.ajax({
+                async : 'false',
+                url: '@Url.Action("RoleAccountDelete", "Role",new { @area = "Back"})',
+                type: "delete",
+                data: { userName: userName, roleName: '@Model.RoleName' },
+                success: function (result) {
+                    if (result.data) {
+                        window.SuccessAlert('刪除' + userName + '成功')
+                        GetRoleAccountList();
+                    }
+                    else {
+                        window.WarmAlert(result.message);
+                    }
+                    console.log(result);
+                    //hideMask();
+                }
+            })
+
+        }
+
+    </script>
+}

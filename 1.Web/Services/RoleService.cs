@@ -9,6 +9,7 @@ using DAL.DA.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Web.Models.Response;
 //using NLog;
 using Web.Services.Interfaces;
 
@@ -104,6 +105,55 @@ namespace Web.Services
                 menuTrees.Add(menuTree);
             }
             return menuTrees;
+        }
+
+        public List<Menu> GetMenus()
+        {
+            return _menuDA.GetList();
+        }
+
+        public async Task<List<IdentityUser>> GetRoleUsers(string roleName)
+        {
+            List<IdentityUser> result = new List<IdentityUser>();
+            var users = await _userManager.GetUsersInRoleAsync(roleName);
+            result = users.ToList();
+            return result;
+        }
+
+        public async Task<BaseResponse> AddRoleUser(string userName,string roleName)
+        {            
+            IdentityUser user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return new BaseResponse(System.Net.HttpStatusCode.OK, false, "查無此使用者" + userName);
+            }
+            else
+            {
+                var result = await _userManager.AddToRoleAsync(user, roleName);
+                string msg = string.Empty;
+                if (result.Errors.FirstOrDefault() != null)
+                    msg = result.Errors.FirstOrDefault().Description;
+                return new BaseResponse(System.Net.HttpStatusCode.OK, result.Succeeded, msg);
+            }
+        }
+
+        public async Task<BaseResponse> DeleteRoleUser(string userName, string roleName)
+        {
+            IdentityUser user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return new BaseResponse(System.Net.HttpStatusCode.OK, false, "查無此使用者" + userName);
+            }
+            else
+            {               
+                var result = await _userManager.RemoveFromRoleAsync(user, roleName);
+                string msg = string.Empty;
+                if (result.Errors.FirstOrDefault() != null)
+                    msg = result.Errors.FirstOrDefault().Description;
+                return new BaseResponse(System.Net.HttpStatusCode.OK, result.Succeeded, msg);
+            }
         }
     }
 }

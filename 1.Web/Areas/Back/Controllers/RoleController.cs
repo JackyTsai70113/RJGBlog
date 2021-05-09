@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,7 +12,7 @@ using Web.Services.Interfaces;
 
 namespace Web.Areas.Back.Controllers
 {
-    //[Authorize("RoleHome")]
+    [Authorize("BackRole")]
     [Area("Back")]
     public class RoleController : Controller
     {
@@ -46,6 +47,16 @@ namespace Web.Areas.Back.Controllers
             return View(viewModel);
         }
 
+        public IActionResult RoleAccount(string roleName)
+        {
+            RoleAccountViewModel viewModel = new RoleAccountViewModel();
+            viewModel.RoleName = roleName;
+
+            return View(viewModel);
+        }
+
+        //Api
+
         public IActionResult GetMenuTreeList()
         {
             var menuTrees = _roleService.GetMenuTrees();
@@ -54,10 +65,30 @@ namespace Web.Areas.Back.Controllers
             //return Json(menuTrees);
         }
 
-        public IActionResult Delete()
+        public IActionResult RoleDelete()
         {
             BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, null, "刪除成功");
             return Json(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleAccountAdd(string userName ,string roleName)
+        {
+            return Json(await _roleService.AddRoleUser(userName, roleName));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> RoleAccountDelete(string userName, string roleName)
+        {
+            return Json(await _roleService.DeleteRoleUser(userName, roleName));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRoleUsers(string roleName)
+        {
+            RoleAccountViewModel viewModel = new RoleAccountViewModel();
+            viewModel.Users = await _roleService.GetRoleUsers(roleName);
+            return PartialView("_roleAccountList", viewModel);
         }
     }
 }
