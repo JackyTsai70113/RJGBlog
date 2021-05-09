@@ -9,10 +9,15 @@ namespace Web.Helpers
         {
             services.AddAuthorization(options =>
             {
+                //Back 後台
                 options.AddPolicy("BackHome",
-                    policy => policy.RequireClaim(ClaimTypes.Authentication, "backhomeOK"));
+                    policy => policy.RequireClaim(ClaimTypes.Authentication, "BackHomeAllOK"));
+                options.AddPolicy("BackRole",
+                    policy => policy.RequireClaim(ClaimTypes.Authentication, "BackRoleAllOK"));
+
+                //NoBack 前台
                 options.AddPolicy("Privacy",
-                    policy => policy.RequireClaim(ClaimTypes.Authentication, "privacyOK"));
+                    policy => policy.RequireClaim(ClaimTypes.Authentication, "PrivacyAllOK"));
                 options.AddPolicy("Introduce",
                     policy => policy.RequireClaim(ClaimTypes.Authentication, "introduceOK"));
             });

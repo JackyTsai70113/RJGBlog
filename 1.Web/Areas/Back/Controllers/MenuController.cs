@@ -1,13 +1,24 @@
 ﻿using Core.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Web.Areas.Back.Models;
+using Web.Services.Interfaces;
 
 namespace Web.Areas.Back.Controllers
 {
     [Area("Back")]
     public class MenuController : Controller
     {
+        private readonly ILogger<MenuController> _logger;
+        private readonly IRoleService _roleService;
+
+        public MenuController(ILogger<MenuController> logger, IRoleService roleService)
+        {
+            _logger = logger;
+            _roleService = roleService;
+        }
+
         public IActionResult Navigation(string pageArea, string pageController)
         {
             MenuViewModel viewModel = new MenuViewModel
@@ -21,45 +32,7 @@ namespace Web.Areas.Back.Controllers
 
         private List<Menu> GetMenus()
         {
-            List<Menu> result = new List<Menu>();
-
-            Menu menu1 = new Menu()
-            {
-                Id = 1,
-                Name = "權限管理",
-                ParentId = -1,
-                IsDisable = false,
-                Icon = "fas fa-user",
-                Sort = 1
-            };
-
-            Menu menu2 = new Menu()
-            {
-                Id = 2,
-                Name = "角色權限",
-                ParentId = 1,
-                IsDisable = false,
-                Area = "Back",
-                Controller = "Role",
-                Action = "Index",
-                Sort = 2
-            };
-
-            Menu menu3 = new Menu()
-            {
-                Id = 3,
-                Name = "帳號管理",
-                ParentId = 1,
-                IsDisable = false,
-                Area = "Back",
-                Controller = "Account",
-                Action = "Index",
-                Sort = 1
-            };
-
-            result.Add(menu1);
-            result.Add(menu2);
-            result.Add(menu3);
+            List<Menu> result = _roleService.GetMenus();
             return result;
         }
     }
