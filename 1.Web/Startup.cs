@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Core.Data;
 using System;
 using Core.Helpers;
+using Web.Helpers;
 using System.Reflection;
 
 namespace Web
@@ -29,7 +30,7 @@ namespace Web
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<RJGDbContext>();
-
+            
             DIHelper.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
             DIHelper.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
             DIHelper.AddTransient(services, Assembly.Load("Web"), Assembly.Load("Web"));
