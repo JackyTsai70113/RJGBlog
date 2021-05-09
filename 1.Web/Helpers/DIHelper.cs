@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Web.Services
+namespace Web.Helpers
 {
     public static class DIHelper
     {

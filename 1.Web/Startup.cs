@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Core.Data;
 using System;
 using Core.Helpers;
-using Web.Services;
 using System.Reflection;
 
 namespace Web

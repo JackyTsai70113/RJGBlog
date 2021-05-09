@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace Web.Services
+namespace Web.Helpers
 {
     public static class ConfigHelper
     {
