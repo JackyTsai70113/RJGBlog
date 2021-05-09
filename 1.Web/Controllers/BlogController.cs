@@ -34,7 +34,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-        [HttpGet("/user/{urlUserName}/blog")]
+        [HttpGet("/user/{urlUserName}/blogs")]
         public IActionResult Index(string urlUserName, int skip = 0, int limit = 10)
         {
             string userName = User.Identity.Name;
@@ -110,7 +110,7 @@ namespace Web.Controllers
             return RedirectToAction("Details", new { urlUserName = userName, blogId = model.Id });
         }
 
-        [HttpPost]
+        [HttpPost("user/{urlUserName}/blog/{blogId}/delete")]
         public IActionResult Delete(string urlUserName, int blogId)
         {
             string userName = User.Identity.Name;

@@ -19,9 +19,7 @@
                             <p>@Model.Content</p>
                         </div>
                         <a href="/user/@User.Identity.Name/blog/@Model.Id/edit" class="nav-link text-dark">編輯文章</a>
-                        <form method="post" action="/blog/delete">
-                            <input type="hidden" name="blogId" value="@Model.Id">
-                            <input type="hidden" name="urlUserName" value="@User.Identity.Name">
+                        <form method="post" action="/user/@User.Identity.Name/blog/@Model.Id/delete">
                             <button class="btn btn-block btn-primary mt-3" type="submit">刪除文章</button>
                         </form>
                     </div>
