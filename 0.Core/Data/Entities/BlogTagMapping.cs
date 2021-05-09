@@ -10,10 +10,10 @@ namespace Core.Data.Entities
     public partial class BlogTagMapping
     {
         [Required]
-        public int BlogId { get; set; }
+        public Guid BlogId { get; set; }
 
         [Required]
-        public int BlogTagId { get; set; }
+        public Guid BlogTagId { get; set; }
 
         public Blog Blog { get; set; }
         public BlogTag BlogTag { get; set; }

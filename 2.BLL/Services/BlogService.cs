@@ -25,16 +25,19 @@ namespace BLL.Services
         public IndexModel GetPagedIndexModel(string userId, int skip, int limit)
         {
             _logger.LogInformation("GetPagedIndexModel");
-            List<Blog> dbBlogs = _blogDA.GetPagedListByUserId(userId, skip, limit, out int total);
+            
+            IQueryable<Blog> blogQuery = _blogDA.GetListByUserId(userId);
+            List<Blog> dbBlogs = _blogDA.GetPagedEnumerable(blogQuery, skip, limit, out int lastPageIndex).ToList();
+
             IndexModel model = new IndexModel {
                 Blogs = new List<IndexModel.Blog>(),
-                total = total
+                lastPageIndex = lastPageIndex
             };
             foreach (Blog b in dbBlogs)
             {
                 string partialContent = b.Content.Length > 30 ? b.Content.Substring(0, 30) + "..." : b.Content;
                 model.Blogs.Add(new IndexModel.Blog {
-                    Id = b.Id,
+                    Id = b.Id.ToString(),
                     CoverImageUrl = b.CoverImageUrl,
                     Title = b.Title,
                     PartialContent = partialContent,
@@ -44,8 +47,9 @@ namespace BLL.Services
             return model;
         }
 
-        public bool Create(CreateModel model, string userId)
+        public bool Create(CreateModel model, string userId, out Guid newBlogId)
         {
+            bool createResult = false;
             Blog dbBlog = new Blog {
                 CoverImageUrl = model.CoverImageUrl,
                 Title = model.Title,
@@ -54,10 +58,12 @@ namespace BLL.Services
                 UpdateTime = DateTime.UtcNow,
                 UserId = userId
             };
-            return _blogDA.Create(dbBlog) > 0;
+            createResult = _blogDA.Create(dbBlog);
+            newBlogId = dbBlog.Id;
+            return createResult;
         }
 
-        public DetailsModel GetDetails(int blogId, string userId)
+        public DetailsModel GetDetails(Guid blogId, string userId)
         {
             Blog dbModel = _blogDA.GetById(blogId);
 
@@ -78,7 +84,7 @@ namespace BLL.Services
             return model;
         }
 
-        public EditModel GetEditModel(int blogId, string userId)
+        public EditModel GetEditModel(Guid blogId, string userId)
         {
             Blog dbModel = _blogDA.GetById(blogId);
 
@@ -108,7 +114,7 @@ namespace BLL.Services
             return _blogDA.SaveChanges() > 0;
         }
 
-        public bool Delete(int blogId)
+        public bool Delete(Guid blogId)
         {
             return _blogDA.Delete(blogId) > 0;
         }

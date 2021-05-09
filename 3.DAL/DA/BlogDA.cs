@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Data;
@@ -29,34 +30,20 @@ namespace DAL.DA
             return blogs;
         }
 
-        public List<Blog> GetPagedList(int skip, int limit, out int total)
-        {
-            IQueryable<Blog> blogQuery = _context.Blog;
-            List<Blog> blogs = GetPagedEnumerable(blogQuery, skip, limit, out total).ToList();
-            return blogs;
-        }
-
-        public List<Blog> GetPagedListByUserId(string userId, int skip, int limit, out int total)
-        {
-            IQueryable<Blog> blogQuery = _context.Blog.Where(b => b.UserId == userId);
-            List<Blog> blogs = GetPagedEnumerable(blogQuery, skip, limit, out total).ToList();
-            return blogs;
-        }
-
-        public int Create(Blog blog)
+        public bool Create(Blog blog)
         {
             _context.Blog.Add(blog);
             int changeCount = _context.SaveChanges();
-            return changeCount;
+            return changeCount == 1;
         }
 
-        public Blog GetById(int id)
+        public Blog GetById(Guid id)
         {
             Blog blog = _context.Blog.Find(id);
             return blog;
         }
 
-        public int Delete(int blogId)
+        public int Delete(Guid blogId)
         {
             Blog blog = new Blog { Id = blogId };
             _context.Blog.Attach(blog);

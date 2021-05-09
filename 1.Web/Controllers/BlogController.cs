@@ -62,14 +62,15 @@ namespace Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _blogService.Create(model, userId);
+                _blogService.Create(model, userId, out Guid blogId);
+                return RedirectToRoute("Details", new { urlUserName = userName, blogId = blogId });
+            } else {
+                return View(model);
             }
-
-            return RedirectToAction("Details", new { urlUserName = userName, blogId = model.Id });
         }
 
         [HttpGet("user/{urlUserName}/blog/{blogId}")]
-        public IActionResult Details(string urlUserName, int blogId)
+        public IActionResult Details(string urlUserName, Guid blogId)
         {
             string userName = User.Identity.Name;
             if (urlUserName != userName)
@@ -83,7 +84,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("user/{urlUserName}/blog/{blogId}/edit")]
-        public IActionResult Edit(string urlUserName, int blogId)
+        public IActionResult Edit(string urlUserName, Guid blogId)
         {
             string userName = User.Identity.Name;
             if (urlUserName != userName)
@@ -111,7 +112,7 @@ namespace Web.Controllers
         }
 
         [HttpPost("user/{urlUserName}/blog/{blogId}/delete")]
-        public IActionResult Delete(string urlUserName, int blogId)
+        public IActionResult Delete(string urlUserName, Guid blogId)
         {
             string userName = User.Identity.Name;
             if (urlUserName != userName)

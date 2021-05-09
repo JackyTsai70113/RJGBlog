@@ -1,8 +1,10 @@
-﻿namespace Core.Models.DTO.Blogs
+﻿using System;
+
+namespace Core.Models.DTO.Blogs
 {
     public class DetailsModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string CoverImageUrl { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }

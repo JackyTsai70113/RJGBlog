@@ -8,7 +8,7 @@ namespace Core.Models.DTO.Blogs
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 封面圖片網址

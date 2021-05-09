@@ -1,10 +1,11 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.DTO.Blogs
 {
     public class CreateModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 封面圖片網址

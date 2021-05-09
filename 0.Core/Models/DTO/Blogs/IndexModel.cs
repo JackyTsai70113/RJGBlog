@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Core.Models.DTO.Blogs
 {
@@ -8,11 +7,11 @@ namespace Core.Models.DTO.Blogs
     {
         public List<Blog> Blogs { get; set; }
 
-        public int total { get; set; }
+        public int lastPageIndex { get; set; }
 
         public class Blog
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
             public string CoverImageUrl { get; set; }
             public string Title { get; set; }
             public string PartialContent { get; set; }

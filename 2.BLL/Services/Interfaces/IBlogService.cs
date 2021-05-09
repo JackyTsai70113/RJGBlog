@@ -1,4 +1,5 @@
-﻿using Core.Data.Entities;
+﻿using System;
+using Core.Data.Entities;
 using Core.Models.DTO.Blogs;
 
 namespace BLL.Services.Interfaces
@@ -7,14 +8,14 @@ namespace BLL.Services.Interfaces
     {
         IndexModel GetPagedIndexModel(string userId, int skip, int limit);
 
-        bool Create(CreateModel model, string userId);
+        bool Create(CreateModel model, string userId, out Guid newBlogId);
 
-        DetailsModel GetDetails(int blogId, string userId);
+        DetailsModel GetDetails(Guid blogId, string userId);
 
-        EditModel GetEditModel(int blogId, string userId);
+        EditModel GetEditModel(Guid blogId, string userId);
 
         bool Edit(EditModel model, string userId);
 
-        bool Delete(int blogId);
+        bool Delete(Guid blogId);
     }
 }

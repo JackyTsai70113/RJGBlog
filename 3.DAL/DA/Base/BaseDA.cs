@@ -15,18 +15,10 @@ namespace DAL.DA.Interfaces
             return changeCount;
         }
 
-        public IEnumerable<T> GetPagedEnumerable(IQueryable<T> query, int skip, int limit, out int total){
-            total = query.Count();
+        public IEnumerable<T> GetPagedEnumerable(IQueryable<T> query, int skip, int limit, out int lastPageIndex){
+            lastPageIndex = query.Count() / limit;
             IEnumerable<T> enumerable = query.Skip(skip)
                                              .Take(limit)
-                                             .AsEnumerable<T>();
-            return enumerable;
-        }
-
-        private IEnumerable<T> ToPagedList(IQueryable<T> query, PaginationModel pagination, out int total){
-            total = query.Count();
-            IEnumerable<T> enumerable = query.Skip(pagination.skipCount)
-                                             .Take(pagination.limitCount)
                                              .AsEnumerable<T>();
             return enumerable;
         }
