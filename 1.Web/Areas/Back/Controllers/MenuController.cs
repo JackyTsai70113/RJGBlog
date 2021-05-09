@@ -8,11 +8,13 @@ namespace Web.Areas.Back.Controllers
     [Area("Back")]
     public class MenuController : Controller
     {
-        public IActionResult Navigation()
+        public IActionResult Navigation(string pageArea, string pageController)
         {
             MenuViewModel viewModel = new MenuViewModel
             {
-                Menus = GetMenus()
+                Menus = GetMenus(),
+                PageArea = pageArea,
+                PageController = pageController
             };
             return PartialView("_Navigation", viewModel);
         }
@@ -38,7 +40,7 @@ namespace Web.Areas.Back.Controllers
                 ParentId = 1,
                 IsDisable = false,
                 Area = "Back",
-                Controller = "RoleController",
+                Controller = "Role",
                 Action = "Index",
                 Sort = 2
             };
@@ -50,7 +52,7 @@ namespace Web.Areas.Back.Controllers
                 ParentId = 1,
                 IsDisable = false,
                 Area = "Back",
-                Controller = "AccountController",
+                Controller = "Account",
                 Action = "Index",
                 Sort = 1
             };

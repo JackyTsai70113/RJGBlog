@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Core.Domain;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -9,8 +10,16 @@ namespace Web.Services.Interfaces
     {
         Task<IdentityRole> GetRoleByIdAsync(string Id);
 
-        Task<bool> AddRoleAsync(IdentityRole role);
+        Task<IdentityRole> GetRoleByNameAsync(string roleName);
 
-        Task<bool> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims);
+        Task<IdentityResult> AddRoleAsync(IdentityRole role);
+
+        Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims);
+
+        Task<IdentityResult> AddToRoleAsync(IdentityUser user, string roleName);
+
+        List<IdentityRole> GetAllRole();
+
+        List<MenuTree> GetMenuTrees();
     }
 }

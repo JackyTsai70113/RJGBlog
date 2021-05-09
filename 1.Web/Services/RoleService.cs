@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Data.Entities;
+using Core.Domain;
+using DAL.DA.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+//using NLog;
 using Web.Services.Interfaces;
 
 namespace Web.Services
@@ -11,24 +17,93 @@ namespace Web.Services
     public class RoleService : IRoleService
     {
         private readonly IUserService _userService;
-        public RoleService(IUserService userService)
+        private readonly IMenuDA _menuDA;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<RoleService> _logger;
+        public RoleService(
+            IUserService userService,
+            IMenuDA menuDA,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager,
+            ILogger<RoleService> logger
+            )
         {
             _userService = userService;
+            _menuDA = menuDA;
+            _roleManager = roleManager;
+            _userManager = userManager;
+            _logger = logger;
         }
 
-        public Task<bool> AddRoleAsync(IdentityRole role)
+        public async Task<IdentityResult> AddRoleAsync(IdentityRole role)
         {
-            throw new System.NotImplementedException();
+            return await _roleManager.CreateAsync(role);
         }
 
-        public Task<bool> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims)
+        public async Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims)
         {
-            throw new System.NotImplementedException();
+            IdentityResult result = new IdentityResult();
+
+            foreach (Claim claim in Claims)
+            {
+                result = await _roleManager.AddClaimAsync(role, claim);
+                if (!result.Succeeded)
+                    _logger.LogError("權限儲存失敗，roleName:{0}，Calim:{1}", role.Name, claim.Value);
+            }
+
+            return result;
         }
 
-        public Task<IdentityRole> GetRoleByIdAsync(string Id)
+        public async Task<IdentityResult> AddToRoleAsync(IdentityUser user, string roleName)
         {
-            throw new System.NotImplementedException();
+            return await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        public async Task<IdentityRole> GetRoleByIdAsync(string Id)
+        {
+            return await _roleManager.FindByIdAsync(Id);
+        }
+
+        public async Task<IdentityRole> GetRoleByNameAsync(string roleName)
+        {
+            return await _roleManager.FindByNameAsync(roleName);
+        }
+
+        public  List<IdentityRole> GetAllRole()
+        {
+            return _roleManager.Roles.ToList();
+        }
+
+        public List<MenuTree> GetMenuTrees()
+        {
+            List<MenuTree> menuTrees = new List<MenuTree>();
+            List<MenuTree> childMenuTrees = new List<MenuTree>();
+            List<Menu> menus = _menuDA.GetList();
+
+            foreach (Menu menu in menus.Where(x => x.ParentId != -1))
+            {
+                MenuTree menuTree = new MenuTree()
+                {
+                    Id = menu.Id,
+                    Text = menu.Name,
+                    ParentId = menu.ParentId
+                };
+
+                childMenuTrees.Add(menuTree);
+            }
+
+            foreach (Menu menu in menus.Where(x=>x.ParentId == -1))
+            {
+                MenuTree menuTree = new MenuTree()
+                {
+                    Id= menu.Id,
+                    Text = menu.Name,
+                    children = childMenuTrees.Where(x=>x.ParentId == menu.Id).ToList()
+                };
+                menuTrees.Add(menuTree);
+            }
+            return menuTrees;
         }
     }
 }

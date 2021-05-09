@@ -1,0 +1,83 @@
+﻿@model Web.Areas.Back.Models.Role.RoleEditViewModel
+@{
+    ViewData["Title"] = "編輯";
+}
+
+<!-- gijgo-->
+<link href="~/vendor/gijgo-combined-1.9.13/css/gijgo.css" rel="stylesheet" />
+
+<div class="card card-default">
+    @*<div class="card-header">編輯</div>*@
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label class="form-row">角色名稱</label>
+                <input class="form-control" type="text" placeholder="角色名稱">
+            </div>
+            <div class="form-group">
+                <label class="form-row">角色權限</label>
+                <div>
+                    <div id="tree">
+
+                    </div>
+                </div>
+            </div>
+
+            <a href="@Url.Action("Index","Role",new { @area = "Back" })" class="btn btn-inverse">
+                <em class="fas fa-undo"></em>
+                返回
+            </a>
+            <button type="button" id="btnConfirm" class="btn btn-green">
+                <em class="fas fa-check"></em>
+                確認
+            </button>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            getMenuTree();
+        });
+
+        $("#btnConfirm").click(function () {
+            Confirm();
+        })
+
+        var treeView
+
+        function InitialTree(tree) {
+            treeView = $('#tree').tree({
+                uiLibrary: 'materialdesign',
+                dataSource: tree,
+                primaryKey: 'id',
+                checkboxes: true
+            });
+        }
+
+        function getMenuTree() {
+            $.ajax({
+                url: '@Url.Action("GetMenuTreeList","Role",new { @area = "Back" })',
+                method: 'get',
+                dataType:'json',
+                success: function (result) {
+                    console.log(result.data);
+                    InitialTree(result.data);
+                },
+                error: function () {
+                    WarmAlert('取得失敗')
+                }
+            })
+        }
+
+        function Confirm() {
+
+            console.log(treeView.getCheckedNodes());
+
+        }
+    </script>
+
+
+}
