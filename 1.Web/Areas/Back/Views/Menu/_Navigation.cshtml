@@ -16,8 +16,8 @@
                     </div>
                     <!-- Name and Job-->
                     <div class="user-block-info">
-                        <span class="user-block-name">Hello, Mike</span>
-                        <span class="user-block-role">Designer</span>
+                        <span class="user-block-name">Hello, @User.Identity.Name</span>
+                        <span class="user-block-role">@User.Claims.FirstOrDefault(x => x.Type == System.Security.Claims.ClaimTypes.Role).Value</span>
                     </div>
                 </div>
             </div>

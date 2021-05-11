@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using Web.Areas.Back.Models;
 using Web.Services.Interfaces;
 
@@ -33,6 +34,10 @@ namespace Web.Areas.Back.Controllers
         private List<Menu> GetMenus()
         {
             List<Menu> result = _roleService.GetMenus();
+
+            Menu homeMenu = result.Where(x => x.Controller == "Home").FirstOrDefault();
+            result.Remove(homeMenu);
+
             return result;
         }
     }

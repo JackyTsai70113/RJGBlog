@@ -1,6 +1,11 @@
 ﻿@model Web.Areas.Back.Models.Role.RoleEditViewModel
 @{
-    ViewData["Title"] = "編輯";
+    string title = string.Empty;
+    @if (Model.ActionType == Core.Enum.ActionType.Create)
+        title = "新增";
+    else
+        title = "編輯";
+    ViewData["Title"] = title;
 }
 
 <!-- gijgo-->
@@ -11,8 +16,7 @@
     <div class="card-body">
         <form>
             <div class="form-group">
-                <label class="form-row">角色名稱</label>
-                <input class="form-control" type="text" placeholder="角色名稱">
+                @Html.TextBoxFor(x => x.Role.Name, new { @placeholder = "角色名稱", @class = "form-control" })
             </div>
             <div class="form-group">
                 <label class="form-row">角色權限</label>
@@ -23,7 +27,7 @@
                 </div>
             </div>
 
-            <a href="@Url.Action("Index","Role",new { @area = "Back" })" class="btn btn-inverse">
+            <a href="@Url.Action("Index", "Role", new { @area = "Back" })" class="btn btn-inverse">
                 <em class="fas fa-undo"></em>
                 返回
             </a>
@@ -43,7 +47,7 @@
         });
 
         $("#btnConfirm").click(function () {
-            Confirm();
+            AddRole();
         })
 
         var treeView
@@ -58,8 +62,16 @@
         }
 
         function getMenuTree() {
+
+            var actionType = '@Model.ActionType'
+
+            @{ string roleName = Model.Role != null ? Model.Role.Name : string.Empty ;  }
+            var roleName = '@roleName'
+
+
             $.ajax({
                 url: '@Url.Action("GetMenuTreeList","Role",new { @area = "Back" })',
+                data: { roleName: roleName },
                 method: 'get',
                 dataType:'json',
                 success: function (result) {
@@ -72,10 +84,31 @@
             })
         }
 
-        function Confirm() {
+        function AddRole() {
+            var role = {
+                Name: $("#" + '@Html.IdFor(x=>x.Role.Name)').val()
+            }
 
-            console.log(treeView.getCheckedNodes());
+            var viewmodel = {
+                ActionType: '@Model.ActionType',
+                Role: role,
+                CheckMenuId: treeView.getCheckedNodes()
+            }
 
+            $.ajax({
+                url: '@Url.Action("RoleAdd","Role",new { @area = "Back" })',
+                method: 'post',
+                data: viewmodel,
+                success: function (result) {
+                    if (result.data) {
+                        window.SuccessAlert('新增' + role.Name + '成功');
+                        window.location.href = '@Url.Action("Index", "Role",new { @area = "Back"})';
+                    }
+                    else {
+                        window.WarmAlert(result.message);
+                    }
+                }
+            })
         }
     </script>
 

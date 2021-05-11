@@ -85,44 +85,16 @@ namespace Web.Areas.Identity.Pages.Account {
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                // 這邊是用 Email 當作 UserName 登入
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                // 用 Email 登入
+                IdentityUser user = await _userService.GetUserByEmailAsync(Input.Email);
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-
-                    //var user = await _userManager.FindByNameAsync(Input.Email);
-
-                    //var role = await _roleManager.FindByIdAsync("001");
-
-                    //await _roleManager.AddClaimAsync(role, new Claim(ClaimTypes.Authentication, "privacyOK"));
-
-                    //var r = await _userManager.AddToRoleAsync(user, "admin");
-
-                    //var role = await _roleManager.FindByIdAsync("001");
-                    //if(role == null)
-                    //{
-                    //    IdentityRole role1 = new IdentityRole()
-                    //    {
-                    //        Id = "001",
-                    //        Name = "admin",
-                    //        NormalizedName = "系統管理員"
-                    //    };
-                    //    await _roleManager.CreateAsync(role1);
-                    //}
-                    //else
-                    //{
-                       //await _roleManager.AddClaimAsync(role, new Claim(ClaimTypes.Authentication, "backhomeOK"));
-
-                    //}
-
-                    //await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Authentication, "backhomeOK"));
-
                     return LocalRedirect(returnUrl);
                 }
 
                 //Email是否驗證
-                IdentityUser user = await _userService.GetUserByEmailAsync(Input.Email);
                 if (user != null)
                 {
                     if (!user.EmailConfirmed)

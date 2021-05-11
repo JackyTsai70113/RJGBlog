@@ -9,6 +9,7 @@ using DAL.DA.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Web.Areas.Back.Models.Role;
 using Web.Models.Response;
 //using NLog;
 using Web.Services.Interfaces;
@@ -37,9 +38,49 @@ namespace Web.Services
             _logger = logger;
         }
 
-        public async Task<IdentityResult> AddRoleAsync(IdentityRole role)
+        public async Task<BaseResponse> AddRoleAsync(RoleEditViewModel viewModel)
         {
-            return await _roleManager.CreateAsync(role);
+            string msg = string.Empty;
+
+            if (viewModel.ActionType != Core.Enum.ActionType.Create)
+            {
+                msg = "ActionType不等於新增";
+                return new BaseResponse(System.Net.HttpStatusCode.OK, false, msg);
+            }
+            else
+            {
+                IdentityResult roleResult = await _roleManager.CreateAsync(viewModel.Role);
+                if (roleResult.Succeeded)
+                {
+                    List<Menu> menuTrees = _menuDA.GetList();
+                    menuTrees = menuTrees.Where(x => viewModel.CheckMenuId.Contains(x.Id)).ToList();
+
+                    foreach (var menuTree in menuTrees)
+                    {
+                        //後台首頁例外
+                        if ( (menuTree.Area == "Back" && menuTree.Controller == "Home") || menuTree.ParentId >= 1)
+                        {
+                            string authValue = menuTree.Area + menuTree.Controller + "AllOK";
+                            Claim claim = new Claim(ClaimTypes.Authentication, authValue);
+                            IdentityResult claimResult = await _roleManager.AddClaimAsync(viewModel.Role, claim);
+                        }
+                    }
+
+                    msg = string.Format("roleName:{0}", viewModel.Role.Name);
+                    return new BaseResponse(System.Net.HttpStatusCode.OK, true, msg);
+                }
+                else
+                {
+                    msg = roleResult.Errors.FirstOrDefault().Description;
+                    return new BaseResponse(System.Net.HttpStatusCode.OK, false, msg);
+                }
+            }
+
+        }
+
+        public async Task<BaseResponse> EditRoleAsync(RoleEditViewModel viewModel)
+        {
+            return null;
         }
 
         public async Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims)
@@ -76,6 +117,11 @@ namespace Web.Services
             return _roleManager.Roles.ToList();
         }
 
+        public async Task<IList<Claim>> GetClaims(IdentityRole role)
+        {
+            return await _roleManager.GetClaimsAsync(role);
+        }
+
         public List<MenuTree> GetMenuTrees()
         {
             List<MenuTree> menuTrees = new List<MenuTree>();
@@ -88,9 +134,12 @@ namespace Web.Services
                 {
                     Id = menu.Id,
                     Text = menu.Name,
-                    ParentId = menu.ParentId
+                    ParentId = menu.ParentId,
+                    Sort = menu.Sort,
+                    Area = menu.Area,
+                    Controller =menu.Controller,
+                    Action = menu.Action
                 };
-
                 childMenuTrees.Add(menuTree);
             }
 
@@ -98,12 +147,48 @@ namespace Web.Services
             {
                 MenuTree menuTree = new MenuTree()
                 {
-                    Id= menu.Id,
+                    Id = menu.Id,
                     Text = menu.Name,
-                    children = childMenuTrees.Where(x=>x.ParentId == menu.Id).ToList()
+                    children = childMenuTrees.Where(x => x.ParentId == menu.Id).OrderBy(x => x.Sort).ToList(),
+                    Sort = menu.Sort,
+                    Area = menu.Area,
+                    Controller = menu.Controller,
+                    Action = menu.Action
                 };
                 menuTrees.Add(menuTree);
             }
+
+            menuTrees = menuTrees.OrderBy(x => x.Sort).ToList();
+
+            return menuTrees;
+        }
+
+        public async Task<List<MenuTree>> GetMenuTrees(string roleName)
+        {
+
+            List<MenuTree> menuTrees = GetMenuTrees();
+
+            var role = await _roleManager.FindByNameAsync(roleName);
+            var claims = await _roleManager.GetClaimsAsync(role);
+
+            foreach (var menuTree in menuTrees)
+            {
+                //children
+                foreach (var childMenu in menuTree.children)
+                {
+                    var tree2 = claims.Where(x => x.Value.Contains(childMenu.Area) && x.Value.Contains(childMenu.Controller)).FirstOrDefault();
+                    if (tree2 != null)
+                        childMenu.Checked = true;
+                }
+
+                //parent
+                if (string.IsNullOrEmpty(menuTree.Area) && string.IsNullOrEmpty(menuTree.Controller))
+                    continue;
+                var tree = claims.Where(x => x.Value.Contains(menuTree.Area) && x.Value.Contains(menuTree.Controller)).FirstOrDefault();
+                if (tree != null)
+                    menuTree.Checked = true;
+            }
+
             return menuTrees;
         }
 

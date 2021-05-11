@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Core.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -57,32 +58,22 @@ namespace Web.Areas.Back.Controllers
 
         //Api
 
-        public IActionResult GetMenuTreeList()
+        /// <summary>取得功能樹</summary>
+        [HttpGet]
+        public async Task<IActionResult> GetMenuTreeList(string roleName = null)
         {
-            var menuTrees = _roleService.GetMenuTrees();
+            List<MenuTree> menuTrees = new List<MenuTree>();
+            
+            if (!string.IsNullOrEmpty(roleName))
+                menuTrees = await _roleService.GetMenuTrees(roleName);
+            else
+                menuTrees = _roleService.GetMenuTrees();
+
             BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, menuTrees, "取得成功");
             return Json(response);
-            //return Json(menuTrees);
         }
 
-        public IActionResult RoleDelete()
-        {
-            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, null, "刪除成功");
-            return Json(response);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> RoleAccountAdd(string userName ,string roleName)
-        {
-            return Json(await _roleService.AddRoleUser(userName, roleName));
-        }
-
-        [HttpDelete]
-        public async Task<IActionResult> RoleAccountDelete(string userName, string roleName)
-        {
-            return Json(await _roleService.DeleteRoleUser(userName, roleName));
-        }
-
+        /// <summary>取得歸屬該角色的帳號</summary>
         [HttpGet]
         public async Task<IActionResult> GetRoleUsers(string roleName)
         {
@@ -90,5 +81,40 @@ namespace Web.Areas.Back.Controllers
             viewModel.Users = await _roleService.GetRoleUsers(roleName);
             return PartialView("_roleAccountList", viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RoleAdd(RoleEditViewModel viewModel)
+        {
+            BaseResponse response = null;
+            if (viewModel.ActionType == Core.Enum.ActionType.Create)
+                response = await _roleService.AddRoleAsync(viewModel);
+            else
+                response = await _roleService.EditRoleAsync(viewModel);
+            return Json(response);
+        }
+
+        /// <summary>新增帳號</summary>
+        [HttpPost]
+        public async Task<IActionResult> RoleAccountAdd(string userName, string roleName)
+        {
+            return Json(await _roleService.AddRoleUser(userName, roleName));
+        }
+
+        /// <summary>刪除角色</summary>
+        [HttpDelete]
+        public IActionResult RoleDelete(string roleId)
+        {
+            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, null, "刪除成功");
+            return Json(response);
+        }
+
+        /// <summary>刪除帳號</summary>
+        [HttpDelete]
+        public async Task<IActionResult> RoleAccountDelete(string userName, string roleName)
+        {
+            return Json(await _roleService.DeleteRoleUser(userName, roleName));
+        }
+
+
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Web.Areas.Back.Models.Role;
 using Web.Models.Response;
 
 namespace Web.Services.Interfaces
@@ -14,7 +15,9 @@ namespace Web.Services.Interfaces
 
         Task<IdentityRole> GetRoleByNameAsync(string roleName);
 
-        Task<IdentityResult> AddRoleAsync(IdentityRole role);
+        Task<BaseResponse> AddRoleAsync(RoleEditViewModel viewModel);
+
+        Task<BaseResponse> EditRoleAsync(RoleEditViewModel viewModel);
 
         Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims);
 
@@ -22,7 +25,11 @@ namespace Web.Services.Interfaces
 
         List<IdentityRole> GetAllRole();
 
+        Task<IList<Claim>> GetClaims(IdentityRole role);
+
         List<MenuTree> GetMenuTrees();
+
+        Task<List<MenuTree>> GetMenuTrees(string roleName);
 
         List<Menu> GetMenus();
 

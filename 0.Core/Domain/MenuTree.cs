@@ -15,5 +15,13 @@ namespace Core.Domain
         public List<MenuTree> children { get; set; }
 
         public int ParentId { get; set; }
+
+        public int Sort { get; set; }
+
+        public string Area { get; set; }
+
+        public string Controller { get; set; }
+
+        public string Action { get; set; }
     }
 }
