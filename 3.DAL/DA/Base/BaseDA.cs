@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Data;
-using Core.Models.DTO.Pagination;
 
 namespace DAL.DA.Interfaces
 {
