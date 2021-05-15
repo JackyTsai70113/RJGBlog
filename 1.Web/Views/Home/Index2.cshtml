@@ -1,0 +1,50 @@
+﻿@using Core.Models.DTO.Blogs
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@model IndexModel;
+
+@section Styles{
+    <!-- JQCLOUD-->
+    <link rel="stylesheet" href="/vendor/jqcloud2/dist/jqcloud.css">
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <!-- Blog Content-->
+        <div class="col-xl-9">
+            <div class="card-columns">
+                @*文章卡*@
+                @foreach (IndexModel.Blog blog in Model.Blogs)
+            {
+                @*文章卡*@
+                        <div class="card">
+                    @*封面*@
+                            <a href="@Url.Action("Details","Blog",new { @area = "Back", @urlUserName = @User.Identity.Name, @blogId = blog.Id })">
+                                <img class="img-fluid" src="@blog.CoverImageUrl" alt="@blog.CoverImageUrl">
+                            </a>
+                    @*內容*@
+                        <div class="card-body">
+                        @*更新時間*@
+                            <p>
+                                <span><small class="mr-1">@blog.UpdateTime</small></span>
+                            </p>
+                        @*標題*@
+                            <h4>
+                                <a href="@Url.Action("Details","Blog",new { @area = "Back", @urlUserName = @User.Identity.Name, @blogId = blog.Id })" class="nav-link text-dark">
+                                @blog.Title
+                                </a>
+                            </h4>
+                        @*部分內文*@
+                            <p>
+                                <a href="@Url.Action("Details","Blog",new { @area = "Back", @urlUserName = @User.Identity.Name, @blogId = blog.Id })" class="nav-link text-dark">
+                                @blog.PartialContent
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+            }
+            </div>
+        </div>
+    </div>
+</div>

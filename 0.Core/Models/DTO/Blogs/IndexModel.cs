@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Core.Models.DTO.Blogs
@@ -7,7 +6,7 @@ namespace Core.Models.DTO.Blogs
     {
         public List<Blog> Blogs { get; set; }
 
-        public int lastPageIndex { get; set; }
+        public int LastPageIndex { get; set; }
 
         public class Blog
         {

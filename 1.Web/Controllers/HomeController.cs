@@ -1,4 +1,6 @@
-﻿using Core.Domain;
+﻿using BLL.Services.Interfaces;
+using Core.Domain;
+using Core.Models.DTO.Blogs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,9 +16,12 @@ namespace Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IBlogService _blogService;
+
+        public HomeController(ILogger<HomeController> logger, IBlogService blogService)
         {
             _logger = logger;
+            _blogService = blogService;
         }
 
         public IActionResult Index()
@@ -24,6 +29,14 @@ namespace Web.Controllers
             _logger.LogInformation($"進入首頁");
             HomeViewModel viewModel = new HomeViewModel();
             return View(viewModel);
+        }
+
+        public IActionResult Index2(int skip = 0, int limit = 10)
+        {
+            IndexModel model = _blogService.GetPagedIndexModel(skip, limit);
+
+            _logger.LogInformation("進入我的文章");
+            return View(model);
         }
 
         [Authorize("Privacy")]

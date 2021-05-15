@@ -15,10 +15,11 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Web.Services.Interfaces;
 
-namespace Web.Areas.Identity.Pages.Account {
-
+namespace Web.Areas.Identity.Pages.Account
+{
     [AllowAnonymous]
-    public class RegisterModel : PageModel {
+    public class RegisterModel : PageModel
+    {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
@@ -28,7 +29,7 @@ namespace Web.Areas.Identity.Pages.Account {
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IUserService userService) 
+            IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,9 +44,8 @@ namespace Web.Areas.Identity.Pages.Account {
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel 
+        public class InputModel
         {
-
             [Required(ErrorMessage = "此欄位為必填")]
             [Display(Name = "使用者名稱 *")]
             public string UserName { get; set; }
@@ -71,18 +71,20 @@ namespace Web.Areas.Identity.Pages.Account {
             public bool IsAgreeWithTerms { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null) 
+        public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList(); //取得外部驗，暫時沒用到
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null) {
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList(); //取得外部驗，暫時沒用到
             //Model驗證
-            if (ModelState.IsValid) {
-                IdentityResult result = _userService.CreateUser(Input.UserName, Input.Email, Input.Password).Result;
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = await _userService.CreateUser(Input.UserName, Input.Email, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("使用者建立一組新的帳號，userName:{0}，Email:{1}", Input.UserName, Input.Email);
@@ -123,9 +125,10 @@ namespace Web.Areas.Identity.Pages.Account {
         }
 
         [AttributeUsageAttribute(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
-        class CheckboxIsCheckedAttribute : RequiredAttribute 
+        class CheckboxIsCheckedAttribute : RequiredAttribute
         {
-            public override bool IsValid(object value) {
+            public override bool IsValid(object value)
+            {
                 bool isRequiredValid = base.IsValid(value);
                 if (!isRequiredValid)
                     return false;

@@ -23,12 +23,12 @@
             </div>
         </li>
         <!-- END user info-->
-        <!--Meun選單-->
+        <!--Menu選單-->
         <li class="nav-heading ">
             @*<span data-localize="sidebar.heading.HEADER">功能選單</span>*@
             <span>功能選單</span>
         </li>
-        @foreach (var parentMenu in Model.Menus.Where(x => x.ParentId == -1).OrderBy(x=>x.Sort))
+        @foreach (var parentMenu in Model.Menus.Where(x => x.ParentId == -1).OrderBy(x => x.Sort))
         {
             <li class=" ">
                 <a href="#@parentMenu.Name" title="@parentMenu.Name" data-toggle="collapse" class="collapsed" aria-expanded="false">
@@ -59,7 +59,6 @@
         'use strict';
 
         $(initSidebar);
-
 
         var $win;
         var $html;
@@ -106,7 +105,6 @@
             // SIDEBAR COLLAPSED ITEM HANDLER
             // -----------------------------------
 
-
             var eventName = isTouch() ? 'click' : 'mouseenter';
             var subNav = $();
             $sidebar.on(eventName, '.sidebar-nav > li', function () {
@@ -144,7 +142,7 @@
         }
 
         function sidebarAddBackdrop() {
-            var $backdrop = $('<div/>', { 'class': 'dropdown-backdrop' });
+            var $backdrop = $('<div />', { 'class': 'dropdown-backdrop' });
             $backdrop.insertAfter('.aside-container').on("click mouseenter", function () {
                 removeFloatingNav();
             });

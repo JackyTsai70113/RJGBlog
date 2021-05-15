@@ -8,6 +8,8 @@ namespace BLL.Services.Interfaces
     {
         IndexModel GetPagedIndexModel(string userId, int skip, int limit);
 
+        IndexModel GetPagedIndexModel(int skip, int limit);
+
         bool Create(CreateModel model, string userId, out Guid newBlogId);
 
         DetailsModel GetDetails(Guid blogId, string userId);

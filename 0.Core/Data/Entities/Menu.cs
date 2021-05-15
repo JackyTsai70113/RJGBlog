@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace Core.Data.Entities
@@ -32,8 +31,5 @@ namespace Core.Data.Entities
 
         [Required]
         public int Sort { get; set; }
-
-        [InverseProperty("Meun")]
-        public virtual ICollection<RoleMenu> RoleMenu { get; set; }
     }
 }

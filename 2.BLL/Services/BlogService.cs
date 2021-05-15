@@ -24,14 +24,35 @@ namespace BLL.Services
 
         public IndexModel GetPagedIndexModel(string userId, int skip, int limit)
         {
-            _logger.LogInformation("GetPagedIndexModel");
-            
             IQueryable<Blog> blogQuery = _blogDA.GetListByUserId(userId);
             List<Blog> dbBlogs = _blogDA.GetPagedEnumerable(blogQuery, skip, limit, out int lastPageIndex).ToList();
 
             IndexModel model = new IndexModel {
                 Blogs = new List<IndexModel.Blog>(),
-                lastPageIndex = lastPageIndex
+                LastPageIndex = lastPageIndex
+            };
+            foreach (Blog b in dbBlogs)
+            {
+                string partialContent = b.Content.Length > 30 ? b.Content.Substring(0, 30) + "..." : b.Content;
+                model.Blogs.Add(new IndexModel.Blog {
+                    Id = b.Id.ToString(),
+                    CoverImageUrl = b.CoverImageUrl,
+                    Title = b.Title,
+                    PartialContent = partialContent,
+                    UpdateTime = b.UpdateTime.ToLocalTime().ToFullDateShortTime()
+                });
+            };
+            return model;
+        }
+
+        public IndexModel GetPagedIndexModel(int skip, int limit)
+        {
+            IQueryable<Blog> blogQuery = _blogDA.GetList();
+            List<Blog> dbBlogs = _blogDA.GetPagedEnumerable(blogQuery, skip, limit, out int lastPageIndex).ToList();
+
+            IndexModel model = new IndexModel {
+                Blogs = new List<IndexModel.Blog>(),
+                LastPageIndex = lastPageIndex
             };
             foreach (Blog b in dbBlogs)
             {
@@ -49,7 +70,7 @@ namespace BLL.Services
 
         public bool Create(CreateModel model, string userId, out Guid newBlogId)
         {
-            bool createResult = false;
+            bool createResult;
             Blog dbBlog = new Blog {
                 CoverImageUrl = model.CoverImageUrl,
                 Title = model.Title,
@@ -116,7 +137,7 @@ namespace BLL.Services
 
         public bool Delete(Guid blogId)
         {
-            return _blogDA.Delete(blogId) > 0;
+            return _blogDA.Delete(blogId);
         }
     }
 }
