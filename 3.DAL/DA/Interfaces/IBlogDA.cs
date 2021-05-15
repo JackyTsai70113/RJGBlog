@@ -16,7 +16,7 @@ namespace DAL.DA.Interfaces
 
         Blog GetById(Guid id);
 
-        int Delete(Guid blogId);
+        bool Delete(Guid blogId);
 
         int Delete(Blog blog);
 

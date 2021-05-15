@@ -12,10 +12,10 @@ namespace DAL.DA
     {
         private readonly ILogger<BlogDA> _logger;
 
-        public BlogDA(ILogger<BlogDA> logger, RJGDbContext context)
+        public BlogDA(RJGDbContext context, ILogger<BlogDA> logger)
         {
-            _logger = logger;
             _context = context;
+            _logger = logger;
         }
 
         public IQueryable<Blog> GetList()
@@ -43,13 +43,13 @@ namespace DAL.DA
             return blog;
         }
 
-        public int Delete(Guid blogId)
+        public bool Delete(Guid blogId)
         {
             Blog blog = new Blog { Id = blogId };
             _context.Blog.Attach(blog);
             _context.Blog.Remove(blog);
             int changeCount = _context.SaveChanges();
-            return changeCount;
+            return changeCount == 1;
         }
 
         public int Delete(Blog blog)
