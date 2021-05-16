@@ -3,6 +3,7 @@ using Core.Enum;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,10 +19,10 @@ namespace Web.Areas.Back.Models.Role
 
         public ActionType ActionType { get; set; }
 
-        public IdentityRole Role { get; set; }
-
         public List<MenuTree> MenuTrees { get; set; }
 
         public List<int> CheckMenuId { get; set; }
+
+        public string RoleName { get; set; }
     }
 }

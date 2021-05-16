@@ -41,7 +41,8 @@ namespace Web.Areas.Back.Controllers
             }
             else
             {
-                viewModel.Role = await _roleService.GetRoleByIdAsync(id);
+                IdentityRole role = await _roleService.GetRoleByIdAsync(id);
+                viewModel.RoleName = role.Name;
                 viewModel.ActionType = Core.Enum.ActionType.Edit;
             }
 
@@ -86,10 +87,18 @@ namespace Web.Areas.Back.Controllers
         public async Task<IActionResult> RoleAdd(RoleEditViewModel viewModel)
         {
             BaseResponse response = null;
-            if (viewModel.ActionType == Core.Enum.ActionType.Create)
-                response = await _roleService.AddRoleAsync(viewModel);
-            else
-                response = await _roleService.EditRoleAsync(viewModel);
+            switch (viewModel.ActionType)
+            {
+                case Core.Enum.ActionType.Create:
+                    response = await _roleService.AddRoleAsync(viewModel);
+                    break;
+                case Core.Enum.ActionType.Edit:
+                    response = await _roleService.EditRoleAsync(viewModel);
+                    break;
+                default:
+                    response = new BaseResponse(System.Net.HttpStatusCode.OK, false, "ActionType錯誤");
+                    break;
+            }
             return Json(response);
         }
 
@@ -102,9 +111,9 @@ namespace Web.Areas.Back.Controllers
 
         /// <summary>刪除角色</summary>
         [HttpDelete]
-        public IActionResult RoleDelete(string roleId)
+        public async Task<IActionResult> RoleDelete(string roleId)
         {
-            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, null, "刪除成功");
+            BaseResponse response = await _roleService.DeleteRoleAsync(roleId);
             return Json(response);
         }
 

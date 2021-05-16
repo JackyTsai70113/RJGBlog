@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using Core.Data.Entities;
 using Core.Domain;
 using DAL.DA.Interfaces;
@@ -41,46 +43,92 @@ namespace Web.Services
         public async Task<BaseResponse> AddRoleAsync(RoleEditViewModel viewModel)
         {
             string msg = string.Empty;
-
-            if (viewModel.ActionType != Core.Enum.ActionType.Create)
+            IdentityRole createRole = new IdentityRole(viewModel.RoleName);
+            try
             {
-                msg = "ActionType不等於新增";
-                return new BaseResponse(System.Net.HttpStatusCode.OK, false, msg);
-            }
-            else
-            {
-                IdentityResult roleResult = await _roleManager.CreateAsync(viewModel.Role);
-                if (roleResult.Succeeded)
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
+                    //建立角色
+                    await _roleManager.CreateAsync(createRole);
+                    //建立該角色權限
                     List<Menu> menuTrees = _menuDA.GetList();
                     menuTrees = menuTrees.Where(x => viewModel.CheckMenuId.Contains(x.Id)).ToList();
-
                     foreach (var menuTree in menuTrees)
                     {
                         //後台首頁例外
-                        if ( (menuTree.Area == "Back" && menuTree.Controller == "Home") || menuTree.ParentId >= 1)
+                        if ((menuTree.Area == "Back" && menuTree.Controller == "Home") || menuTree.ParentId >= 1)
                         {
                             string authValue = menuTree.Area + menuTree.Controller + "AllOK";
                             Claim claim = new Claim(ClaimTypes.Authentication, authValue);
-                            IdentityResult claimResult = await _roleManager.AddClaimAsync(viewModel.Role, claim);
+                            IdentityResult claimResult = await _roleManager.AddClaimAsync(createRole, claim);
                         }
                     }
-
-                    msg = string.Format("roleName:{0}", viewModel.Role.Name);
-                    return new BaseResponse(System.Net.HttpStatusCode.OK, true, msg);
+                    //完成交易
+                    scope.Complete();
                 }
-                else
-                {
-                    msg = roleResult.Errors.FirstOrDefault().Description;
-                    return new BaseResponse(System.Net.HttpStatusCode.OK, false, msg);
-                }
+                msg = string.Format("roleName:{0}", viewModel.RoleName);
+                return new BaseResponse(System.Net.HttpStatusCode.OK, true, msg);
             }
-
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return new BaseResponse(System.Net.HttpStatusCode.OK, false, ex.Message);
+            }
         }
 
         public async Task<BaseResponse> EditRoleAsync(RoleEditViewModel viewModel)
         {
-            return null;
+            string msg = string.Empty;
+            try
+            {
+                //取得該角色
+                IdentityRole role = await _roleManager.FindByNameAsync(viewModel.RoleName);
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    await _roleManager.SetRoleNameAsync(role, viewModel.RoleName);
+                    //權限
+                }
+                return new BaseResponse(System.Net.HttpStatusCode.OK, true, msg);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return new BaseResponse(System.Net.HttpStatusCode.OK, false, ex.Message);
+            }
+        }
+
+        public async Task<BaseResponse> DeleteRoleAsync(string roleId)
+        {
+            string msg = string.Empty;
+            IdentityResult roleResult = new IdentityResult();
+            try
+            {
+                //取得該角色
+                IdentityRole role = await _roleManager.FindByIdAsync(roleId);
+                if (role == null)
+                    throw new Exception("查無該角色");
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    //取得該角色權限
+                    IList<Claim> roleClaims = await _roleManager.GetClaimsAsync(role);
+                    foreach (var roleClaim in roleClaims)
+                    {
+                        await _roleManager.RemoveClaimAsync(role, roleClaim);
+                    }
+                    roleResult = await _roleManager.DeleteAsync(role);
+                    //完成交易
+                    scope.Complete();
+                }
+                if (roleResult.Succeeded == false)
+                    throw new Exception(roleResult.Errors.FirstOrDefault().Description);
+
+                return new BaseResponse(System.Net.HttpStatusCode.OK, true, msg);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return new BaseResponse(System.Net.HttpStatusCode.OK, false, ex.Message);
+            }
         }
 
         public async Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims)
@@ -102,9 +150,9 @@ namespace Web.Services
             return await _userManager.AddToRoleAsync(user, roleName);
         }
 
-        public async Task<IdentityRole> GetRoleByIdAsync(string Id)
+        public async Task<IdentityRole> GetRoleByIdAsync(string roleId)
         {
-            return await _roleManager.FindByIdAsync(Id);
+            return await _roleManager.FindByIdAsync(roleId);
         }
 
         public async Task<IdentityRole> GetRoleByNameAsync(string roleName)

@@ -1,0 +1,8 @@
+﻿
+.error {
+    color: #CB4042;
+}
+
+    input.error {
+        border-color: #CB4042;
+    }

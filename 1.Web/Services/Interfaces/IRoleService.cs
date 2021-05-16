@@ -11,13 +11,15 @@ namespace Web.Services.Interfaces
 {
     public interface IRoleService
     {
-        Task<IdentityRole> GetRoleByIdAsync(string Id);
+        Task<IdentityRole> GetRoleByIdAsync(string roleId);
 
         Task<IdentityRole> GetRoleByNameAsync(string roleName);
 
         Task<BaseResponse> AddRoleAsync(RoleEditViewModel viewModel);
 
         Task<BaseResponse> EditRoleAsync(RoleEditViewModel viewModel);
+
+        Task<BaseResponse> DeleteRoleAsync(string roleId);
 
         Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims);
 

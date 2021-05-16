@@ -37,7 +37,7 @@
                             <td>
                                 <button onclick="ToRoleEditView('@role.Id')" class="btn btn-inverse">權限編輯</button>
                                 <button onclick="ToRoleAccountView('@role.Name')" class="btn btn-inverse">帳號編輯</button>
-                                <button class="btn btn-danger">刪除</button>
+                                <button onclick="RoleDelete('@role.Id', '@role.Name')" class="btn btn-danger">刪除</button>
                             </td>
                         </tr>
                     }
@@ -51,13 +51,38 @@
 
     <script>
 
-    function ToRoleAccountView(roleName) {
-        window.location.href = '@Url.Action("RoleAccount", "Role",new { @area = "Back"})?roleName=' + roleName;
-    }
+        function ToRoleAccountView(roleName) {
+            window.location.href = '@Url.Action("RoleAccount", "Role",new { @area = "Back"})?roleName=' + roleName;
+        }
 
         function ToRoleEditView(roleId) {
             window.location.href = '@Url.Action("Edit", "Role",new { @area = "Back"})?id=' + roleId;
-    }
+        }
+
+
+        function RoleDelete(roleId, roleName) {
+            window.ConfirmAlert('是否刪除' + roleName, roleId, Delete);
+        }
+
+        function Delete(roleId, roleName) {
+            $.ajax({
+                async : 'false',
+                url: '@Url.Action("RoleDelete", "Role",new { @area = "Back"})',
+                type: "delete",
+                data: { roleId: roleId },
+                success: function (result) {
+                    if (result.data) {
+                        window.SuccessAlert('刪除' + roleName + '成功');
+                        window.location.reload();
+                    }
+                    else {
+                        window.WarmAlert(result.message);
+                    }
+                    console.log(result);
+                    //hideMask();
+                }
+            })
+        }
 
     </script>
 

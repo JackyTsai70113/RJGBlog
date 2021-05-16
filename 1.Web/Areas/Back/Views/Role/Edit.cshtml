@@ -14,9 +14,9 @@
 <div class="card card-default">
     @*<div class="card-header">編輯</div>*@
     <div class="card-body">
-        <form>
+        <form id="postForm">
             <div class="form-group">
-                @Html.TextBoxFor(x => x.Role.Name, new { @placeholder = "角色名稱", @class = "form-control" })
+                @Html.TextBoxFor(x => x.RoleName, new { @placeholder = "角色名稱", @class = "form-control" })
             </div>
             <div class="form-group">
                 <label class="form-row">角色權限</label>
@@ -31,7 +31,7 @@
                 <em class="fas fa-undo"></em>
                 返回
             </a>
-            <button type="button" id="btnConfirm" class="btn btn-green">
+            <button type="submit" id="btnConfirm" class="btn btn-green">
                 <em class="fas fa-check"></em>
                 確認
             </button>
@@ -39,18 +39,15 @@
     </div>
 </div>
 
-@section scripts{
+@section Scripts{
 
     <script>
+        var treeView
+
         $(document).ready(function () {
             getMenuTree();
+            InitailValidation();
         });
-
-        $("#btnConfirm").click(function () {
-            AddRole();
-        })
-
-        var treeView
 
         function InitialTree(tree) {
             treeView = $('#tree').tree({
@@ -61,11 +58,31 @@
             });
         }
 
+        function InitailValidation() {
+            $("#postForm").validate({
+                rules: {
+                    RoleName: {
+                        required: true,
+                        maxlength: 10
+                    }
+                },
+                messages: {
+                    RoleName: {
+                        required: "此欄位為必填",
+                        maxlength: "此欄位不可超過10字"
+                    }
+                },
+                submitHandler: function (form) {
+                    AddRole();
+                },
+            })
+        }
+
         function getMenuTree() {
 
             var actionType = '@Model.ActionType'
 
-            @{ string roleName = Model.Role != null ? Model.Role.Name : string.Empty ;  }
+            @{ string roleName = Model.RoleName != null ? Model.RoleName : string.Empty ;  }
             var roleName = '@roleName'
 
 
@@ -85,13 +102,10 @@
         }
 
         function AddRole() {
-            var role = {
-                Name: $("#" + '@Html.IdFor(x=>x.Role.Name)').val()
-            }
 
             var viewmodel = {
                 ActionType: '@Model.ActionType',
-                Role: role,
+                RoleName: $("#" + '@Html.IdFor(x=>x.RoleName)').val(),
                 CheckMenuId: treeView.getCheckedNodes()
             }
 
@@ -101,7 +115,7 @@
                 data: viewmodel,
                 success: function (result) {
                     if (result.data) {
-                        window.SuccessAlert('新增' + role.Name + '成功');
+                        window.SuccessAlert('新增' + viewmodel.RoleName + '成功');
                         window.location.href = '@Url.Action("Index", "Role",new { @area = "Back"})';
                     }
                     else {
@@ -111,6 +125,4 @@
             })
         }
     </script>
-
-
 }
