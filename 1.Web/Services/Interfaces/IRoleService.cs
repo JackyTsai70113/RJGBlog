@@ -1,9 +1,9 @@
-﻿using Core.Data.Entities;
-using Core.Domain;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Core.Data.Entities;
+using Core.Domain;
+using Microsoft.AspNetCore.Identity;
 using Web.Areas.Back.Models.Role;
 using Web.Models.Response;
 

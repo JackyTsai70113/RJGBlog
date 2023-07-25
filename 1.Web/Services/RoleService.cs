@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using Core.Data.Entities;
 using Core.Domain;
 using DAL.DA.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Web.Areas.Back.Models.Role;
 using Web.Models.Response;
@@ -20,20 +18,17 @@ namespace Web.Services
 {
     public class RoleService : IRoleService
     {
-        private readonly IUserService _userService;
         private readonly IMenuDA _menuDA;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RoleService> _logger;
         public RoleService(
-            IUserService userService,
             IMenuDA menuDA,
             RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager,
             ILogger<RoleService> logger
             )
         {
-            _userService = userService;
             _menuDA = menuDA;
             _roleManager = roleManager;
             _userManager = userManager;
@@ -43,7 +38,7 @@ namespace Web.Services
         public async Task<BaseResponse> AddRoleAsync(RoleEditViewModel viewModel)
         {
             string msg = string.Empty;
-            IdentityRole createRole = new IdentityRole(viewModel.RoleName);
+            IdentityRole createRole = new(viewModel.RoleName);
             try
             {
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -59,7 +54,7 @@ namespace Web.Services
                         if ((menuTree.Area == "Back" && menuTree.Controller == "Home") || menuTree.ParentId >= 1)
                         {
                             string authValue = menuTree.Area + menuTree.Controller + "AllOK";
-                            Claim claim = new Claim(ClaimTypes.Authentication, authValue);
+                            Claim claim = new(ClaimTypes.Authentication, authValue);
                             IdentityResult claimResult = await _roleManager.AddClaimAsync(createRole, claim);
                         }
                     }
@@ -90,7 +85,7 @@ namespace Web.Services
                 }
                 return new BaseResponse(System.Net.HttpStatusCode.OK, true, msg);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.ToString());
                 return new BaseResponse(System.Net.HttpStatusCode.OK, false, ex.Message);
@@ -100,13 +95,11 @@ namespace Web.Services
         public async Task<BaseResponse> DeleteRoleAsync(string roleId)
         {
             string msg = string.Empty;
-            IdentityResult roleResult = new IdentityResult();
+            IdentityResult roleResult = new();
             try
             {
                 //取得該角色
-                IdentityRole role = await _roleManager.FindByIdAsync(roleId);
-                if (role == null)
-                    throw new Exception("查無該角色");
+                IdentityRole role = await _roleManager.FindByIdAsync(roleId) ?? throw new Exception("查無該角色");
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     //取得該角色權限
@@ -133,7 +126,7 @@ namespace Web.Services
 
         public async Task<IdentityResult> AddRoleClaimsAsync(IdentityRole role, List<Claim> Claims)
         {
-            IdentityResult result = new IdentityResult();
+            IdentityResult result = new();
 
             foreach (Claim claim in Claims)
             {
@@ -160,7 +153,7 @@ namespace Web.Services
             return await _roleManager.FindByNameAsync(roleName);
         }
 
-        public  List<IdentityRole> GetAllRole()
+        public List<IdentityRole> GetAllRole()
         {
             return _roleManager.Roles.ToList();
         }
@@ -172,32 +165,32 @@ namespace Web.Services
 
         public List<MenuTree> GetMenuTrees()
         {
-            List<MenuTree> menuTrees = new List<MenuTree>();
-            List<MenuTree> childMenuTrees = new List<MenuTree>();
+            List<MenuTree> menuTrees = new();
+            List<MenuTree> childMenuTrees = new();
             List<Menu> menus = _menuDA.GetList();
 
             foreach (Menu menu in menus.Where(x => x.ParentId != -1))
             {
-                MenuTree menuTree = new MenuTree()
+                MenuTree menuTree = new()
                 {
                     Id = menu.Id,
                     Text = menu.Name,
                     ParentId = menu.ParentId,
                     Sort = menu.Sort,
                     Area = menu.Area,
-                    Controller =menu.Controller,
+                    Controller = menu.Controller,
                     Action = menu.Action
                 };
                 childMenuTrees.Add(menuTree);
             }
 
-            foreach (Menu menu in menus.Where(x=>x.ParentId == -1))
+            foreach (Menu menu in menus.Where(x => x.ParentId == -1))
             {
-                MenuTree menuTree = new MenuTree()
+                MenuTree menuTree = new()
                 {
                     Id = menu.Id,
                     Text = menu.Name,
-                    children = childMenuTrees.Where(x => x.ParentId == menu.Id).OrderBy(x => x.Sort).ToList(),
+                    Children = childMenuTrees.Where(x => x.ParentId == menu.Id).OrderBy(x => x.Sort).ToList(),
                     Sort = menu.Sort,
                     Area = menu.Area,
                     Controller = menu.Controller,
@@ -222,7 +215,7 @@ namespace Web.Services
             foreach (var menuTree in menuTrees)
             {
                 //children
-                foreach (var childMenu in menuTree.children)
+                foreach (var childMenu in menuTree.Children)
                 {
                     var tree2 = claims.Where(x => x.Value.Contains(childMenu.Area) && x.Value.Contains(childMenu.Controller)).FirstOrDefault();
                     if (tree2 != null)
@@ -247,14 +240,13 @@ namespace Web.Services
 
         public async Task<List<IdentityUser>> GetRoleUsers(string roleName)
         {
-            List<IdentityUser> result = new List<IdentityUser>();
             var users = await _userManager.GetUsersInRoleAsync(roleName);
-            result = users.ToList();
+            List<IdentityUser> result = users.ToList();
             return result;
         }
 
-        public async Task<BaseResponse> AddRoleUser(string userName,string roleName)
-        {            
+        public async Task<BaseResponse> AddRoleUser(string userName, string roleName)
+        {
             IdentityUser user = await _userManager.FindByNameAsync(userName);
 
             if (user == null)
@@ -280,7 +272,7 @@ namespace Web.Services
                 return new BaseResponse(System.Net.HttpStatusCode.OK, false, "查無此使用者" + userName);
             }
             else
-            {               
+            {
                 var result = await _userManager.RemoveFromRoleAsync(user, roleName);
                 string msg = string.Empty;
                 if (result.Errors.FirstOrDefault() != null)

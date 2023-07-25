@@ -1,5 +1,5 @@
-﻿using Core.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Core.Domain;
 
 namespace Web.Models.View
 {
@@ -7,11 +7,11 @@ namespace Web.Models.View
     {
         public HomeViewModel()
         {
-            Blogs = new List<Core.Domain.Blog>();
+            Blogs = new List<Blog>();
             Categories = new List<Category>();
         }
 
-        public List<Core.Domain.Blog> Blogs { get; set; }
+        public List<Blog> Blogs { get; set; }
 
         public List<Category> Categories { get; set; }
 

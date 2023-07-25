@@ -1,12 +1,12 @@
-﻿using BLL.Services.Interfaces;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net;
+using BLL.Services.Interfaces;
 using Core.Domain;
 using Core.Models.DTO.Blogs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
 using Web.Models.Response;
 using Web.Models.View;
 
@@ -27,7 +27,7 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation($"進入首頁");
-            HomeViewModel viewModel = new HomeViewModel();
+            HomeViewModel viewModel = new();
             return View(viewModel);
         }
 
@@ -72,7 +72,8 @@ namespace Web.Controllers
         [HttpGet("GetTagClouds")]
         public JsonResult GetTagClouds()
         {
-            List<TagCloud> tagClouds = new List<TagCloud> {
+            List<TagCloud> tagClouds = new()
+            {
                 new TagCloud() { ID = "1", Name = "Lorem" },
                 new TagCloud() { ID = "2", Name = "Ipsum" },
                 new TagCloud() { ID = "3", Name = "Dolor" },

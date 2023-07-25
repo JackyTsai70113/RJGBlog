@@ -14,7 +14,8 @@ namespace DAL.DA.Interfaces
             return changeCount;
         }
 
-        public IEnumerable<T> GetPagedEnumerable(IQueryable<T> query, int skip, int limit, out int lastPageIndex){
+        public IEnumerable<T> GetPagedEnumerable(IQueryable<T> query, int skip, int limit, out int lastPageIndex)
+        {
             lastPageIndex = query.Count() / limit + 1;
             IEnumerable<T> enumerable = query.Skip(skip)
                                              .Take(limit)

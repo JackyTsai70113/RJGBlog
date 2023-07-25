@@ -1,12 +1,9 @@
-﻿using Core.Domain;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Core.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Web.Areas.Back.Models.Role;
 using Web.Models.Response;
 using Web.Services.Interfaces;
@@ -17,24 +14,24 @@ namespace Web.Areas.Back.Controllers
     [Area("Back")]
     public class RoleController : Controller
     {
-        private readonly ILogger<RoleController> _logger;
         private readonly IRoleService _roleService;
 
-        public RoleController(ILogger<RoleController> logger, IRoleService roleService)
+        public RoleController(IRoleService roleService)
         {
-            _logger = logger;
             _roleService = roleService;
         }
         public IActionResult Index()
         {
-            RoleViewModel viewModel = new RoleViewModel();
-            viewModel.Roles = _roleService.GetAllRole();
+            RoleViewModel viewModel = new()
+            {
+                Roles = _roleService.GetAllRole()
+            };
             return View(viewModel);
         }
 
         public async Task<IActionResult> Edit(string id)
         {
-            RoleEditViewModel viewModel = new RoleEditViewModel();
+            RoleEditViewModel viewModel = new();
             if (string.IsNullOrEmpty(id))
             {
                 viewModel.ActionType = Core.Enum.ActionType.Create;
@@ -51,8 +48,10 @@ namespace Web.Areas.Back.Controllers
 
         public IActionResult RoleAccount(string roleName)
         {
-            RoleAccountViewModel viewModel = new RoleAccountViewModel();
-            viewModel.RoleName = roleName;
+            RoleAccountViewModel viewModel = new()
+            {
+                RoleName = roleName
+            };
 
             return View(viewModel);
         }
@@ -63,14 +62,14 @@ namespace Web.Areas.Back.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMenuTreeList(string roleName = null)
         {
-            List<MenuTree> menuTrees = new List<MenuTree>();
-            
+            List<MenuTree> menuTrees;
+
             if (!string.IsNullOrEmpty(roleName))
                 menuTrees = await _roleService.GetMenuTrees(roleName);
             else
                 menuTrees = _roleService.GetMenuTrees();
 
-            BaseResponse response = new BaseResponse(System.Net.HttpStatusCode.OK, menuTrees, "取得成功");
+            BaseResponse response = new(System.Net.HttpStatusCode.OK, menuTrees, "取得成功");
             return Json(response);
         }
 
@@ -78,8 +77,10 @@ namespace Web.Areas.Back.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRoleUsers(string roleName)
         {
-            RoleAccountViewModel viewModel = new RoleAccountViewModel();
-            viewModel.Users = await _roleService.GetRoleUsers(roleName);
+            RoleAccountViewModel viewModel = new()
+            {
+                Users = await _roleService.GetRoleUsers(roleName)
+            };
             return PartialView("_roleAccountList", viewModel);
         }
 
@@ -94,6 +95,8 @@ namespace Web.Areas.Back.Controllers
                     break;
                 case Core.Enum.ActionType.Edit:
                     response = await _roleService.EditRoleAsync(viewModel);
+                    break;
+                case Core.Enum.ActionType.Delete:
                     break;
                 default:
                     response = new BaseResponse(System.Net.HttpStatusCode.OK, false, "ActionType錯誤");
@@ -123,7 +126,5 @@ namespace Web.Areas.Back.Controllers
         {
             return Json(await _roleService.DeleteRoleUser(userName, roleName));
         }
-
-
     }
 }

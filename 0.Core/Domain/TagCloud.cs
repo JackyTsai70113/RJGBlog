@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Core.Domain
 {
@@ -11,11 +9,11 @@ namespace Core.Domain
         public string Name { get; set; }
 
         /// <summary>大小(顯示用)</summary>
-        public double Weight
+        public static double Weight
         {
             get
             {
-                Random random = new Random();
+                Random random = new();
                 double result = 0;
                 result += random.NextDouble();
                 result += random.Next(5, 12);

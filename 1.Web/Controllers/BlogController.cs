@@ -63,8 +63,10 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 _blogService.Create(model, userId, out Guid blogId);
-                return RedirectToRoute("Details", new { urlUserName = userName, blogId = blogId });
-            } else {
+                return RedirectToRoute("Details", new { urlUserName = userName, blogId });
+            }
+            else
+            {
                 return View(model);
             }
         }

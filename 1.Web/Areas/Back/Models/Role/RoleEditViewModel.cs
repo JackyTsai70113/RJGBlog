@@ -1,11 +1,6 @@
-﻿using Core.Domain;
+﻿using System.Collections.Generic;
+using Core.Domain;
 using Core.Enum;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Web.Areas.Back.Models.Role
 {
@@ -13,8 +8,8 @@ namespace Web.Areas.Back.Models.Role
     {
         public RoleEditViewModel()
         {
-            this.CheckMenuId = new List<int>();
-            this.MenuTrees = new List<MenuTree>();
+            CheckMenuId = new List<int>();
+            MenuTrees = new List<MenuTree>();
         }
 
         public ActionType ActionType { get; set; }

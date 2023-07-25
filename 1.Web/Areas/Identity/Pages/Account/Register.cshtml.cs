@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Web.Services.Interfaces;
 
@@ -87,20 +83,20 @@ namespace Web.Areas.Identity.Pages.Account
                 IdentityResult result = await _userService.CreateUser(Input.UserName, Input.Email, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("使用者建立一組新的帳號，userName:{0}，Email:{1}", Input.UserName, Input.Email);
+                    _logger.LogInformation($"使用者建立一組新的帳號，userName:{Input.UserName}，Email:{Input.Email}");
 
                     //取得帳號資訊
                     var user = await _userService.GetUserByEmailAsync(Input.Email);
 
                     //Email 驗證
-                    string code = await _userService.GetEmailConfirmTokenAsync(Input.Email);
+                    //string code = await _userService.GetEmailConfirmTokenAsync(Input.Email);
 
                     //Email驗證頁面
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code, returnUrl },
-                        protocol: Request.Scheme);
+                    //var callbackUrl = Url.Page(
+                    //    "/Account/ConfirmEmail",
+                    //    pageHandler: null,
+                    //    values: new { area = "Identity", userId = user.Id, code, returnUrl },
+                    //    protocol: Request.Scheme);
 
                     //寄出驗證Email emailSender是空殼 沒用到
                     //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
@@ -124,7 +120,7 @@ namespace Web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        [AttributeUsageAttribute(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
+        [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Parameter, AllowMultiple = false)]
         class CheckboxIsCheckedAttribute : RequiredAttribute
         {
             public override bool IsValid(object value)

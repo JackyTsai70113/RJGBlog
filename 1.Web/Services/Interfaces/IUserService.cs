@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace Web.Services.Interfaces
 {

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using StackExchange.Redis;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
 
 namespace Core.Helpers
 {
@@ -67,7 +67,7 @@ namespace Core.Helpers
         public Dictionary<string, string> GetKeyValuePairs(string pattern = "*")
         {
             IEnumerable<RedisKey> redisKeys = server.Keys(pattern: $"{pattern}");
-            Dictionary<string, string> redisKVPs = new Dictionary<string, string>();
+            Dictionary<string, string> redisKVPs = new();
             foreach (RedisKey redisKey in redisKeys)
             {
                 RedisValue redisValue = _db.StringGet(redisKey);

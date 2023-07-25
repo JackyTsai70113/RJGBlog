@@ -1,5 +1,5 @@
-﻿using Core.Data.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Core.Data.Entities;
 
 namespace Web.Areas.Back.Models
 {

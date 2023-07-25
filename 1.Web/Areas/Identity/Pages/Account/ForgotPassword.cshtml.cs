@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System.Threading;
 
 namespace Web.Areas.Identity.Pages.Account
 {
@@ -16,13 +12,6 @@ namespace Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ForgotPasswordModel : PageModel
     {
-        private readonly ILogger<ForgotPasswordModel> _logger;
-
-        public ForgotPasswordModel(ILogger<ForgotPasswordModel> logger)
-        {
-            _logger = logger;
-        }
-
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -33,7 +22,6 @@ namespace Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-
             [Required(ErrorMessage = "此欄位為必填")]
             [Display(Name = "帳號 *")]
             public string Account { get; set; }
@@ -59,7 +47,7 @@ namespace Web.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync()
         {
             await Task.Delay(1);
             return Page();

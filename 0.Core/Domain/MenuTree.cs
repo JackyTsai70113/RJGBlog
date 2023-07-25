@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Core.Domain
 {
@@ -12,7 +10,7 @@ namespace Core.Domain
 
         public bool Checked { get; set; }
 
-        public List<MenuTree> children { get; set; }
+        public List<MenuTree> Children { get; set; }
 
         public int ParentId { get; set; }
 

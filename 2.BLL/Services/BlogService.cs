@@ -6,7 +6,6 @@ using Core.Data.Entities;
 using Core.Helpers;
 using Core.Models.DTO.Blogs;
 using DAL.DA.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace BLL.Services
 {
@@ -14,12 +13,9 @@ namespace BLL.Services
     {
         private readonly IBlogDA _blogDA;
 
-        private readonly ILogger<BlogService> _logger;
-
-        public BlogService(IBlogDA blogDA, ILogger<BlogService> logger)
+        public BlogService(IBlogDA blogDA)
         {
             _blogDA = blogDA;
-            _logger = logger;
         }
 
         public IndexModel GetPagedIndexModel(string userId, int skip, int limit)
@@ -27,14 +23,16 @@ namespace BLL.Services
             IQueryable<Blog> blogQuery = _blogDA.GetListByUserId(userId);
             List<Blog> dbBlogs = _blogDA.GetPagedEnumerable(blogQuery, skip, limit, out int lastPageIndex).ToList();
 
-            IndexModel model = new IndexModel {
+            IndexModel model = new()
+            {
                 Blogs = new List<IndexModel.Blog>(),
                 LastPageIndex = lastPageIndex
             };
             foreach (Blog b in dbBlogs)
             {
-                string partialContent = b.Content.Length > 30 ? b.Content.Substring(0, 30) + "..." : b.Content;
-                model.Blogs.Add(new IndexModel.Blog {
+                string partialContent = b.Content.Length > 30 ? b.Content[..30] + "..." : b.Content;
+                model.Blogs.Add(new IndexModel.Blog
+                {
                     Id = b.Id.ToString(),
                     CoverImageUrl = b.CoverImageUrl,
                     Title = b.Title,
@@ -50,14 +48,16 @@ namespace BLL.Services
             IQueryable<Blog> blogQuery = _blogDA.GetList();
             List<Blog> dbBlogs = _blogDA.GetPagedEnumerable(blogQuery, skip, limit, out int lastPageIndex).ToList();
 
-            IndexModel model = new IndexModel {
+            IndexModel model = new()
+            {
                 Blogs = new List<IndexModel.Blog>(),
                 LastPageIndex = lastPageIndex
             };
             foreach (Blog b in dbBlogs)
             {
-                string partialContent = b.Content.Length > 30 ? b.Content.Substring(0, 30) + "..." : b.Content;
-                model.Blogs.Add(new IndexModel.Blog {
+                string partialContent = b.Content.Length > 30 ? b.Content[..30] + "..." : b.Content;
+                model.Blogs.Add(new IndexModel.Blog
+                {
                     Id = b.Id.ToString(),
                     CoverImageUrl = b.CoverImageUrl,
                     Title = b.Title,
@@ -71,7 +71,8 @@ namespace BLL.Services
         public bool Create(CreateModel model, string userId, out Guid newBlogId)
         {
             bool createResult;
-            Blog dbBlog = new Blog {
+            Blog dbBlog = new()
+            {
                 CoverImageUrl = model.CoverImageUrl,
                 Title = model.Title,
                 Content = model.Content,
@@ -95,7 +96,8 @@ namespace BLL.Services
 
             string updateTime = dbModel.UpdateTime.ToLocalTime().ToFullDateShortTime();
 
-            DetailsModel model = new DetailsModel {
+            DetailsModel model = new()
+            {
                 Id = dbModel.Id,
                 CoverImageUrl = dbModel.CoverImageUrl,
                 Title = dbModel.Title,
@@ -114,7 +116,8 @@ namespace BLL.Services
                 throw new Exception("沒有權限");
             }
 
-            EditModel model = new EditModel {
+            EditModel model = new()
+            {
                 Id = dbModel.Id,
                 CoverImageUrl = dbModel.CoverImageUrl,
                 Title = dbModel.Title,

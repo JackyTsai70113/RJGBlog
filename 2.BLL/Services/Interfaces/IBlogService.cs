@@ -1,5 +1,4 @@
 ﻿using System;
-using Core.Data.Entities;
 using Core.Models.DTO.Blogs;
 
 namespace BLL.Services.Interfaces

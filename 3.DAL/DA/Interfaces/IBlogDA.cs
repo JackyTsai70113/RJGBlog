@@ -11,7 +11,7 @@ namespace DAL.DA.Interfaces
         IQueryable<Blog> GetList();
 
         IQueryable<Blog> GetListByUserId(string userId);
-        
+
         bool Create(Blog blog);
 
         Blog GetById(Guid id);

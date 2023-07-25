@@ -1,9 +1,8 @@
-﻿using Core.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using Core.Helpers;
 using Core.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using Web.Services;
 
 namespace Web.Controllers
 {

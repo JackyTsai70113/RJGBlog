@@ -65,8 +65,10 @@ namespace Web.Areas.Back.Controllers
             if (ModelState.IsValid)
             {
                 _blogService.Create(model, userId, out Guid blogId);
-                return RedirectToAction("Details", new { area = "Back", urlUserName = userName, blogId = blogId });
-            } else {
+                return RedirectToAction("Details", new { area = "Back", urlUserName = userName, blogId });
+            }
+            else
+            {
                 return View(model);
             }
         }

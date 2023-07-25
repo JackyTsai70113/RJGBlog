@@ -34,23 +34,22 @@ namespace Web.Services
 
         public async Task<IdentityResult> CreateUser(string userName, string email, string password)
         {
-            var user = new IdentityUser { UserName = userName, Email = email };
+            IdentityUser user = new() { UserName = userName, Email = email };
             return await _userManager.CreateAsync(user, password);
         }
 
         public async Task<string> GetEmailConfirmTokenAsync(string email = null, string userName = null)
         {
             string result = string.Empty;
-            string code = string.Empty;
-            IdentityUser user = new IdentityUser();
+            IdentityUser user = new();
             if (!string.IsNullOrEmpty(email))
                 user = await GetUserByEmailAsync(email);
             if (!string.IsNullOrEmpty(userName))
                 user = await GetUserByNameAsync(userName);
 
             if (user != null)
-            { 
-                code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            {
+                string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 result = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
             }
             return result;

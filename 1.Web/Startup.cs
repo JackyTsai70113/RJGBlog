@@ -1,3 +1,7 @@
+using System;
+using System.Reflection;
+using Core.Data;
+using Core.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -5,11 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Core.Data;
-using System;
-using Core.Helpers;
 using Web.Helpers;
-using System.Reflection;
 
 namespace Web
 {
@@ -18,7 +18,6 @@ namespace Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //ConfigService.SetConfiguration(configuration);
         }
 
         private IConfiguration Configuration { get; }
@@ -30,7 +29,7 @@ namespace Web
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<RJGDbContext>();
-            
+
             DIHelper.AddTransient(services, Assembly.Load("BLL"), Assembly.Load("BLL"));
             DIHelper.AddTransient(services, Assembly.Load("DAL"), Assembly.Load("DAL"));
             DIHelper.AddTransient(services, Assembly.Load("Web"), Assembly.Load("Web"));
@@ -40,7 +39,8 @@ namespace Web
 
             services.ConfigureIdentity();
 
-            services.ConfigureApplicationCookie(options => {
+            services.ConfigureApplicationCookie(options =>
+            {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
@@ -59,7 +59,8 @@ namespace Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            } else
+            }
+            else
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -73,7 +74,8 @@ namespace Web
             app.UseAuthentication(); // 驗證
             app.UseAuthorization(); // 授權
 
-            app.UseEndpoints(endpoints => {
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllerRoute(
                     name: "areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -90,7 +92,8 @@ namespace Web
     {
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(options => {
+            services.Configure<IdentityOptions>(options =>
+            {
                 // Password settings.
                 options.Password.RequireDigit = true; // 密碼中需要0-9 之間的數位
                 options.Password.RequireNonAlphanumeric = false; //密碼中需要非英數位元

@@ -1,7 +1,5 @@
-﻿using Core.Data.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Core.Data.Entities;
 
 namespace DAL.DA.Interfaces
 {
